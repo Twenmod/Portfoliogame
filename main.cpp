@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
-#include "headers/gmath.h"
+#include "headers/gmath.hpp"
 
-vector2 resolution(200,200);
+vector2 resolution = vector2(200,200);
 
 //The game itself
 class app {
@@ -27,8 +27,6 @@ int main()
 
     while (window.isOpen())
     {
-
-
         //Run the game loop
         game.on_events();
         game.on_loop();

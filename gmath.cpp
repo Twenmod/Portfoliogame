@@ -1,12 +1,9 @@
-#include "headers/gmath.h"
+#include "headers/gmath.hpp"
 
 
-class vector2 {
-    public:
-        float x;
-        float y;
-        vector2(float _x, float _y) {
-            x = _x;
-            y = _y;
-        }
-};
+//Constructor
+vector2::vector2(float _x, float _y) {
+    x = _x;
+    y = _y;
+}
+
