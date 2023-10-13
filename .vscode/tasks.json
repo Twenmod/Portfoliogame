@@ -6,7 +6,7 @@
         "command": "g++",
         "args": [
             "-g",
-            "main.cpp", "gmath.cpp",
+            "source/*.cpp",
             "-I",
             "${workspaceFolder}\\src\\**",
             "-o",
