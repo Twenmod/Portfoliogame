@@ -2,8 +2,10 @@
 #include "gameobject.hpp"
 #include "gmath.hpp"
 
+sf::Texture emptyimage();
+
 //Constructor
-Gameobject::Gameobject(sf::Vector2<float> _position = sf::Vector2<float>(0,0), float _rotation = 0,sf::Vector2<float> _scale =sf::Vector2<float>(1,1), bool _hasSprite = false, std::string textureLocation = "", bool _isStatic = false, float _gravity = 10, float _drag = 0) {
+Gameobject::Gameobject(sf::Vector2<float> _position = sf::Vector2<float>(0,0), float _rotation = 0,sf::Vector2<float> _scale =sf::Vector2<float>(1,1), bool _hasSprite = false, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _drag = 0) {
 
     position = _position;
     rotation = _rotation;
@@ -14,20 +16,14 @@ Gameobject::Gameobject(sf::Vector2<float> _position = sf::Vector2<float>(0,0), f
     hasSprite = _hasSprite;
     if (hasSprite) {
 
-        //Load the texture
-        if (!texture.loadFromFile(textureLocation))
-        {
-            // failed to load texture
-            std::cout<<"Warning: Gameobject tried to load sprite but failed";
-        }
-
-        sprite.setTexture(texture);
+        sprite.setTexture(*_texture);
         SetScale(_scale);
     }
 
 
     //Physics
     isStatic = _isStatic;
+    hasCollision = _hasCollision;
     gravity = _gravity;
     drag = _drag;
 
@@ -45,9 +41,9 @@ void Gameobject::OnEvent() {
 }
 
 //Called every frame
-void Gameobject::OnLoop() {
+void Gameobject::OnLoop(sf::Time deltaTime) {
     if (!isStatic) {
-        CalculatePhysics();
+        CalculatePhysics(deltaTime);
     }
 };
 
@@ -59,9 +55,16 @@ void Gameobject::OnRender() {
     }
 };
 
-void Gameobject::CalculatePhysics() {
-    std::cout<<velocity.y<<"\n";
-    position += velocity;
+void Gameobject::CalculatePhysics(sf::Time deltaTime) {
 
-    velocity.y = gravity;
+    velocity.y += gravity;
+
+    //Scale the velocity to deltaTime to get consistent velocity across framerates
+    sf::Vector2<float> scaledVelocity(velocity.x*deltaTime.asSeconds(),velocity.y*deltaTime.asSeconds());
+    position += scaledVelocity;
+
+    //Collision detection
+
+
+
 };

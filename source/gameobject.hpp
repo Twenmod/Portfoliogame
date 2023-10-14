@@ -23,17 +23,18 @@ class Gameobject {
         ///Physics
 
         bool isStatic;
+        bool hasCollision;
         float gravity;
         float drag;
 
-        Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _scale, bool _hasSprite, std::string textureLocation, bool _isStatic, float _gravity, float _drag);
+        Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _scale, bool _hasSprite, sf::Texture* _texture, bool  _hasCollision, bool _isStatic, float _gravity, float _drag);
         void SetScale(sf::Vector2<float> setscale);
         void OnEvent();
-        void OnLoop();
+        void OnLoop(sf::Time deltaTime);
         void OnRender();
     private:
-        sf::Vector2<float> velocity = sf::Vector2<float>(0,-10);
-        void CalculatePhysics();
+        sf::Vector2<float> velocity;
+        void CalculatePhysics(sf::Time deltaTime);
 };
 
 #endif
