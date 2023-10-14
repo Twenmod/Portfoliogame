@@ -1,25 +1,44 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include "gmath.hpp"
+#include "gameobject.hpp"
 
-Vector2 resolution = Vector2(200,200);
+sf::Vector2<int> resolution(200,200);
 
 //The game itself
 class app {
     public:
-        void OnEvents() {
 
+        std::vector<Gameobject> objectList;
+
+        void OnEvents() {
+            for (Gameobject obj : objectList) {
+                obj.OnEvent();
+            }
         };
         void OnLoop() {
 
+            for (Gameobject obj : objectList) {
+                obj.OnLoop();
+            }
         };
-        void OnRender() {
+        void OnRender(sf::RenderWindow &window) {
+            for (Gameobject obj : objectList) {
+                obj.OnRender();
 
+                //Only render if object contains a sprite
+                if (obj.hasSprite) {
+                    window.draw(obj.sprite);
+                }
+            }
         };
+
 };
 
 
 int main()
 {
+
     //Initialisation
     sf::RenderWindow window(sf::VideoMode((int)resolution.x,(int)resolution.y), "Minergame");
 
@@ -28,39 +47,16 @@ int main()
 
     app game;
 
-    sf::Texture texture;
-    // load a 32x32 rectangle that starts at (10, 10)
-    if (!texture.loadFromFile("/Sprites/Koen.png", sf::IntRect(10, 10, 32, 32)))
-    {
-        // error...
-    }
-
-    // update a texture from an array of pixels
-    sf::Uint8* pixels = new sf::Uint8[200 * 200 * 4]; // * 4 because pixels have 4 components (RGBA)
-
-    texture.update(pixels);
-
-    // update a texture from a sf::Image
-    sf::Image image;
-    texture.update(image);
-
-    // update the texture from the current contents of the window
-    texture.update(window);
-
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
+    Gameobject obj(sf::Vector2<float>(5,0),0,sf::Vector2<float>(0.2,0.1),true,"Sprites/nobitches.png",false,10000,0);
+    game.objectList.push_back(obj);
 
     while (window.isOpen())
     {
 
-
-        window.draw(sprite);
-
-
         //Run the game loop
         game.OnEvents();
         game.OnLoop();
-        game.OnRender();
+        game.OnRender(window);
 
 
         sf::Event event;
@@ -70,8 +66,9 @@ int main()
                 window.close();
         }
 
-        window.clear();
         window.display();
+        window.clear();
+
     }
 
     return 0;
