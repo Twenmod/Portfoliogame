@@ -66,7 +66,7 @@ void Gameobject::OnRender() {
 
 void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList) {
 
-    velocity.y += gravity;
+    velocity.y += gravity * deltaTime.asSeconds();
 
     //Collision detection
 
@@ -76,14 +76,12 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
         if (&sprite != other) {
             sf::FloatRect spriteRect = sprite.getGlobalBounds();
             sf::FloatRect otherRect = other->getGlobalBounds();
-            //Colliding!
+            
             //Test all sides
 
             sf::Vector2<float> relativeVelocity = velocity;
 
-            sf::Vector2<float> dirfrac;
-
-            sf::Vector2<float> normal;
+            sf::Vector2<float> normal(0,0);
 
             float spriteBottom = spriteRect.top - spriteRect.height;
             float otherBottom = otherRect.top - otherRect.height;
@@ -95,18 +93,25 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
             bool leftinsideother = spriteRect.left >= otherRect.left && spriteRect.left <= otherRight;
             bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
 
+            std::cout << "\n bottom: " << bottominsideother << " top: " << topinsideother;
 
             if (leftinsideother && !rightinsideother && topinsideother && bottominsideother) normal = sf::Vector2<float>(-1.f,  0.f); /* left */
-            if (topinsideother && !bottominsideother && leftinsideother || rightinsideother) normal = sf::Vector2<float>( 0.f, -1.f); /* bottom */
-            if (bottominsideother && !topinsideother && leftinsideother || rightinsideother) normal = sf::Vector2<float>( 0.f,  1.f); /* top */
+            if (topinsideother && !bottominsideother && (leftinsideother || rightinsideother)) normal = sf::Vector2<float>( 0.f, -1.f); /* bottom */
+            if (bottominsideother && !topinsideother && (leftinsideother || rightinsideother)) normal = sf::Vector2<float>( 0.f,  1.f); /* top */
             if (rightinsideother && !leftinsideother && topinsideother && bottominsideother) normal = sf::Vector2<float>( 1.f,  0.f); /* right */
 
             float totalVelocity = -(1+bounciness)*(normal*relativeVelocity);
 
-            velocity += normal * totalVelocity;
-            }
 
-            test = true;
+
+            velocity += normal * totalVelocity;
+            std::cout << "\n Normal: " << normal.y;
+            if (normal != sf::Vector2<float>(0,0)) {
+                //velocity += -relativeVelocity*friction *deltaTime.asSeconds();
+                test = true;
+            }
+        }
+
 
         }
     colliding = test;

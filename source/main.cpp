@@ -81,7 +81,7 @@ int main()
     app game;
 
     //Load level
-    game.createObject(sf::Vector2<float>(5,0),0,sf::Vector2<float>(0.2,0.1),true,&texturemap.at("Nobitches"),false,true,0.1,0);
+    game.createObject(sf::Vector2<float>(-10,0),0,sf::Vector2<float>(0.2,0.1),true,&texturemap.at("Nobitches"),false,true,10,0);
     game.createObject(sf::Vector2<float>(5,100),0,sf::Vector2<float>(0.2,0.1),true,&texturemap.at("Nobitches"),true,true,2,0);
 
 
