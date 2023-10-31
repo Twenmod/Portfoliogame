@@ -83,39 +83,23 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
 
             sf::Vector2<float> dirfrac;
 
-            //Shoot a ray with the current velocity towards the rect of other
-            dirfrac.x = 1.0f / (relativeVelocity.x);
-            dirfrac.y = 1.0f / (relativeVelocity.y);
-            
-            // lb is the corner of AABB with minimal coordinates - left bottom, rt is maximal corner
-            sf::Vector2<float> lb(otherRect.left,otherRect.top+otherRect.height);
-            sf::Vector2<float> rt(otherRect.left+otherRect.width,otherRect.top);
-
-            float t1 = (lb.x - position.x)*dirfrac.x;
-            float t2 = (rt.x - position.x)*dirfrac.x;
-            float t3 = (lb.y - position.y)*dirfrac.y;
-            float t4 = (rt.y - position.y)*dirfrac.y;
-
-            float tmin = std::max(std::min(t1, t2), std::min(t3, t4));
-            float tmax = std::min(std::max(t1, t2), std::max(t3, t4));
-
-            float t;
-
-            // if tmax < 0, ray (line) is intersecting AABB, but the whole AABB is behind us
-            // if tmin > tmax, ray doesn't intersect AABB
-
-            if (tmax < 0 || tmin > tmax)
-            {
-                t = tmax;
-                test = false;
-            }else {
-            t = tmin;
-
             sf::Vector2<float> normal;
-            if (t == t1) normal = sf::Vector2<float>(-1.f,  0.f); /* left */
-            if (t == t3) normal = sf::Vector2<float>( 0.f, -1.f); /* bottom */
-            if (t == t4) normal = sf::Vector2<float>( 0.f,  1.f); /* top */
-            if (t == t2) normal = sf::Vector2<float>( 1.f,  0.f); /* right */
+
+            float spriteBottom = spriteRect.top - spriteRect.height;
+            float otherBottom = otherRect.top - otherRect.height;
+            float spriteRight = spriteRect.left + spriteRect.width;
+            float otherRight = otherRect.left + otherRect.width;
+
+            bool bottominsideother = spriteRect.top >= otherBottom && spriteRect.top <= otherRect.top;
+            bool topinsideother = spriteBottom <= otherRect.top && spriteBottom >= otherBottom;
+            bool leftinsideother = spriteRect.left >= otherRect.left && spriteRect.left <= otherRight;
+            bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
+
+
+            if (leftinsideother && !rightinsideother && topinsideother && bottominsideother) normal = sf::Vector2<float>(-1.f,  0.f); /* left */
+            if (topinsideother && !bottominsideother && leftinsideother || rightinsideother) normal = sf::Vector2<float>( 0.f, -1.f); /* bottom */
+            if (bottominsideother && !topinsideother && leftinsideother || rightinsideother) normal = sf::Vector2<float>( 0.f,  1.f); /* top */
+            if (rightinsideother && !leftinsideother && topinsideother && bottominsideother) normal = sf::Vector2<float>( 1.f,  0.f); /* right */
 
             float totalVelocity = -(1+bounciness)*(normal*relativeVelocity);
 
@@ -125,11 +109,10 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
             test = true;
 
         }
-    }
     colliding = test;
-
 
     //Scale the velocity to deltaTime to get consistent velocity across framerates
     position += velocity*deltaTime.asSeconds();
 
 };
+
