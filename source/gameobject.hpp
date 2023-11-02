@@ -25,8 +25,8 @@ class Gameobject {
         bool hasCollision;
         float gravity;
         float drag;
-        float bounciness = 1;
-        float friction = 1;
+        float bounciness = 0.2;
+        float friction = 2;
 
         Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _scale, bool _hasSprite, sf::Texture* _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _drag);
         void SetScale(sf::Vector2<float> setscale);

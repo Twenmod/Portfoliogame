@@ -77,44 +77,55 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
             sf::FloatRect spriteRect = sprite.getGlobalBounds();
             sf::FloatRect otherRect = other->getGlobalBounds();
             
-            //Test all sides
 
             sf::Vector2<float> relativeVelocity = velocity;
 
             sf::Vector2<float> normal(0,0);
 
+            //Simplify rect sides
             float spriteBottom = spriteRect.top - spriteRect.height;
             float otherBottom = otherRect.top - otherRect.height;
             float spriteRight = spriteRect.left + spriteRect.width;
             float otherRight = otherRect.left + otherRect.width;
 
+            //Test all sides
             bool bottominsideother = spriteRect.top >= otherBottom && spriteRect.top <= otherRect.top;
             bool topinsideother = spriteBottom <= otherRect.top && spriteBottom >= otherBottom;
             bool leftinsideother = spriteRect.left >= otherRect.left && spriteRect.left <= otherRight;
             bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
 
-            std::cout << "\n bottom: " << bottominsideother << " top: " << topinsideother;
+            //Debug visualizer
+            std::cout << "\n\n  "<< topinsideother << "\n"
+            << leftinsideother << " o " << rightinsideother << "\n"
+            << "  " << bottominsideother; 
 
-            if (leftinsideother && !rightinsideother && topinsideother && bottominsideother) normal = sf::Vector2<float>(-1.f,  0.f); /* left */
-            if (topinsideother && !bottominsideother && (leftinsideother || rightinsideother)) normal = sf::Vector2<float>( 0.f, -1.f); /* bottom */
-            if (bottominsideother && !topinsideother && (leftinsideother || rightinsideother)) normal = sf::Vector2<float>( 0.f,  1.f); /* top */
-            if (rightinsideother && !leftinsideother && topinsideother && bottominsideother) normal = sf::Vector2<float>( 1.f,  0.f); /* right */
+            //Find side, set normal and set outside of other
+            if (leftinsideother && !rightinsideother && topinsideother && bottominsideother) {normal = sf::Vector2<float>(-1.f,  0.f); position.x = otherRect.left+spriteRect.width; } /* left */
+            if (topinsideother && !bottominsideother && (leftinsideother || rightinsideother)) {normal = sf::Vector2<float>( 0.f, 1.f); position.y = otherBottom+spriteRect.height; } /* bottom */
+            if (bottominsideother && !topinsideother && (leftinsideother || rightinsideother)) {normal = sf::Vector2<float>( 0.f,  -1.f); position.y = otherRect.top-spriteRect.height; } /* top */
+            if (rightinsideother && !leftinsideother && topinsideother && bottominsideother) {normal = sf::Vector2<float>( 1.f,  0.f); position.x = otherRight-spriteRect.width; } /* right */
 
+            //Negate velocity / bounce
             float totalVelocity = -(1+bounciness)*(normal*relativeVelocity);
+            std::cout << "\nOldvelo:"<<velocity.y<<"\nAddVelo: " << totalVelocity;
 
+            //Apply velocity;
+            bool normalNegative = normal.y < 0 || normal.x < 0;
+            bool addNegative = totalVelocity < 0;
+            if ((normalNegative && !addNegative) || (addNegative && !normalNegative))
+                velocity += normal * totalVelocity;
 
-
-            velocity += normal * totalVelocity;
-            std::cout << "\n Normal: " << normal.y;
+            //std::cout << "\n Normal: " << normal.y;
             if (normal != sf::Vector2<float>(0,0)) {
-                //velocity += -relativeVelocity*friction *deltaTime.asSeconds();
+                velocity += -relativeVelocity*friction *deltaTime.asSeconds();
                 test = true;
             }
         }
-
-
-        }
+    }
     colliding = test;
+
+    std::cout << "\nnewvelo:"<<velocity.y;
+
 
     //Scale the velocity to deltaTime to get consistent velocity across framerates
     position += velocity*deltaTime.asSeconds();
