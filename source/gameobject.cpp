@@ -9,7 +9,7 @@
 sf::Texture emptyimage();
 
 //Constructor
-Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation = 0,sf::Vector2<float> _scale =sf::Vector2<float>(1,1), bool _hasSprite = false, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _drag = 0) {
+Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation = 0,sf::Vector2<float> _scale =sf::Vector2<float>(1,1), bool _hasSprite = false, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _drag = 0, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
 
     position = _position;
     rotation = _rotation;
@@ -26,7 +26,7 @@ Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation = 0,sf::Vec
         SetScale(_scale);
     }
 
-    velocity = sf::Vector2<float>(5,0);
+    velocity = _startVelocity;
 
     //Physics
     isStatic = _isStatic;

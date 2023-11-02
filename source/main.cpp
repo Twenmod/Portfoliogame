@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Window/VideoMode.hpp>
 #include <iostream>
 #include "gameobject.hpp"
 
@@ -39,8 +41,8 @@ class app {
             }
         };
 
-        Gameobject createObject(sf::Vector2<float> _position, float _rotation, sf::Vector2<float> _scale, bool _hasSprite, sf::Texture* _texture, bool _isStatic, bool _hasCollision, float _gravity, float _drag) {
-            Gameobject obj(_position, _rotation, _scale, _hasSprite, _texture, _isStatic, _hasCollision, _gravity, _drag);
+        Gameobject createObject(sf::Vector2<float> _position = sf::Vector2<float>(0,0), float _rotation = 0, sf::Vector2<float> _scale = sf::Vector2<float>(1,1), bool _hasSprite = true, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _drag = 1, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
+            Gameobject obj(_position, _rotation, _scale, _hasSprite, _texture, _isStatic, _hasCollision, _gravity, _drag, _startVelocity);
             if (obj.hasCollision && obj.hasSprite) {
                 collisionList.push_back(&obj.sprite);
             }
@@ -63,6 +65,8 @@ sf::Texture addTexture(std::string file) {
 
 int main()
 {
+    //Get resolution
+    resolution = sf::Vector2<int>(sf::VideoMode::getDesktopMode().width,sf::VideoMode::getDesktopMode().height);
 
     //Initialize window
     sf::RenderWindow window(sf::VideoMode((int)resolution.x,(int)resolution.y), "Minergame");
@@ -81,8 +85,8 @@ int main()
     app game;
 
     //Load level
-    game.createObject(sf::Vector2<float>(-10,0),0,sf::Vector2<float>(0.2,0.1),true,&texturemap.at("Nobitches"),false,true,10,0);
-    game.createObject(sf::Vector2<float>(5,100),0,sf::Vector2<float>(0.2,0.1),true,&texturemap.at("Nobitches"),true,true,2,0);
+    game.createObject(sf::Vector2<float>(-10,0),0,sf::Vector2<float>(0.2,0.1),true,&texturemap.at("Nobitches"),false,true,10,0, sf::Vector2<float>(5,0));
+    game.createObject(sf::Vector2<float>(50,100),0,sf::Vector2<float>(2,0.1),true,&texturemap.at("Nobitches"),true,true,2,0);
 
 
     while (window.isOpen())
