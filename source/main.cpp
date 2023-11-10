@@ -2,23 +2,35 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
-#include <iostream>
 #include "gameobject.hpp"
+#include "camera.hpp"
 
 sf::Vector2<int> resolution(200,200);
 
 //The game itself
 class app {
     public:
+        Camera mainCamera;
+
+
         //Lists of the objects split for optimisation
         std::vector<Gameobject> objectList;
         std::vector<sf::Sprite*> collisionList;
 
         sf::Clock gameClock; 
 
+        //Constructer/Init
+        app() {
+            mainCamera = generateCamera(sf::Vector2<float>(0,0), sf::Vector2<float>(1,1), sf::Vector2<float>(500,500));
+        }
+
+        Camera generateCamera(sf::Vector2<float> startPosition, sf::Vector2<float> scale, sf::Vector2<float> cullDistance) {
+            return Camera(startPosition,scale,cullDistance);
+        }
+
         void OnEvents() {
             for (Gameobject& obj : objectList) {
-                obj.OnEvent();
+                obj.OnEvent()
             }
         };
         void OnLoop() {
@@ -31,14 +43,6 @@ class app {
             }
         };
         void OnRender(sf::RenderWindow &window) {
-            for (Gameobject& obj : objectList) {
-                obj.OnRender();
-
-                //Only render if object contains a sprite
-                if (obj.hasSprite) {
-                    window.draw(obj.sprite);
-                }
-            }
         };
 
         Gameobject createObject(sf::Vector2<float> _position = sf::Vector2<float>(0,0), float _rotation = 0, sf::Vector2<float> _scale = sf::Vector2<float>(1,1), bool _hasSprite = true, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _drag = 1, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
@@ -85,7 +89,7 @@ int main()
     app game;
 
     //Load level
-    game.createObject(sf::Vector2<float>(-10,0),0,sf::Vector2<float>(0.2,0.1),true,&texturemap.at("Nobitches"),false,true,10,0, sf::Vector2<float>(5,0));
+    //game.createObject(sf::Vector2<float>(-10,0),0,sf::Vector2<float>(0.2,0.1),true,&texturemap.at("Nobitches"),false,true,10,0, sf::Vector2<float>(5,0));
     game.createObject(sf::Vector2<float>(50,100),0,sf::Vector2<float>(2,0.1),true,&texturemap.at("Nobitches"),true,true,2,0);
 
 
