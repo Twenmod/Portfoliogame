@@ -18,6 +18,6 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject> renderList
             sf::Sprite spriteToDraw = obj.sprite;
             spriteToDraw.setPosition(spriteToDraw.getPosition()+position); 
             window.draw(spriteToDraw);
-        } 
+        }
     }
 };

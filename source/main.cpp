@@ -4,6 +4,7 @@
 #include <SFML/Window/VideoMode.hpp>
 #include "gameobject.hpp"
 #include "camera.hpp"
+#include <iostream>
 
 sf::Vector2<int> resolution(200,200);
 
