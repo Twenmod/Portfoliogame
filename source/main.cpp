@@ -31,19 +31,23 @@ class app {
 
         void OnEvents() {
             for (Gameobject& obj : objectList) {
-                obj.OnEvent()
+                obj.OnEvent();
             }
         };
         void OnLoop() {
-
             //Get time elapsed since last frame
             sf::Time deltaTime = gameClock.restart();
 
+            //Calculate camera
+            mainCamera.OnLoop(deltaTime);
+            //Calculate objects
             for (Gameobject& obj : objectList) {
                 obj.OnLoop(deltaTime, collisionList);
             }
+
         };
         void OnRender(sf::RenderWindow &window) {
+            mainCamera.Render(window,objectList);
         };
 
         Gameobject createObject(sf::Vector2<float> _position = sf::Vector2<float>(0,0), float _rotation = 0, sf::Vector2<float> _scale = sf::Vector2<float>(1,1), bool _hasSprite = true, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _drag = 1, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
@@ -64,7 +68,6 @@ sf::Texture addTexture(std::string file) {
     if (!text.loadFromFile(file)) {
         std::cout << "Failed to load texture at: " << file;
     }
-    std::cout << text.getSize().x << "\n";
     return text;
 }
 
@@ -90,8 +93,9 @@ int main()
     app game;
 
     //Load level
-    //game.createObject(sf::Vector2<float>(-10,0),0,sf::Vector2<float>(0.2,0.1),true,&texturemap.at("Nobitches"),false,true,10,0, sf::Vector2<float>(5,0));
-    game.createObject(sf::Vector2<float>(50,100),0,sf::Vector2<float>(2,0.1),true,&texturemap.at("Nobitches"),true,true,2,0);
+    game.createObject(sf::Vector2<float>(55,0),0,sf::Vector2<float>(0.2,0.2),true,&texturemap.at("Nobitches"),false,true,20,0, sf::Vector2<float>(50,0));
+    game.mainCamera.SetObjectToFollow(&game.objectList.at(game.objectList.size()-1), 1);
+    game.createObject(sf::Vector2<float>(150,300),0,sf::Vector2<float>(2,2),true,&texturemap.at("Nobitches"),true,true,2,0);
 
 
     while (window.isOpen())

@@ -53,6 +53,7 @@ void Gameobject::OnEvent() {
 void Gameobject::OnLoop(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList) {
     if (!isStatic) {
         CalculatePhysics(deltaTime, collisionList);
+        std::cout << "\nRealpos: " << position.x;
     }
 };
 
@@ -95,10 +96,10 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
             bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
 
             //Debug visualizer
-            std::cout << "\n\n  "<< topinsideother << "\n"
+            /*std::cout << "\n\n  "<< topinsideother << "\n"
             << leftinsideother << " o " << rightinsideother << "\n"
             << "  " << bottominsideother; 
-
+*/
             //Find side, set normal and set outside of other
             if (leftinsideother && !rightinsideother && topinsideother && bottominsideother) {normal = sf::Vector2<float>(-1.f,  0.f); position.x = otherRect.left+spriteRect.width; } /* left */
             if (topinsideother && !bottominsideother && (leftinsideother || rightinsideother)) {normal = sf::Vector2<float>( 0.f, 1.f); position.y = otherBottom+spriteRect.height; } /* bottom */
@@ -107,7 +108,7 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
 
             //Negate velocity / bounce
             float totalVelocity = -(1+bounciness)*(normal*relativeVelocity);
-            std::cout << "\nOldvelo:"<<velocity.y<<"\nAddVelo: " << totalVelocity;
+            //std::cout << "\nOldvelo:"<<velocity.y<<"\nAddVelo: " << totalVelocity;
 
             //Apply velocity;
             bool normalNegative = normal.y < 0 || normal.x < 0;
@@ -124,7 +125,7 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
     }
     colliding = test;
 
-    std::cout << "\nnewvelo:"<<velocity.y;
+   // std::cout << "\nnewvelo:"<<velocity.y;
 
 
     //Scale the velocity to deltaTime to get consistent velocity across framerates

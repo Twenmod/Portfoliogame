@@ -1,4 +1,8 @@
 #include <SFML/Graphics.hpp>
+#include <algorithm>
+#include <cstddef>
+#include <iostream>
+#include <memory>
 #include "camera.hpp"
 #include "gameobject.hpp"
 
@@ -6,6 +10,7 @@ Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale, sf::Vect
     position = _position;
     scale = _scale;
     cullDistance = _cullDistance;
+    followTarget = nullptr;
 };
 
 void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject> renderList) {
@@ -20,4 +25,19 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject> renderList
             window.draw(spriteToDraw);
         }
     }
+};
+
+void Camera::OnLoop(sf::Time deltaTime) {
+    //Lerp* to target
+    if (followTarget != nullptr) {
+        std::cout << "\nTargetPos: " << followTarget->position.x;
+        // X
+        position.x = position.x-deltaTime.asSeconds()*lerpSpeed*(position.x - followTarget->position.x);
+        // Y
+        position.y = position.y-deltaTime.asSeconds()*lerpSpeed*(position.y - followTarget->position.y);
+    }
+}
+
+void Camera::SetObjectToFollow(Gameobject* target, float lerpSpeed) {
+    Camera::followTarget = target;
 };
