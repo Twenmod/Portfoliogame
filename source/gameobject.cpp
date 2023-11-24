@@ -77,7 +77,7 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
         if (&sprite != other) {
             sf::FloatRect spriteRect = sprite.getGlobalBounds();
             sf::FloatRect otherRect = other->getGlobalBounds();
-            
+
 
             sf::Vector2<float> relativeVelocity = velocity;
 

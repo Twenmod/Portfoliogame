@@ -34,12 +34,12 @@ class app {
                 obj.OnEvent();
             }
         };
-        void OnLoop() {
+        void OnLoop(sf::RenderWindow &window) {
             //Get time elapsed since last frame
             sf::Time deltaTime = gameClock.restart();
 
             //Calculate camera
-            mainCamera.OnLoop(deltaTime);
+            mainCamera.OnLoop(deltaTime, window);
             //Calculate objects
             for (Gameobject& obj : objectList) {
                 obj.OnLoop(deltaTime, collisionList);
@@ -93,9 +93,9 @@ int main()
     app game;
 
     //Load level
-    game.createObject(sf::Vector2<float>(55,0),0,sf::Vector2<float>(0.2,0.2),true,&texturemap.at("Nobitches"),false,true,20,0, sf::Vector2<float>(50,0));
-    game.mainCamera.SetObjectToFollow(&game.objectList.at(game.objectList.size()-1), 1);
-    game.createObject(sf::Vector2<float>(150,300),0,sf::Vector2<float>(2,2),true,&texturemap.at("Nobitches"),true,true,2,0);
+    game.createObject(sf::Vector2<float>(55,0),0,sf::Vector2<float>(0.2,0.2),true,&texturemap.at("Nobitches"),true,true,20,0, sf::Vector2<float>(50,0));
+    game.mainCamera.SetObjectToFollow(&game.objectList.at(game.objectList.size()-1), 0.5);
+    //game.createObject(sf::Vector2<float>(150,300),0,sf::Vector2<float>(2,2),true,&texturemap.at("Nobitches"),true,true,2,0);
 
 
     while (window.isOpen())
@@ -103,7 +103,7 @@ int main()
 
         //Run the game loop
         game.OnEvents();
-        game.OnLoop();
+        game.OnLoop(window);
         game.OnRender(window);
 
 

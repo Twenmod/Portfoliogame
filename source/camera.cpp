@@ -27,17 +27,20 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject> renderList
     }
 };
 
-void Camera::OnLoop(sf::Time deltaTime) {
-    //Lerp* to target
+void Camera::OnLoop(sf::Time deltaTime, sf::RenderWindow &window) {
+    //Lerp to target
     if (followTarget != nullptr) {
-        std::cout << "\nTargetPos: " << followTarget->position.x;
+        std::cout << "\nTargetPos: " << followTarget->position.x << " CurrentPos: "<<position.x<< "Window: "<< window.getSize().x;
+        
+        sf::FloatRect targetRect = followTarget->sprite.getLocalBounds();
         // X
-        position.x = position.x-deltaTime.asSeconds()*lerpSpeed*(position.x - followTarget->position.x);
+        position.x = position.x+deltaTime.asSeconds()*lerpSpeed*((followTarget->position.x+(window.getSize().x/2)-(targetRect.width/2)) - position.x);
         // Y
-        position.y = position.y-deltaTime.asSeconds()*lerpSpeed*(position.y - followTarget->position.y);
+        position.y = position.y+lerpSpeed*(followTarget->position.y - position.y);
     }
 }
 
 void Camera::SetObjectToFollow(Gameobject* target, float lerpSpeed) {
     Camera::followTarget = target;
+    Camera::lerpSpeed = lerpSpeed;
 };
