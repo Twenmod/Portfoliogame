@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "${workspaceFolder}",
-      "program": "${workspaceFolder}/game",
+      "cwd": "/home/twenmod/Documents/Buas/Portfoliogame/source",
+      "program": "/home/twenmod/Documents/Buas/Portfoliogame/game",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
@@ -19,7 +19,6 @@
           "ignoreFailures": true
         }
       ]
-      
-    },
+    }
   ]
 }

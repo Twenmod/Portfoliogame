@@ -12,7 +12,7 @@ class Camera {
         //Constructor
         Camera(sf::Vector2<float> _position = sf::Vector2<float>(0,0), sf::Vector2<float> _scale = sf::Vector2<float>(1,1), sf::Vector2<float> _cullDistance = sf::Vector2<float>(500,500));
 
-        void Render(sf::RenderWindow &window, std::vector<Gameobject> renderList);
+        void Render(sf::RenderWindow &window, std::vector<Gameobject*> renderList);
 
         void OnLoop(sf::Time deltaTime, sf::RenderWindow &window);
 

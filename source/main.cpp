@@ -15,7 +15,7 @@ class app {
 
 
         //Lists of the objects split for optimisation
-        std::vector<Gameobject> objectList;
+        std::vector<Gameobject*> objectList;
         std::vector<sf::Sprite*> collisionList;
 
         sf::Clock gameClock; 
@@ -30,8 +30,8 @@ class app {
         }
 
         void OnEvents() {
-            for (Gameobject& obj : objectList) {
-                obj.OnEvent();
+            for (Gameobject* obj : objectList) {
+                obj->OnEvent();
             }
         };
         void OnLoop(sf::RenderWindow &window) {
@@ -41,23 +41,13 @@ class app {
             //Calculate camera
             mainCamera.OnLoop(deltaTime, window);
             //Calculate objects
-            for (Gameobject& obj : objectList) {
-                obj.OnLoop(deltaTime, collisionList);
+            for (Gameobject* obj : objectList) {
+                obj->OnLoop(deltaTime, collisionList);
             }
 
         };
         void OnRender(sf::RenderWindow &window) {
             mainCamera.Render(window,objectList);
-        };
-
-        Gameobject createObject(sf::Vector2<float> _position = sf::Vector2<float>(0,0), float _rotation = 0, sf::Vector2<float> _scale = sf::Vector2<float>(1,1), bool _hasSprite = true, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _drag = 1, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
-            Gameobject obj(_position, _rotation, _scale, _hasSprite, _texture, _isStatic, _hasCollision, _gravity, _drag, _startVelocity);
-            if (obj.hasCollision && obj.hasSprite) {
-                collisionList.push_back(&obj.sprite);
-            }
-            objectList.push_back(obj);
-
-            return obj;
         };
 
 };
@@ -93,9 +83,10 @@ int main()
     app game;
 
     //Load level
-    game.createObject(sf::Vector2<float>(55,0),0,sf::Vector2<float>(0.2,0.2),true,&texturemap.at("Nobitches"),true,true,20,0, sf::Vector2<float>(50,0));
-    game.mainCamera.SetObjectToFollow(&game.objectList.at(game.objectList.size()-1), 0.5);
-    //game.createObject(sf::Vector2<float>(150,300),0,sf::Vector2<float>(2,2),true,&texturemap.at("Nobitches"),true,true,2,0);
+    Gameobject obj = Gameobject(game.collisionList,sf::Vector2<float>(55,0),0,sf::Vector2<float>(0.2,0.2),true,&texturemap.at("Nobitches"),false,true,20,0, sf::Vector2<float>(50,0));
+    game.objectList.push_back(&obj);
+    game.mainCamera.SetObjectToFollow(&obj, 5);
+    //game.createObject(sf::Vector2<float>(50,300),0,sf::Vector2<float>(2,2),true,&texturemap.at("Nobitches"),true,true,2,0);
 
 
     while (window.isOpen())
