@@ -29,7 +29,7 @@ class Gameobject {
         float bounciness = 0.2;
         float friction = 2;
 
-        Gameobject(std::vector<sf::Sprite*> collisionList, sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _scale, bool _hasSprite, sf::Texture* _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _drag, sf::Vector2<float> _startVelocity);
+        Gameobject(std::vector<sf::Sprite*> &collisionList, sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _scale, bool _hasSprite, sf::Texture* _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _drag, sf::Vector2<float> _startVelocity);
         void SetScale(sf::Vector2<float> setscale);
         void OnEvent();
         void OnLoop(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList);

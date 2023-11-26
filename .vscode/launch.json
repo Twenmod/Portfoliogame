@@ -8,7 +8,7 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/twenmod/Documents/Buas/Portfoliogame/source",
+      "cwd": "/home/twenmod/Documents/Buas/Portfoliogame/",
       "program": "/home/twenmod/Documents/Buas/Portfoliogame/game",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",

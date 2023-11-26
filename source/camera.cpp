@@ -30,14 +30,14 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderLis
 void Camera::OnLoop(sf::Time deltaTime, sf::RenderWindow &window) {
     //Lerp to target
    // if (followTarget != nullptr) {
-        std::cout << "\nTargetPos: " << followTarget->position.x << " CurrentPos: "<<position.x<< " Window: "<< window.getSize().x;
+       // std::cout << "\nTargetPos: " << followTarget->position.x << " CurrentPos: "<<position.x<< " Window: "<< window.getSize().x;
         
         sf::FloatRect targetRect = followTarget->sprite.getGlobalBounds();
-        std::cout << "\nRect: "<<targetRect.width;
+       // std::cout << "\nRect: "<<targetRect.width;
         // X
-        position.x = position.x+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.x+(window.getSize().x/2)-(targetRect.width/2)) - position.x),-lerpSpeed*10,lerpSpeed*10);
+        //position.x = position.x+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.x+(window.getSize().x/2)-(targetRect.width/2)) - position.x),-lerpSpeed*10,lerpSpeed*10);
         // Y
-        position.y = position.y+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.y+(window.getSize().y/2)-(targetRect.height/2)) - position.y),-lerpSpeed*10,lerpSpeed*10);
+        //position.y = position.y+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.y+(window.getSize().y/2)-(targetRect.height/2)) - position.y),-lerpSpeed*10,lerpSpeed*10);
     //}
 }
 

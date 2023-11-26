@@ -1,6 +1,7 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include "gameobject.hpp"
@@ -9,7 +10,7 @@
 sf::Texture emptyimage();
 
 //Constructor
-Gameobject::Gameobject(std::vector<sf::Sprite*> collisionList, sf::Vector2<float> _position, float _rotation = 0,sf::Vector2<float> _scale =sf::Vector2<float>(1,1), bool _hasSprite = false, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _drag = 0, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
+Gameobject::Gameobject(std::vector<sf::Sprite*> &collisionList, sf::Vector2<float> _position, float _rotation = 0,sf::Vector2<float> _scale =sf::Vector2<float>(1,1), bool _hasSprite = false, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _drag = 0, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
 
     position = _position;
     rotation = _rotation;
@@ -55,7 +56,7 @@ void Gameobject::OnEvent() {
 void Gameobject::OnLoop(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList) {
     if (!isStatic) {
         CalculatePhysics(deltaTime, collisionList);
-        std::cout << "\nRealpos: " << position.x;
+        //std::cout << "\nRealpos: " << position.x;
     }
 };
 
@@ -98,10 +99,10 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
             bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
 
             //Debug visualizer
-            /*std::cout << "\n\n  "<< topinsideother << "\n"
+            std::cout << "\n\n  "<< topinsideother << "\n"
             << leftinsideother << " o " << rightinsideother << "\n"
             << "  " << bottominsideother; 
-*/
+
             //Find side, set normal and set outside of other
             if (leftinsideother && !rightinsideother && topinsideother && bottominsideother) {normal = sf::Vector2<float>(-1.f,  0.f); position.x = otherRect.left+spriteRect.width; } /* left */
             if (topinsideother && !bottominsideother && (leftinsideother || rightinsideother)) {normal = sf::Vector2<float>( 0.f, 1.f); position.y = otherBottom+spriteRect.height; } /* bottom */
@@ -120,7 +121,7 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
 
             //std::cout << "\n Normal: " << normal.y;
             if (normal != sf::Vector2<float>(0,0)) {
-                velocity += -relativeVelocity*friction *deltaTime.asSeconds();
+                velocity += -relativeVelocity*friction *std::clamp(deltaTime.asSeconds(),(float)0,(float)1);
                 test = true;
             }
         }

@@ -1,9 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include "gameobject.hpp"
 #include "camera.hpp"
+#include <algorithm>
 #include <iostream>
 
 sf::Vector2<int> resolution(200,200);
@@ -86,8 +88,8 @@ int main()
     Gameobject obj = Gameobject(game.collisionList,sf::Vector2<float>(55,0),0,sf::Vector2<float>(0.2,0.2),true,&texturemap.at("Nobitches"),false,true,20,0, sf::Vector2<float>(50,0));
     game.objectList.push_back(&obj);
     game.mainCamera.SetObjectToFollow(&obj, 5);
-    //game.createObject(sf::Vector2<float>(50,300),0,sf::Vector2<float>(2,2),true,&texturemap.at("Nobitches"),true,true,2,0);
-
+    Gameobject obj2 = Gameobject(game.collisionList, sf::Vector2<float>(50,300),0,sf::Vector2<float>(2,2),true,&texturemap.at("Nobitches"),true,true,2,0,sf::Vector2<float>(0,0));
+    game.objectList.push_back(&obj2);
 
     while (window.isOpen())
     {
