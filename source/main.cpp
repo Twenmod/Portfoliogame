@@ -1,12 +1,16 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/View.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include "gameobject.hpp"
 #include "camera.hpp"
+#include "player.hpp"
+#include <SFML/Window/WindowStyle.hpp>
 #include <algorithm>
 #include <iostream>
+
 
 sf::Vector2<int> resolution(200,200);
 
@@ -69,7 +73,7 @@ int main()
     resolution = sf::Vector2<int>(sf::VideoMode::getDesktopMode().width,sf::VideoMode::getDesktopMode().height);
 
     //Initialize window
-    sf::RenderWindow window(sf::VideoMode((int)resolution.x,(int)resolution.y), "Minergame");
+    sf::RenderWindow window(sf::VideoMode((int)resolution.x,(int)resolution.y), "Minergame", sf::Style::Fullscreen);
 
     window.setVerticalSyncEnabled(true);
     window.setActive(true);
@@ -77,18 +81,20 @@ int main()
     //Map of the games textures
 
     std::map<std::string, sf::Texture> texturemap = {
-        {"Nobitches", addTexture("Sprites/nobitches.png")}
+        {"Square", addTexture("Sprites/Square.jpg")}
     };
+
+
 
 
     //Load game
     app game;
 
     //Load level
-    Gameobject obj = Gameobject(game.collisionList,sf::Vector2<float>(55,0),0,sf::Vector2<float>(0.2,0.2),true,&texturemap.at("Nobitches"),false,true,20,0, sf::Vector2<float>(50,0));
-    game.objectList.push_back(&obj);
-    game.mainCamera.SetObjectToFollow(&obj, 5);
-    Gameobject obj2 = Gameobject(game.collisionList, sf::Vector2<float>(50,300),0,sf::Vector2<float>(2,2),true,&texturemap.at("Nobitches"),true,true,2,0,sf::Vector2<float>(0,0));
+    Player player = Player(50,10,Gameobject(game.collisionList,sf::Vector2<float>(55,0),0,sf::Vector2<float>(40,40),true,&texturemap.at("Square"),false,true,20,0, sf::Vector2<float>(50,0)));
+    game.objectList.push_back(&player);
+    game.mainCamera.SetObjectToFollow(&player, 2);
+    Gameobject obj2 = Gameobject(game.collisionList, sf::Vector2<float>(50,300),0,sf::Vector2<float>(1000,100),true,&texturemap.at("Square"),true,true,2,0,sf::Vector2<float>(0,0));
     game.objectList.push_back(&obj2);
 
     while (window.isOpen())

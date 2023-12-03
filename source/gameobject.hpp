@@ -10,9 +10,9 @@ class Gameobject {
 
         ///Transform
 
-       sf::Vector2<float> position;
+        sf::Vector2<float> position;
         float rotation;
-       sf::Vector2<float> scale;
+        sf::Vector2<float> scale;
 
         ///Sprite
 
@@ -31,8 +31,10 @@ class Gameobject {
 
         Gameobject(std::vector<sf::Sprite*> &collisionList, sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _scale, bool _hasSprite, sf::Texture* _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _drag, sf::Vector2<float> _startVelocity);
         void SetScale(sf::Vector2<float> setscale);
+        void SetVelocity(sf::Vector2<float> newVelocity);
+        sf::Vector2<float> GetVelocity();
         void OnEvent();
-        void OnLoop(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList);
+        virtual void OnLoop(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList);
         void OnRender();
     private:
         sf::Vector2<float> velocity;

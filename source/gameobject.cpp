@@ -87,21 +87,22 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
             sf::Vector2<float> normal(0,0);
 
             //Simplify rect sides
-            float spriteBottom = spriteRect.top - spriteRect.height;
-            float otherBottom = otherRect.top - otherRect.height;
+            float spriteBottom = spriteRect.top + spriteRect.height;
+            float otherBottom = otherRect.top + otherRect.height;
             float spriteRight = spriteRect.left + spriteRect.width;
             float otherRight = otherRect.left + otherRect.width;
 
             //Test all sides
-            bool bottominsideother = spriteRect.top >= otherBottom && spriteRect.top <= otherRect.top;
-            bool topinsideother = spriteBottom <= otherRect.top && spriteBottom >= otherBottom;
+            bool bottominsideother = spriteBottom <= otherBottom && spriteBottom >= otherRect.top;
+            bool topinsideother = spriteRect.top >= otherRect.top && spriteRect.top <= otherBottom;
             bool leftinsideother = spriteRect.left >= otherRect.left && spriteRect.left <= otherRight;
             bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
 
-            //Debug visualizer
-            std::cout << "\n\n  "<< topinsideother << "\n"
+            /*Debug visualizer
+            std::cout << "\n  T:"<< topinsideother << "\n"
             << leftinsideother << " o " << rightinsideother << "\n"
-            << "  " << bottominsideother; 
+            << "  B:" << bottominsideother << "\n"; 
+            */
 
             //Find side, set normal and set outside of other
             if (leftinsideother && !rightinsideother && topinsideother && bottominsideother) {normal = sf::Vector2<float>(-1.f,  0.f); position.x = otherRect.left+spriteRect.width; } /* left */
@@ -136,3 +137,9 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
 
 };
 
+void Gameobject::SetVelocity(sf::Vector2<float> newVelocity) {
+    velocity = newVelocity;
+};
+sf::Vector2<float> Gameobject::GetVelocity() {
+    return velocity;
+};
