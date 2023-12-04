@@ -20,7 +20,11 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
     tiles = std::vector<std::vector<tile>>(worldsize.x);
 
     for (int x = 0; x < worldsize.x; x++) {
+
+        //TODO: FIX THIS LINE OF CODE LMAO
         tiles[x] =  std::vector<tile>(worldsize.y);
+
+        
         for (int y = 0; y < worldsize.y; y++) {
             tile currTile = tileTypes[0];
             currTile.position.x = x*tileGridSize;
