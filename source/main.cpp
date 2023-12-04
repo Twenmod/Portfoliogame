@@ -8,9 +8,11 @@
 #include "camera.hpp"
 #include "player.hpp"
 #include "settings.hpp"
+#include "worldgen.hpp"
 #include <SFML/Window/WindowStyle.hpp>
 #include <algorithm>
 #include <iostream>
+#include <vector>
 
 
 sf::Vector2<int> resolution(200,200);
@@ -97,7 +99,21 @@ int main()
     game.objectList.push_back(&player);
     game.mainCamera.SetObjectToFollow(&player, 2);
     Gameobject obj2 = Gameobject(game.collisionList, sf::Vector2<float>(50,300),0,sf::Vector2<float>(10,10),true,&texturemap.at("Dirt"),true,true,2,0,0,sf::Vector2<float>(0,0));
-    game.objectList.push_back(&obj2);
+
+
+    std::vector<tile> tileTypes = {
+        tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(1,1),true,&texturemap.at("Dirt"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0)))
+    };
+
+    level world = level(32,sf::Vector2<int>(5,3), tileTypes);
+    
+    game.objectList.push_back(&world.tiles[0][0]);
+    for (std::vector<tile> tilecolomn : world.tiles) {
+        for (tile _tile : tilecolomn) {
+            game.objectList.push_back(&_tile);
+        }
+    }
+
 
     while (window.isOpen())
     {
