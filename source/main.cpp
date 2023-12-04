@@ -82,7 +82,8 @@ int main()
     //Map of the games textures
 
     std::map<std::string, sf::Texture> texturemap = {
-        {"Square", addTexture("Sprites/Square.jpg")}
+        {"Square", addTexture("Sprites/Square.jpg")},
+        {"Dirt", addTexture("Sprites/Tiles/Dirt.png")}
     };
 
 
@@ -92,10 +93,10 @@ int main()
     app game;
 
     //Load level
-    Player player = Player(settings::playerMoveSpeed,settings::jumpVelocity,Gameobject(game.collisionList,sf::Vector2<float>(55,0),0,sf::Vector2<float>(40,40),true,&texturemap.at("Square"),false,true,settings::gravity,settings::playerFriction,0, sf::Vector2<float>(50,0)));
+    Player player = Player(settings::playerMoveSpeed,settings::jumpVelocity,Gameobject(game.collisionList,sf::Vector2<float>(55,0),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,settings::gravity,settings::playerFriction,0, sf::Vector2<float>(50,0)));
     game.objectList.push_back(&player);
     game.mainCamera.SetObjectToFollow(&player, 2);
-    Gameobject obj2 = Gameobject(game.collisionList, sf::Vector2<float>(50,300),0,sf::Vector2<float>(1000,100),true,&texturemap.at("Square"),true,true,2,0,0,sf::Vector2<float>(0,0));
+    Gameobject obj2 = Gameobject(game.collisionList, sf::Vector2<float>(50,300),0,sf::Vector2<float>(10,10),true,&texturemap.at("Dirt"),true,true,2,0,0,sf::Vector2<float>(0,0));
     game.objectList.push_back(&obj2);
 
     while (window.isOpen())

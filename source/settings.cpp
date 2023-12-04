@@ -11,7 +11,7 @@ float settings::playerMoveSpeed = 200;
 float settings::playerAcceleration = 30;
 float settings::playerStopAcceleration = 40; 
 float settings::playerAirAccelerationMultiplier = 0.5;
-float settings::playerFriction = 0.05; 
+float settings::playerFriction = 0.1; 
 float settings::groundedCheckOffset = 5;
 float settings::jumpVelocity = 300;
 

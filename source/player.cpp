@@ -37,9 +37,9 @@ void Player::OnLoop(sf::Time deltaTime, std::vector<sf::Sprite *> collisionList)
         if (!grounded)
             acceleration *= settings::playerAirAccelerationMultiplier;
 
-        if (velocity.x > 0)
+        if (velocity.x > settings::playerStopAcceleration)
             velocity.x -= settings::playerStopAcceleration;
-        if (velocity.x < 0)
+        else if (velocity.x < -settings::playerStopAcceleration)
             velocity.x += settings::playerStopAcceleration;
     }
 
