@@ -7,6 +7,7 @@
 #include "gameobject.hpp"
 #include "camera.hpp"
 #include "player.hpp"
+#include "settings.hpp"
 #include <SFML/Window/WindowStyle.hpp>
 #include <algorithm>
 #include <iostream>
@@ -91,10 +92,10 @@ int main()
     app game;
 
     //Load level
-    Player player = Player(50,10,Gameobject(game.collisionList,sf::Vector2<float>(55,0),0,sf::Vector2<float>(40,40),true,&texturemap.at("Square"),false,true,20,0, sf::Vector2<float>(50,0)));
+    Player player = Player(settings::playerMoveSpeed,settings::jumpVelocity,Gameobject(game.collisionList,sf::Vector2<float>(55,0),0,sf::Vector2<float>(40,40),true,&texturemap.at("Square"),false,true,settings::gravity,settings::playerFriction,0, sf::Vector2<float>(50,0)));
     game.objectList.push_back(&player);
     game.mainCamera.SetObjectToFollow(&player, 2);
-    Gameobject obj2 = Gameobject(game.collisionList, sf::Vector2<float>(50,300),0,sf::Vector2<float>(1000,100),true,&texturemap.at("Square"),true,true,2,0,sf::Vector2<float>(0,0));
+    Gameobject obj2 = Gameobject(game.collisionList, sf::Vector2<float>(50,300),0,sf::Vector2<float>(1000,100),true,&texturemap.at("Square"),true,true,2,0,0,sf::Vector2<float>(0,0));
     game.objectList.push_back(&obj2);
 
     while (window.isOpen())

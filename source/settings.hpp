@@ -1,16 +1,29 @@
-#ifndef SETTINGS_H
-#define SETTINGS_H
+#include "player.hpp"
 #include <SFML/System/Vector2.hpp>
+#include <SFML/Window/Keyboard.hpp>
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <sys/types.h>
 
 //Most game settings are controlled here for ease of use
 
-class settings {
+namespace settings {
 
-    public:
-        settings();
-        float playerMoveSpeed = 50;
+        extern float playerMoveSpeed;
+        extern float playerAcceleration;
+        extern float playerStopAcceleration;
+        extern float playerAirAccelerationMultiplier;
+        extern float playerFriction;
+        extern float groundedCheckOffset;
+        extern float jumpVelocity;
+
+        extern float gravity;
+        extern float jumpGravity;
+
+        //Input
+        extern sf::Keyboard::Key left;
+        extern sf::Keyboard::Key right;
+        extern sf::Keyboard::Key jump;
+
 };
 
-#endif

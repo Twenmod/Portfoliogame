@@ -29,7 +29,10 @@ class Gameobject {
         float bounciness = 0.2;
         float friction = 2;
 
-        Gameobject(std::vector<sf::Sprite*> &collisionList, sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _scale, bool _hasSprite, sf::Texture* _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _drag, sf::Vector2<float> _startVelocity);
+        sf::Vector2<float> velocity;
+        bool colliding;
+
+        Gameobject(std::vector<sf::Sprite*> &collisionList, sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _scale, bool _hasSprite, sf::Texture* _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _friction, float _bounciness, sf::Vector2<float> _startVelocity);
         void SetScale(sf::Vector2<float> setscale);
         void SetVelocity(sf::Vector2<float> newVelocity);
         sf::Vector2<float> GetVelocity();
@@ -37,9 +40,7 @@ class Gameobject {
         virtual void OnLoop(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList);
         void OnRender();
     private:
-        sf::Vector2<float> velocity;
-        bool colliding;
-        void CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList);
+        virtual void CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList);
 };
 
 #endif
