@@ -14,7 +14,6 @@
 #include <iostream>
 #include <vector>
 
-
 sf::Vector2<int> resolution(200,200);
 
 //The game itself
@@ -95,10 +94,9 @@ int main()
     app game;
 
     //Load level
-    Player player = Player(settings::playerMoveSpeed,settings::jumpVelocity,Gameobject(game.collisionList,sf::Vector2<float>(55,0),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,settings::gravity,settings::playerFriction,0, sf::Vector2<float>(50,0)));
+    Player player = Player(settings::playerMoveSpeed,settings::jumpVelocity,Gameobject(game.collisionList,sf::Vector2<float>(55,-100),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,settings::gravity,settings::playerFriction,0, sf::Vector2<float>(50,0)));
     game.objectList.push_back(&player);
     game.mainCamera.SetObjectToFollow(&player, 2);
-    Gameobject obj2 = Gameobject(game.collisionList, sf::Vector2<float>(50,300),0,sf::Vector2<float>(10,10),true,&texturemap.at("Dirt"),true,true,2,0,0,sf::Vector2<float>(0,0));
 
 
     std::vector<tile> tileTypes = {
@@ -107,10 +105,10 @@ int main()
 
     level world = level(32,sf::Vector2<int>(5,3), tileTypes);
     
-    game.objectList.push_back(&world.tiles[0][0]);
-    for (std::vector<tile> tilecolomn : world.tiles) {
-        for (tile _tile : tilecolomn) {
+    for (std::vector<tile>& tilecolomn : world.tiles) {
+        for (tile& _tile : tilecolomn) {
             game.objectList.push_back(&_tile);
+            game.collisionList.push_back(&_tile.sprite);
         }
     }
 

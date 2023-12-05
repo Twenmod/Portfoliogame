@@ -21,7 +21,10 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderLis
         if (obj->hasSprite) {
             //Copy world space sprite to a screen space sprite
             sf::Sprite spriteToDraw = obj->sprite;
-            spriteToDraw.setPosition(spriteToDraw.getPosition()+position); 
+            spriteToDraw.setPosition(spriteToDraw.getPosition() + position); 
+            
+            std::cout << "Drawing sprite at: " << spriteToDraw.getPosition().x << ", " << spriteToDraw.getPosition().y << std::endl;
+
             window.draw(spriteToDraw);
         }
     }
@@ -33,7 +36,7 @@ void Camera::OnLoop(sf::Time deltaTime, sf::RenderWindow &window) {
         sf::FloatRect targetRect = followTarget->sprite.getGlobalBounds();
 
 
-        std::cout << "\nTargetPos: " << followTarget->position.x << " CurrentPos: "<<position.x<< " Window: "<< window.getSize().x;
+        //std::cout << "\nTargetPos: " << followTarget->position.x << " CurrentPos: "<<position.x<< " Window: "<< window.getSize().x;
         
         // X
         position.x = position.x+std::clamp(deltaTime.asSeconds()*lerpSpeed*((-followTarget->position.x+sf::VideoMode::getDesktopMode().width/2-(targetRect.width/2)) - position.x),-lerpSpeed*10,lerpSpeed*10);

@@ -8,6 +8,8 @@
 #include <vector>
 
 //Constructor
+
+
 tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject) : Gameobject(tileObject) {
     tileName = _tileName;
     maxHealth = _tileHealth;
@@ -17,20 +19,16 @@ tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject) : Gam
 level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes) {
     
     //Spawn all tiles
-    tiles = std::vector<std::vector<tile>>(worldsize.x);
-
     for (int x = 0; x < worldsize.x; x++) {
-
-        //TODO: FIX THIS LINE OF CODE LMAO
-        tiles[x] =  std::vector<tile>(worldsize.y);
-
-        
+        std::vector<tile> column;
         for (int y = 0; y < worldsize.y; y++) {
             tile currTile = tileTypes[0];
             currTile.position.x = x*tileGridSize;
             currTile.position.y = y*tileGridSize;
-            tiles[x][y] = currTile;
+            column.push_back(currTile);
+            std::cout <<"spawning tile at x: " << x << " y: " << y << std::endl;
         }
+        tiles.push_back(column);
     }
 
 }
