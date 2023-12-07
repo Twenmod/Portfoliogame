@@ -111,54 +111,56 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
                 int side = -1;
 
 
-                //Top side
-                bool sideCollision = topinsideother && !bottominsideother && (leftinsideother || rightinsideother);
                 float distance = math::difference(spriteRect.top,otherBottom);
                 if (distance < minDistance) {
                     minDistance = distance;
-                    if (sideCollision) {
-                        side = 0;
-                        normal = sf::Vector2<float>(0.f,  1.f);
-                    }
+                }
+                distance = math::difference(spriteRight,otherRect.left);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                }
+                distance = math::difference(spriteBottom,otherRect.top);
+                if (distance < minDistance) {
+                    minDistance = distance;              
+                }
+                distance = math::difference(spriteRect.left, otherRight);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                }
+
+                //Top side
+                bool sideCollision = topinsideother && !bottominsideother && (leftinsideother || rightinsideother);
+                if (sideCollision) {
+                    side = 0;
+                    normal = sf::Vector2<float>(0.f,  1.f);
                 }
 
                 //Right side
                 sideCollision = rightinsideother && !leftinsideother && topinsideother && bottominsideother;
-                distance = math::difference(spriteRight,otherRect.left);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    if (sideCollision) {
-                        side = 1;
-                        normal = sf::Vector2<float>(1.f,  0.f);
-                    }
+                if (sideCollision) {
+                    side = 1;
+                    normal = sf::Vector2<float>(1.f,  0.f);
                 }
                 //Bottom side
                 sideCollision = bottominsideother && !topinsideother && (leftinsideother || rightinsideother);
-                distance = math::difference(spriteBottom,otherRect.top);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    if (sideCollision) {
-                        side = 2;
-                        normal = sf::Vector2<float>(0,  -1.f);
-                    }                
-                }
+                if (sideCollision) {
+                    side = 2;
+                    normal = sf::Vector2<float>(0,  -1.f);
+                }  
                 //Left side
                 sideCollision = leftinsideother && !rightinsideother && topinsideother && bottominsideother;
-                distance = math::difference(spriteRect.left, otherRight);
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    if (sideCollision) {
-                        side = 3;
-                        normal = sf::Vector2<float>(-1.f,  0.f);
-                    }
+                if (sideCollision) {
+                    side = 3;
+                    normal = sf::Vector2<float>(-1.f,  0.f);
                 }
+
 
                 //std::cout << "\n Side: " << side << "\n";
 
                 //Move to closest side
                 switch (side) {
                     case 0: // Top
-                        position.y = otherBottom + spriteRect.height;
+                        position.y = otherBottom;
                         if (velocity.y < 0) velocity.y = 0;
                         test = true;
                         break;
@@ -173,7 +175,7 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
                         test = true;
                         break;
                     case 3: // Left
-                        position.x = otherRight - spriteRect.width;
+                        position.x = otherRight;
                         if (velocity.x < 0) velocity.x = 0;
                         test = true;
                         break;
@@ -189,7 +191,7 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
 
 
     //Scale the velocity to deltaTime to get consistent velocity across framerates
-    position += velocity*std::clamp(deltaTime.asSeconds(),0.f,0.1f);
+    position += velocity*std::clamp(deltaTime.asSeconds(),0.f,0.01f);
 
 };
 

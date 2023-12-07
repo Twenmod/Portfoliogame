@@ -107,7 +107,11 @@ int main()
     Gameobject testobject2 = Gameobject(game.collisionList,sf::Vector2<float>(200,-250),0,sf::Vector2<float>(32,200),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
     game.objectList.push_back(&testobject2);
 
-    /*
+    Gameobject testobject3 = Gameobject(game.collisionList,sf::Vector2<float>(130,-100),0,sf::Vector2<float>(200,32),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
+    game.objectList.push_back(&testobject3);
+
+    Gameobject testobject4 = Gameobject(game.collisionList,sf::Vector2<float>(0,-250),0,sf::Vector2<float>(32,200),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
+    game.objectList.push_back(&testobject4);
 
     std::vector<tile> tileTypes = {
         tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(1,1),true,&texturemap.at("Dirt"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0)))
@@ -121,7 +125,7 @@ int main()
             game.collisionList.push_back(&_tile.sprite);
         }
     }
-*/
+
 
     while (window.isOpen())
     {
