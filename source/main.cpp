@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <iostream>
 #include <vector>
+#include "math.hpp"
 
 sf::Vector2<int> resolution(200,200);
 
@@ -72,11 +73,12 @@ sf::Texture addTexture(std::string file) {
 
 int main()
 {
+
     //Get resolution
     resolution = sf::Vector2<int>(sf::VideoMode::getDesktopMode().width,sf::VideoMode::getDesktopMode().height);
 
     //Initialize window
-    sf::RenderWindow window(sf::VideoMode((int)resolution.x,(int)resolution.y), "Minergame", sf::Style::Fullscreen);
+    sf::RenderWindow window(sf::VideoMode((int)resolution.x,(int)resolution.y), "Minergame", sf::Style::Close);
 
     window.setVerticalSyncEnabled(true);
     window.setActive(true);
@@ -99,6 +101,13 @@ int main()
     game.objectList.push_back(&player);
     game.mainCamera.SetObjectToFollow(&player, 2);
 
+    Gameobject testobject = Gameobject(game.collisionList,sf::Vector2<float>(0,-100),0,sf::Vector2<float>(200,32),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
+    game.objectList.push_back(&testobject);
+
+    Gameobject testobject2 = Gameobject(game.collisionList,sf::Vector2<float>(200,-250),0,sf::Vector2<float>(32,200),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
+    game.objectList.push_back(&testobject2);
+
+    /*
 
     std::vector<tile> tileTypes = {
         tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(1,1),true,&texturemap.at("Dirt"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0)))
@@ -112,7 +121,7 @@ int main()
             game.collisionList.push_back(&_tile.sprite);
         }
     }
-
+*/
 
     while (window.isOpen())
     {

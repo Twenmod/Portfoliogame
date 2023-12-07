@@ -6,10 +6,15 @@
 #define PONG_SFMLMATH_HPP
 
 #include <SFML/System/Vector2.hpp>
+#include <algorithm>
 #include <cmath>
 
 namespace sf
 {
+
+
+
+
     static const auto PI = acos( -1 );
 
     /*

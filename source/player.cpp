@@ -3,13 +3,14 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <vector>
 #include "player.hpp"
 #include "gameobject.hpp"
 #include "SFMLMath.hpp"
 #include "settings.hpp"
-
+#include "math.hpp"
 
 //Constructor
 Player::Player(float _walkSpeed, float _jumpVelocity, Gameobject playerObject) : Gameobject(playerObject) {
@@ -20,7 +21,7 @@ Player::Player(float _walkSpeed, float _jumpVelocity, Gameobject playerObject) :
 void Player::OnLoop(sf::Time deltaTime, std::vector<sf::Sprite *> collisionList) {
     sf::Vector2<float> velocity = Gameobject::GetVelocity();
     
-    float acceleration = settings::playerAcceleration;
+    float acceleration = settings::playerAcceleration * deltaTime.asSeconds();
     if (!grounded) acceleration *= settings::playerAirAccelerationMultiplier; 
 
     if (sf::Keyboard::isKeyPressed(settings::right)) {
@@ -36,11 +37,13 @@ void Player::OnLoop(sf::Time deltaTime, std::vector<sf::Sprite *> collisionList)
         acceleration = settings::playerStopAcceleration;
         if (!grounded)
             acceleration *= settings::playerAirAccelerationMultiplier;
-
-        if (velocity.x > settings::playerStopAcceleration)
-            velocity.x -= settings::playerStopAcceleration;
-        else if (velocity.x < -settings::playerStopAcceleration)
-            velocity.x += settings::playerStopAcceleration;
+        
+        acceleration = settings::playerStopAcceleration*deltaTime.asSeconds();
+        if (velocity.x > acceleration)
+            velocity.x -= acceleration;
+        else if (velocity.x < -acceleration)
+            velocity.x += acceleration;
+        else velocity.x = 0;
     }
 
     if (sf::Keyboard::isKeyPressed(settings::jump) && grounded) {
@@ -69,56 +72,114 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
 
     for (sf::Sprite* other : collisionList) {
         if (&sprite != other) {
-            sf::FloatRect spriteRect = sprite.getGlobalBounds();
-            sf::FloatRect otherRect = other->getGlobalBounds();
+            if (sprite.getGlobalBounds().intersects(other->getGlobalBounds())) {
+
+                sf::FloatRect spriteRect = sprite.getGlobalBounds();
+                sf::FloatRect otherRect = other->getGlobalBounds();
 
 
-            sf::Vector2<float> relativeVelocity = velocity;
+                sf::Vector2<float> relativeVelocity = velocity;
 
-            sf::Vector2<float> normal(0,0);
+                sf::Vector2<float> normal(0,0);
 
-            //Simplify rect sides
-            float spriteBottom = spriteRect.top + spriteRect.height;
-            float otherBottom = otherRect.top + otherRect.height;
-            float spriteRight = spriteRect.left + spriteRect.width;
-            float otherRight = otherRect.left + otherRect.width;
+                //Simplify rect sides
+                float spriteBottom = spriteRect.top + spriteRect.height;
+                float otherBottom = otherRect.top + otherRect.height;
+                float spriteRight = spriteRect.left + spriteRect.width;
+                float otherRight = otherRect.left + otherRect.width;
 
-            //Test all sides
-            bool bottominsideother = spriteBottom <= otherBottom && spriteBottom >= otherRect.top;
-            bool topinsideother = spriteRect.top >= otherRect.top && spriteRect.top <= otherBottom;
-            bool leftinsideother = spriteRect.left >= otherRect.left && spriteRect.left <= otherRight;
-            bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
-
-
-            grounded = spriteBottom+settings::groundedCheckOffset <= otherBottom && spriteBottom+settings::groundedCheckOffset >= otherRect.top;
+                //Test all sides
+                bool bottominsideother = spriteBottom <= otherBottom && spriteBottom >= otherRect.top;
+                bool topinsideother = spriteRect.top >= otherRect.top && spriteRect.top <= otherBottom;
+                bool leftinsideother = spriteRect.left >= otherRect.left && spriteRect.left <= otherRight;
+                bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
 
 
-            /*Debug visualizer
-            std::cout << "\n  T:"<< topinsideother << "\n"
-            << leftinsideother << " o " << rightinsideother << "\n"
-            << "  B:" << bottominsideother << "\n"; 
-            */
+                grounded = spriteBottom+settings::groundedCheckOffset <= otherBottom && spriteBottom+settings::groundedCheckOffset >= otherRect.top;
 
-            //Find side, set normal and set outside of other
-            if (leftinsideother && !rightinsideother && topinsideother && bottominsideother) {normal = sf::Vector2<float>(-1.f,  0.f); position.x = otherRect.left+spriteRect.width; } /* left */
-            if (topinsideother && !bottominsideother && (leftinsideother || rightinsideother)) {normal = sf::Vector2<float>( 0.f, 1.f); position.y = otherBottom+spriteRect.height; } /* bottom */
-            if (bottominsideother && !topinsideother && (leftinsideother || rightinsideother)) {normal = sf::Vector2<float>( 0.f,  -1.f); position.y = otherRect.top-spriteRect.height; } /* top */
-            if (rightinsideother && !leftinsideother && topinsideother && bottominsideother) {normal = sf::Vector2<float>( 1.f,  0.f); position.x = otherRight-spriteRect.width; } /* right */
 
-            //Negate velocity / bounce
-            float totalVelocity = -1*(normal*relativeVelocity);
-            //std::cout << "\nOldvelo:"<<velocity.y<<"\nAddVelo: " << totalVelocity;
+                /*Debug visualizer*//*
+                std::cout << "\n  T:"<< topinsideother << "\n"
+                << leftinsideother << " o " << rightinsideother << "\n"
+                << "  B:" << bottominsideother << "\n"; 
+                //*/
 
-            //Apply velocity;
-            bool normalNegative = normal.y < 0 || normal.x < 0;
-            bool addNegative = totalVelocity < 0;
-            if ((normalNegative && !addNegative) || (addNegative && !normalNegative))
-                velocity += normal * totalVelocity;
 
-            //std::cout << "\n Normal: " << normal.y;
-            if (normal != sf::Vector2<float>(0,0)) {
-                velocity += -relativeVelocity*friction;
-                test = true;
+                //Find side by checking smallest distance between the sides
+                
+                float minDistance = INFINITY;
+                int side = -1;
+
+
+                //Top side
+                bool sideCollision = topinsideother && !bottominsideother && (leftinsideother || rightinsideother);
+                float distance = math::difference(spriteRect.top,otherBottom);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    if (sideCollision) {
+                        side = 0;
+                        normal = sf::Vector2<float>(0.f,  1.f);
+                    }
+                }
+
+                //Right side
+                sideCollision = rightinsideother && !leftinsideother && topinsideother && bottominsideother;
+                distance = math::difference(spriteRight,otherRect.left);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    if (sideCollision) {
+                        side = 1;
+                        normal = sf::Vector2<float>(1.f,  0.f);
+                    }
+                }
+                //Bottom side
+                sideCollision = bottominsideother && !topinsideother && (leftinsideother || rightinsideother);
+                distance = math::difference(spriteBottom,otherRect.top);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    if (sideCollision) {
+                        side = 2;
+                        normal = sf::Vector2<float>(0,  -1.f);
+                    }                
+                }
+                //Left side
+                sideCollision = leftinsideother && !rightinsideother && topinsideother && bottominsideother;
+                distance = math::difference(spriteRect.left, otherRight);
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    if (sideCollision) {
+                        side = 3;
+                        normal = sf::Vector2<float>(-1.f,  0.f);
+                    }
+                }
+
+                //std::cout << "\n Side: " << side << "\n";
+
+                //Move to closest side
+                switch (side) {
+                    case 0: // Top
+                        position.y = otherBottom + spriteRect.height;
+                        if (velocity.y < 0) velocity.y = 0;
+                        test = true;
+                        break;
+                    case 1: // Right
+                        position.x = otherRect.left - spriteRect.width;
+                        if (velocity.x > 0) velocity.x = 0;
+                        test = true;
+                        break;
+                    case 2: // Bottom
+                        position.y = otherRect.top - spriteRect.height;
+                        if(velocity.y > 0) velocity.y = 0;
+                        test = true;
+                        break;
+                    case 3: // Left
+                        position.x = otherRight - spriteRect.width;
+                        if (velocity.x < 0) velocity.x = 0;
+                        test = true;
+                        break;
+                }
+
+
             }
         }
     }
@@ -128,6 +189,8 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
 
 
     //Scale the velocity to deltaTime to get consistent velocity across framerates
-    position += velocity*deltaTime.asSeconds();
+    position += velocity*std::clamp(deltaTime.asSeconds(),0.f,0.1f);
 
 };
+
+

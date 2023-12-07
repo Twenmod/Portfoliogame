@@ -23,7 +23,7 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderLis
             sf::Sprite spriteToDraw = obj->sprite;
             spriteToDraw.setPosition(spriteToDraw.getPosition() + position); 
             
-            std::cout << "Drawing sprite at: " << spriteToDraw.getPosition().x << ", " << spriteToDraw.getPosition().y << std::endl;
+            //std::cout << "Drawing sprite at: " << spriteToDraw.getPosition().x << ", " << spriteToDraw.getPosition().y << std::endl;
 
             window.draw(spriteToDraw);
         }

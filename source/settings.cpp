@@ -8,8 +8,8 @@
 #include "settings.hpp"
 
 float settings::playerMoveSpeed = 200;
-float settings::playerAcceleration = 30;
-float settings::playerStopAcceleration = 40; 
+float settings::playerAcceleration = 800;
+float settings::playerStopAcceleration = 1000; 
 float settings::playerAirAccelerationMultiplier = 0.5;
 // Reduces player speed when moving across ground value between 0-1
 float settings::playerFriction = 0.1; 
