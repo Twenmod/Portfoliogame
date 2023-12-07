@@ -18,7 +18,8 @@
                 "-l",
                 "sfml-window",
                 "-l",
-                "sfml-system"
+                "sfml-system",
+                "-std=c++17"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
