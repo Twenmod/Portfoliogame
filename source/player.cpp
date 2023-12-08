@@ -74,7 +74,7 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
         if (&sprite != other) {
             if (sprite.getGlobalBounds().intersects(other->getGlobalBounds())) {
 
-                 sf::FloatRect spriteRect = sprite.getGlobalBounds();
+                sf::FloatRect spriteRect = sprite.getGlobalBounds();
                 sf::FloatRect otherRect = other->getGlobalBounds();
 
 
@@ -133,7 +133,7 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
                 }
 
                 //Right side
-                sideCollision = rightinsideother && !leftinsideother && topinsideother && bottominsideother;
+                sideCollision = rightinsideother && !leftinsideother && (topinsideother || bottominsideother);
                 if (sideCollision && rightDistance == minDistance) {
                     side = 1;
                     normal = sf::Vector2<float>(1.f,  0.f);
@@ -149,7 +149,7 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
                     grounded = false;
                 }
                 //Left side
-                sideCollision = leftinsideother && !rightinsideother && topinsideother && bottominsideother;
+                sideCollision = leftinsideother && !rightinsideother && (topinsideother || bottominsideother);
                 if (sideCollision && leftDistance == minDistance) {
                     side = 3;
                     normal = sf::Vector2<float>(-1.f,  0.f);
