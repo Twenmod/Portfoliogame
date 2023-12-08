@@ -36,6 +36,10 @@ Gameobject::Gameobject(std::vector<sf::Sprite*> &collisionList, sf::Vector2<floa
     gravity = _gravity;
     friction = _friction;
     bounciness = _bounciness;
+    
+    colliding = false;
+    drag = 0;
+
 
     if (hasCollision && hasSprite) {
         collisionList.push_back(&sprite);

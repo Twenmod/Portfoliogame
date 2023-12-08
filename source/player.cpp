@@ -74,7 +74,7 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
         if (&sprite != other) {
             if (sprite.getGlobalBounds().intersects(other->getGlobalBounds())) {
 
-                sf::FloatRect spriteRect = sprite.getGlobalBounds();
+                 sf::FloatRect spriteRect = sprite.getGlobalBounds();
                 sf::FloatRect otherRect = other->getGlobalBounds();
 
 
@@ -95,9 +95,6 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
                 bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
 
 
-                grounded = spriteBottom+settings::groundedCheckOffset <= otherBottom && spriteBottom+settings::groundedCheckOffset >= otherRect.top;
-
-
                 /*Debug visualizer*//*
                 std::cout << "\n  T:"<< topinsideother << "\n"
                 << leftinsideother << " o " << rightinsideother << "\n"
@@ -111,21 +108,21 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
                 int side = -1;
 
 
-                float distance = math::difference(spriteRect.top,otherBottom);
-                if (distance < minDistance) {
-                    minDistance = distance;
+                float topDistance = math::difference(spriteRect.top,otherBottom); // Top
+                if (topDistance < minDistance) {
+                    minDistance = topDistance;
                 }
-                distance = math::difference(spriteRight,otherRect.left);
-                if (distance < minDistance) {
-                    minDistance = distance;
+                float rightDistance = math::difference(spriteRight,otherRect.left); // Right
+                if (rightDistance < minDistance) {
+                    minDistance = rightDistance;
                 }
-                distance = math::difference(spriteBottom,otherRect.top);
-                if (distance < minDistance) {
-                    minDistance = distance;              
+                float bottomDistance = math::difference(spriteBottom,otherRect.top); // Bottom
+                if (bottomDistance < minDistance) {
+                    minDistance = bottomDistance;              
                 }
-                distance = math::difference(spriteRect.left, otherRight);
-                if (distance < minDistance) {
-                    minDistance = distance;
+                float leftDistance = math::difference(spriteRect.left, otherRight); // Left
+                if (leftDistance < minDistance) {
+                    minDistance = leftDistance;
                 }
 
                 //Top side
@@ -137,19 +134,23 @@ void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> colli
 
                 //Right side
                 sideCollision = rightinsideother && !leftinsideother && topinsideother && bottominsideother;
-                if (sideCollision) {
+                if (sideCollision && rightDistance == minDistance) {
                     side = 1;
                     normal = sf::Vector2<float>(1.f,  0.f);
                 }
                 //Bottom side
                 sideCollision = bottominsideother && !topinsideother && (leftinsideother || rightinsideother);
-                if (sideCollision) {
+                if (sideCollision && bottomDistance == minDistance) {
                     side = 2;
                     normal = sf::Vector2<float>(0,  -1.f);
-                }  
+                    grounded = true;
+                }
+                else {
+                    grounded = false;
+                }
                 //Left side
                 sideCollision = leftinsideother && !rightinsideother && topinsideother && bottominsideother;
-                if (sideCollision) {
+                if (sideCollision && leftDistance == minDistance) {
                     side = 3;
                     normal = sf::Vector2<float>(-1.f,  0.f);
                 }

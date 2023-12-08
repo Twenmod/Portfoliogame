@@ -27,7 +27,7 @@ class app {
         //Lists of the objects split for optimisation
         std::vector<Gameobject*> objectList;
         std::vector<sf::Sprite*> collisionList;
-
+        
         sf::Clock gameClock; 
 
         //Constructer/Init
@@ -47,7 +47,7 @@ class app {
         void OnLoop(sf::RenderWindow &window) {
             //Get time elapsed since last frame
             sf::Time deltaTime = gameClock.restart();
-
+            
             //Calculate camera
             mainCamera.OnLoop(deltaTime, window);
             //Calculate objects
@@ -110,14 +110,14 @@ int main()
     Gameobject testobject3 = Gameobject(game.collisionList,sf::Vector2<float>(130,-100),0,sf::Vector2<float>(200,32),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
     game.objectList.push_back(&testobject3);
 
-    Gameobject testobject4 = Gameobject(game.collisionList,sf::Vector2<float>(0,-250),0,sf::Vector2<float>(32,200),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
+    Gameobject testobject4 = Gameobject(game.collisionList,sf::Vector2<float>(0,-120),0,sf::Vector2<float>(32,200),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
     game.objectList.push_back(&testobject4);
 
     std::vector<tile> tileTypes = {
-        tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(1,1),true,&texturemap.at("Dirt"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0)))
+        tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(2,2),true,&texturemap.at("Dirt"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0)))
     };
 
-    level world = level(32,sf::Vector2<int>(5,3), tileTypes);
+    level world = level(64,sf::Vector2<int>(15,5), tileTypes);
     
     for (std::vector<tile>& tilecolomn : world.tiles) {
         for (tile& _tile : tilecolomn) {
