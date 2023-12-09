@@ -21,6 +21,8 @@ float settings::gravity = 1500; // 1500
 // Gravity that is used when holding jump and moving up (to give more jump control)
 float settings::jumpGravity = 700; // 700
 
+
+//Keybinds
 sf::Keyboard::Key settings::left = sf::Keyboard::A;
 sf::Keyboard::Key settings::right = sf::Keyboard::D;
 sf::Keyboard::Key settings::jump = sf::Keyboard::Space;

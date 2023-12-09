@@ -103,7 +103,7 @@ int main()
     game.objectList.push_back(&player);
     game.mainCamera.SetObjectToFollow(&player, 2);
 
-    Enemy enemy = Enemy(10,100,Gameobject(game.collisionList,sf::Vector2<float>(120,-200),0,sf::Vector2<float>(0.5,0.5),true,&texturemap.at("Noomba"),false,true,700,0,0, sf::Vector2<float>(0,0)));
+    Enemy enemy = Enemy(10,100,Gameobject(game.collisionList,sf::Vector2<float>(120,-200),0,sf::Vector2<float>(32,32),true,&texturemap.at("Noomba"),false,true,700,0,0, sf::Vector2<float>(0,0)));
     game.objectList.push_back(&enemy);
 
     Gameobject testobject = Gameobject(game.collisionList,sf::Vector2<float>(0,-100),0,sf::Vector2<float>(200,32),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
@@ -119,7 +119,7 @@ int main()
     game.objectList.push_back(&testobject4);
 
     std::vector<tile> tileTypes = {
-        tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(2,2),true,&texturemap.at("Dirt"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0)))
+        tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(64,64),true,&texturemap.at("Dirt"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0)))
     };
 
     level world = level(64,sf::Vector2<int>(15,5), tileTypes);

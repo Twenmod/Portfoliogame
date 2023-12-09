@@ -3,13 +3,15 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <cstdlib>
 #include <iostream>
 #include <memory>
+#include <random>
 #include <vector>
+#include "perlinnoise.hpp"
+
 
 //Constructor
-
-
 tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject) : Gameobject(tileObject) {
     tileName = _tileName;
     maxHealth = _tileHealth;
@@ -18,6 +20,14 @@ tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject) : Gam
 
 level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes) {
     
+    //Generate perlin
+    const siv::PerlinNoise::seed_type seed = random();
+    const siv::PerlinNoise perlin { seed };
+
+    
+
+
+
     //Spawn all tiles
     for (int x = 0; x < worldsize.x; x++) {
         std::vector<tile> column;
