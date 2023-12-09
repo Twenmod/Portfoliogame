@@ -39,8 +39,9 @@ class Gameobject {
         void OnEvent();
         virtual void OnLoop(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList);
         void OnRender();
-    private:
         virtual void CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList);
+
+    private:
 };
 
 #endif

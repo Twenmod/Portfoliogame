@@ -16,8 +16,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/twenmod/Documents/BUas/Game/",
-      "program": "/home/twenmod/Documents/BUas/Game/game",
+      "cwd": "${workspaceFolder}",
+      "program": "${workspaceFolder}/game",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

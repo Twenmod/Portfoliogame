@@ -1,80 +1,25 @@
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/Graphics/Sprite.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <algorithm>
 #include <iostream>
+#include "enemy.hpp"
+#include <algorithm>
 #include <vector>
+#include "math.hpp"
 #include "gameobject.hpp"
 #include "SFMLMath.hpp"
-#include "math.hpp"
 
-sf::Texture emptyimage();
-
-//Constructor
-Gameobject::Gameobject(std::vector<sf::Sprite*> &collisionList, sf::Vector2<float> _position, float _rotation = 0,sf::Vector2<float> _scale =sf::Vector2<float>(1,1), bool _hasSprite = false, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _friction = 0,float _bounciness = 0.2, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
-
-    position = _position;
-    rotation = _rotation;
-    scale = _scale;
-
-    ///Sprite
-
-    hasSprite = _hasSprite;
-    if (hasSprite) {
-
-        sprite.setTexture(*_texture);
-        sprite.setPosition(position);
-        sprite.setRotation(rotation);
-        SetScale(_scale);
-    }
-
-    velocity = _startVelocity;
-
-    //Physics
-    isStatic = _isStatic;
-    hasCollision = _hasCollision;
-    gravity = _gravity;
-    friction = _friction;
-    bounciness = _bounciness;
-    
-    colliding = false;
-    drag = 0;
-
-
-    if (hasCollision && hasSprite) {
-        collisionList.push_back(&sprite);
-    }
-
+Enemy::Enemy(float _health, float _speed, Gameobject enemyObject) : Gameobject(enemyObject) {
+    health = _health;
+    speed = _speed;
+    moveDirection = 1;
 };
 
-//Sets scale of the sprite
-void Gameobject::SetScale(sf::Vector2<float> scaleToSet) {
-    if (hasSprite)
-        sprite.setScale(scaleToSet);
-}
+void Enemy::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList) {
 
-//Called before loop after inputs
-void Gameobject::OnEvent() {
-
-}
-
-//Called every frame
-void Gameobject::OnLoop(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList) {
-    if (!isStatic) {
-        CalculatePhysics(deltaTime, collisionList);
-        //std::cout << "\nRealpos: " << position.x;
+    if (moveDirection == 1) {
+        velocity.x = speed;
+    }else {
+        velocity.x = -speed;
     }
-};
 
-//Called just before render
-void Gameobject::OnRender() {
-    if(hasSprite) {
-        sprite.setPosition(position);
-        sprite.setRotation(rotation);
-    }
-};
-
-void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList) {
 
     velocity.y += gravity * deltaTime.asSeconds();
 
@@ -199,6 +144,13 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
                     velocity += -relativeVelocity*friction;
                     test = true;
                 }
+
+                if (side == 1) {
+                    moveDirection = 0;
+                }else if (side == 3) {
+                    moveDirection = 1;
+                }
+
             }
         }
     }
@@ -210,11 +162,5 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
     //Scale the velocity to deltaTime to get consistent velocity across framerates
     position += velocity*deltaTime.asSeconds();
 
-};
-
-void Gameobject::SetVelocity(sf::Vector2<float> newVelocity) {
-    velocity = newVelocity;
-};
-sf::Vector2<float> Gameobject::GetVelocity() {
-    return velocity;
+    
 };
