@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Vector2.hpp>
 #include <algorithm>
 #include <cstddef>
 #include <iostream>
@@ -19,13 +20,18 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderLis
 
         //Only render if object contains a sprite
         if (obj->hasSprite) {
-            //Copy world space sprite to a screen space sprite
-            sf::Sprite spriteToDraw = obj->sprite;
-            spriteToDraw.setPosition(spriteToDraw.getPosition() + position); 
+            sf::Vector2<float> spritePos = obj->sprite.getPosition();
+            bool outSideCullDistance = (spritePos.x < position.x-cullDistance.x)||(spritePos.x > position.x+cullDistance.x)||(spritePos.y < position.y-cullDistance.y)||(spritePos.y > position.y+cullDistance.y);
+            if (!outSideCullDistance) {
+                //Copy world space sprite to a screen space sprite
+                sf::Sprite spriteToDraw = obj->sprite;
+                spriteToDraw.setPosition(spriteToDraw.getPosition() + position); 
             
-            //std::cout << "Drawing sprite at: " << spriteToDraw.getPosition().x << ", " << spriteToDraw.getPosition().y << std::endl;
+                //std::cout << "Drawing sprite at: " << spriteToDraw.getPosition().x << ", " << spriteToDraw.getPosition().y << std::endl;
 
-            window.draw(spriteToDraw);
+
+                window.draw(spriteToDraw);
+            }
         }
     }
 };
