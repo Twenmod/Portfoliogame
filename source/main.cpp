@@ -14,6 +14,7 @@
 #include <SFML/Window/WindowStyle.hpp>
 #include <algorithm>
 #include <iostream>
+#include <map>
 #include <vector>
 #include "math.hpp"
 
@@ -89,6 +90,7 @@ int main()
     std::map<std::string, sf::Texture> texturemap = {
         {"Square", addTexture("Sprites/Square.jpg")},
         {"Dirt", addTexture("Sprites/Tiles/Dirt.png")},
+        {"Stone",addTexture("Sprites/Tiles/Stone.png")},
         {"Noomba",addTexture("Sprites/noomba.png")}
     };
 
@@ -119,10 +121,19 @@ int main()
     game.objectList.push_back(&testobject4);
 
     std::vector<tile> tileTypes = {
-        tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(64,64),true,&texturemap.at("Dirt"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0)))
+        tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(64,64),true,&texturemap.at("Dirt"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0))),
+        tile("Stone",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(64,64),true,&texturemap.at("Stone"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0)))
+
     };
 
-    level world = level(64,sf::Vector2<int>(15,5), tileTypes);
+    //Int points to the type of tile to spawn the float is the value in noise that is used in world gen
+    std::map<int, float> worldgenMap{
+        {0,0.f},
+        {1,0.5}
+    };
+
+
+    level world = level(64,sf::Vector2<int>(15,5), tileTypes, worldgenMap);
     
     for (std::vector<tile>& tilecolomn : world.tiles) {
         for (tile& _tile : tilecolomn) {

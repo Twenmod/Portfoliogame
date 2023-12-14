@@ -22,6 +22,12 @@ float settings::gravity = 1500; // 1500
 float settings::jumpGravity = 700; // 700
 
 
+//World Generation
+
+    float settings::noiseScale = 8;
+    float settings::octaves = 3;
+    float settings::persistence = 0.6f;
+
 //Keybinds
 sf::Keyboard::Key settings::left = sf::Keyboard::A;
 sf::Keyboard::Key settings::right = sf::Keyboard::D;

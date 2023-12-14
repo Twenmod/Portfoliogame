@@ -160,7 +160,7 @@ void Enemy::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collis
 
 
     //Scale the velocity to deltaTime to get consistent velocity across framerates
-    position += velocity*deltaTime.asSeconds();
+    position += velocity*std::clamp(deltaTime.asSeconds(),0.f,0.1f);
 
     
 };

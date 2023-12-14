@@ -3,12 +3,10 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
-#include <cstdlib>
 #include <iostream>
-#include <memory>
-#include <random>
 #include <vector>
 #include "perlinnoise.hpp"
+#include "settings.hpp"
 
 
 //Constructor
@@ -18,13 +16,12 @@ tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject) : Gam
     health = _tileHealth;
 }
 
-level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes) {
+level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes, std::map<int, float> noiseTileMap) {
     
     //Generate perlin
     const siv::PerlinNoise::seed_type seed = random();
     const siv::PerlinNoise perlin { seed };
 
-    
 
 
 
@@ -32,11 +29,24 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
     for (int x = 0; x < worldsize.x; x++) {
         std::vector<tile> column;
         for (int y = 0; y < worldsize.y; y++) {
-            tile currTile = tileTypes[0];
-            currTile.position.x = x*tileGridSize;
-            currTile.position.y = y*tileGridSize;
-            column.push_back(currTile);
-            std::cout <<"spawning tile at x: " << x << " y: " << y << std::endl;
+            //Get noise
+			const double noise = perlin.octave2D_01((x * settings::noiseScale), (y * settings::noiseScale), settings::octaves, settings::persistence);
+
+            int type = -1;
+            for(auto const& mapLocation : noiseTileMap) {
+                if (noise > mapLocation.second) { // If noise value is falls bellow location
+                    type = mapLocation.first; // Set the type to type of that map location
+                }
+            }
+
+            //Spawn corresponding tile
+            if (type != -1) {
+                tile currTile = tileTypes[type];
+                currTile.position.x = x*tileGridSize;
+                currTile.position.y = y*tileGridSize;
+                column.push_back(currTile);
+                std::cout <<"spawning tile at x: " << x << " y: " << y << std::endl;
+            }
         }
         tiles.push_back(column);
     }

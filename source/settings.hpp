@@ -20,6 +20,12 @@ namespace settings {
         extern float gravity;
         extern float jumpGravity;
 
+        //World generation
+        extern float noiseScale;
+        extern float octaves;
+        extern float persistence;
+
+
         //Input
         extern sf::Keyboard::Key left;
         extern sf::Keyboard::Key right;

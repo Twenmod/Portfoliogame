@@ -25,7 +25,7 @@ class level {
     public:
         std::vector<std::vector<tile>> tiles;
 
-        level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes);
+        level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes,std::map<int, float> noiseTileMap);
 
 
 };
