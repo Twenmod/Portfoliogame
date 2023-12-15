@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/System/Time.hpp>
@@ -32,13 +33,16 @@ class app {
         
         sf::Clock gameClock; 
 
+        sf::RenderWindow* gameWindow;
+
         //Constructer/Init
-        app() {
+        app(sf::RenderWindow &window) {
+            gameWindow = &window;
             mainCamera = generateCamera(sf::Vector2<float>(0,0), sf::Vector2<float>(1,1), sf::Vector2<float>(500,500));
         }
 
         Camera generateCamera(sf::Vector2<float> startPosition, sf::Vector2<float> scale, sf::Vector2<float> cullDistance) {
-            return Camera(startPosition,scale,cullDistance);
+            return Camera(startPosition,scale,gameWindow->getSize(),cullDistance);
         }
 
         void OnEvents() {
@@ -98,7 +102,7 @@ int main()
 
 
     //Load game
-    app game;
+    app game(window);
 
     //Load level
     Player player = Player(settings::playerMoveSpeed,settings::jumpVelocity,Gameobject(game.collisionList,sf::Vector2<float>(55,-300),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,settings::gravity,settings::playerFriction,0, sf::Vector2<float>(50,0)));

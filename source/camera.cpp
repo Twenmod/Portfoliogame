@@ -7,9 +7,10 @@
 #include "camera.hpp"
 #include "gameobject.hpp"
 
-Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale, sf::Vector2<float> _cullDistance) {
+Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vector2<unsigned int> _resolution, sf::Vector2<float> _cullDistance) {
     position = _position;
     scale = _scale;
+    resolution = _resolution;
     cullDistance = _cullDistance;
     followTarget = nullptr;
 };
@@ -23,7 +24,7 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderLis
             sf::Vector2<float> spritePos = obj->sprite.getPosition();
 
             sf::Vector2<float> cameraWorldPosition = position;
-            cameraWorldPosition.x += float(sf::VideoMode::getDesktopMode().width)/2;
+            cameraWorldPosition.x += (float)resolution.x/2;
             //cameraWorldPosition.y += window.getSize().y;
 
             bool outSideCullDistance = 
@@ -53,9 +54,9 @@ void Camera::OnLoop(sf::Time deltaTime, sf::RenderWindow &window) {
         //std::cout << "\nTargetPos: " << followTarget->position.x << " CurrentPos: "<<position.x<< " Window: "<< window.getSize().x;
         
         // X
-        position.x = position.x+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.x - float(sf::VideoMode::getDesktopMode().width)/2-(targetRect.width/2)) - position.x),-lerpSpeed*10,lerpSpeed*10);
+        position.x = position.x+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.x - float(resolution.x)/2-(targetRect.width/2)) - position.x),-lerpSpeed*10,lerpSpeed*10);
         // Y
-        position.y = position.y+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.y - float(sf::VideoMode::getDesktopMode().height)/2-(targetRect.height/2)) - position.y),-lerpSpeed*10,lerpSpeed*10);
+        position.y = position.y+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.y - float(resolution.y)/2-(targetRect.height/2)) - position.y),-lerpSpeed*10,lerpSpeed*10);
     }
 }
 
