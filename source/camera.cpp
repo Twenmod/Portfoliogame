@@ -21,11 +21,19 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderLis
         //Only render if object contains a sprite
         if (obj->hasSprite) {
             sf::Vector2<float> spritePos = obj->sprite.getPosition();
-            bool outSideCullDistance = (spritePos.x < position.x-cullDistance.x)||(spritePos.x > position.x+cullDistance.x)||(spritePos.y < position.y-cullDistance.y)||(spritePos.y > position.y+cullDistance.y);
+
+            sf::Vector2<float> cameraWorldPosition = position;
+            cameraWorldPosition.x += float(sf::VideoMode::getDesktopMode().width)/2;
+            //cameraWorldPosition.y += window.getSize().y;
+
+            bool outSideCullDistance = 
+                (spritePos.x > cameraWorldPosition.x + cullDistance.x) 
+                || 
+                (spritePos.x < cameraWorldPosition.x-cullDistance.x);
             if (!outSideCullDistance) {
                 //Copy world space sprite to a screen space sprite
                 sf::Sprite spriteToDraw = obj->sprite;
-                spriteToDraw.setPosition(spriteToDraw.getPosition() + position); 
+                spriteToDraw.setPosition(spriteToDraw.getPosition() - position); 
             
                 //std::cout << "Drawing sprite at: " << spriteToDraw.getPosition().x << ", " << spriteToDraw.getPosition().y << std::endl;
 
@@ -45,9 +53,9 @@ void Camera::OnLoop(sf::Time deltaTime, sf::RenderWindow &window) {
         //std::cout << "\nTargetPos: " << followTarget->position.x << " CurrentPos: "<<position.x<< " Window: "<< window.getSize().x;
         
         // X
-        position.x = position.x+std::clamp(deltaTime.asSeconds()*lerpSpeed*((-followTarget->position.x+ float(sf::VideoMode::getDesktopMode().width)/2-(targetRect.width/2)) - position.x),-lerpSpeed*10,lerpSpeed*10);
+        position.x = position.x+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.x - float(sf::VideoMode::getDesktopMode().width)/2-(targetRect.width/2)) - position.x),-lerpSpeed*10,lerpSpeed*10);
         // Y
-        position.y = position.y+std::clamp(deltaTime.asSeconds()*lerpSpeed*((-followTarget->position.y+float(sf::VideoMode::getDesktopMode().height)/2-(targetRect.height/2)) - position.y),-lerpSpeed*10,lerpSpeed*10);
+        position.y = position.y+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.y - float(sf::VideoMode::getDesktopMode().height)/2-(targetRect.height/2)) - position.y),-lerpSpeed*10,lerpSpeed*10);
     }
 }
 
