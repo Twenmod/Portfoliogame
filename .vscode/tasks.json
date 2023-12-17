@@ -19,6 +19,8 @@
                 "sfml-window",
                 "-l",
                 "sfml-system",
+                "-l",
+                "jsoncpp",
                 "-std=c++17"
             ],
             "options": {

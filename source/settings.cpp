@@ -4,32 +4,49 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <algorithm>
 #include <iostream>
+#include <json/value.h>
 #include <vector>
 #include "settings.hpp"
+#include <fstream>
+#include <json/json.h>
+#include <json/value.h>
+#include <json/reader.h>
 
-float settings::playerMoveSpeed = 150;
-float settings::playerAcceleration = 1000;
-float settings::playerStopAcceleration = 1500; 
-float settings::playerAirAccelerationMultiplier = 0.8;
-// Reduces player speed when moving across ground value between 0-1
-float settings::playerFriction = 0.1; 
-// Moves groundcheck x pixels under players bottom rect
-float settings::groundedCheckOffset = 5;
-float settings::jumpVelocity = 300; //300
+//Read all configs from settings.json
+Settings::Settings() {
+    std::ifstream file("settings.json");
+    Json::Value settingsfile;
+    Json::Reader reader;
+    reader.parse(file, settingsfile);
 
-float settings::gravity = 1500; // 1500
-// Gravity that is used when holding jump and moving up (to give more jump control)
-float settings::jumpGravity = 700; // 700
+    playerMoveSpeed = settingsfile["playerMoveSpeed"].asFloat();
+    playerAcceleration = settingsfile["playerAcceleration"].asFloat();
+    playerStopAcceleration = settingsfile["playerStopAcceleration"].asFloat(); 
+    playerAirAccelerationMultiplier = settingsfile["playerAirAccelerationMultiplier"].asFloat();;
+    // Reduces player speed when moving across ground value between 0-1
+    playerFriction = settingsfile["playerFriction"].asFloat(); 
+    // Moves groundcheck x pixels under players bottom rect
+    groundedCheckOffset = settingsfile["groundedCheckOffset"].asFloat();
+    jumpVelocity = settingsfile["jumpVelocity"].asFloat();
+
+    gravity = settingsfile["gravity"].asFloat();
+    // Gravity that is used when holding jump and moving up (to give more jump control)
+    jumpGravity = settingsfile["jumpGravity"].asFloat();
 
 
-//World Generation
+    //World Generation
+    tileSize = settingsfile["tileSize"].asInt();
+    worldSize = sf::Vector2<int>(settingsfile["worldSize"]["width"].asInt(), settingsfile["worldSize"]["height"].asInt());
+    noiseScale = sf::Vector2<float>(settingsfile["noiseScale"]["width"].asFloat(), settingsfile["noiseScale"]["height"].asFloat());
+    octaves = settingsfile["octaves"].asInt();
+    persistence = settingsfile["persistence"].asFloat();
 
-    float settings::noiseScale = 0.03;
-    float settings::octaves = 3;
-    float settings::persistence = 0.5f;
+    //Keybinds
+    left =  sf::Keyboard::A;
+    right = sf::Keyboard::D;
+    jump = sf::Keyboard::Space;
 
-//Keybinds
-sf::Keyboard::Key settings::left = sf::Keyboard::A;
-sf::Keyboard::Key settings::right = sf::Keyboard::D;
-sf::Keyboard::Key settings::jump = sf::Keyboard::Space;
+};
+
+
 

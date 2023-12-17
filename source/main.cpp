@@ -21,6 +21,9 @@
 
 sf::Vector2<int> resolution(200,200);
 
+Settings globalsettings = Settings();
+
+
 //The game itself
 class app {
     public:
@@ -98,46 +101,32 @@ int main()
         {"Noomba",addTexture("Sprites/noomba.png")}
     };
 
-
-
-
     //Load game
     app game(window);
 
     //Load level
-    Player player = Player(settings::playerMoveSpeed,settings::jumpVelocity,Gameobject(game.collisionList,sf::Vector2<float>(55,-300),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,settings::gravity,settings::playerFriction,0, sf::Vector2<float>(50,0)));
+    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(game.collisionList,sf::Vector2<float>(55,-300),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
     game.objectList.push_back(&player);
     game.mainCamera.SetObjectToFollow(&player, 2);
 
     Enemy enemy = Enemy(10,100,Gameobject(game.collisionList,sf::Vector2<float>(120,-200),0,sf::Vector2<float>(32,32),true,&texturemap.at("Noomba"),false,true,700,0,0, sf::Vector2<float>(0,0)));
     game.objectList.push_back(&enemy);
 
-    Gameobject testobject = Gameobject(game.collisionList,sf::Vector2<float>(0,-100),0,sf::Vector2<float>(200,32),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
-    game.objectList.push_back(&testobject);
-
-    Gameobject testobject2 = Gameobject(game.collisionList,sf::Vector2<float>(200,-250),0,sf::Vector2<float>(32,200),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
-    game.objectList.push_back(&testobject2);
-
-    Gameobject testobject3 = Gameobject(game.collisionList,sf::Vector2<float>(130,-100),0,sf::Vector2<float>(200,32),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
-    game.objectList.push_back(&testobject3);
-
-    Gameobject testobject4 = Gameobject(game.collisionList,sf::Vector2<float>(0,-120),0,sf::Vector2<float>(32,200),true,&texturemap.at("Square"),true,true,0,0,0, sf::Vector2<float>(0,0));
-    game.objectList.push_back(&testobject4);
 
     std::vector<tile> tileTypes = {
-        tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(10,10),true,&texturemap.at("Dirt"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0))),
-        tile("Stone",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(10,10),true,&texturemap.at("Stone"),true,true,settings::gravity,1,0.2,sf::Vector2<float>(0,0)))
+        tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
+        tile("Stone",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)))
 
     };
 
-    //Int points to the type of tile to spawn the float is the value in noise that is used in world gen
+    //Int points to the type of tile to spawn if the noise is above the float the tile is used
     std::map<int, float> worldgenMap{
-        {0,0.25f},
-        {1,0.5f}
+        {0,0.5f},
+        {1,0.6f}
     };
 
 
-    level world = level(10,sf::Vector2<int>(100,10), tileTypes, worldgenMap);
+    level world = level(globalsettings.tileSize,globalsettings.worldSize, tileTypes, worldgenMap);
     
     for (std::vector<tile>& tilecolomn : world.tiles) {
         for (tile& _tile : tilecolomn) {
