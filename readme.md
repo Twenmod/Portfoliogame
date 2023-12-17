@@ -43,9 +43,6 @@ or downloading it from aur on arch
 # How to play
 
 ## controls
-All controls and some other settings can be changed before building in the settings.cpp file
-
-### Default controls
 - Use [A] and [D] to walk around
 - Use [Space] to jump
 
