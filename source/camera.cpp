@@ -25,12 +25,18 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderLis
 
             sf::Vector2<float> cameraWorldPosition = position;
             cameraWorldPosition.x += (float)resolution.x/2;
-            //cameraWorldPosition.y += window.getSize().y;
+            cameraWorldPosition.y += (float)resolution.y/2;
+
+            //std::cout << "SpritePos: " << spritePos.x << ", " << spritePos.y);
 
             bool outSideCullDistance = 
                 (spritePos.x > cameraWorldPosition.x + cullDistance.x) 
                 || 
-                (spritePos.x < cameraWorldPosition.x-cullDistance.x);
+                (spritePos.x < cameraWorldPosition.x-cullDistance.x)
+                ||
+                (spritePos.y > cameraWorldPosition.y + cullDistance.y)
+                ||
+                (spritePos.y < cameraWorldPosition.y-cullDistance.y);
             if (!outSideCullDistance) {
                 //Copy world space sprite to a screen space sprite
                 sf::Sprite spriteToDraw = obj->sprite;

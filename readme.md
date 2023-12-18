@@ -30,8 +30,9 @@ with the theme "collect"
 ### Visual studio code | Linux
 2. Open the project in vscode
 
-3. Make sure you have sfml-dev installed by running
-`~$` `sudo apt install sfml-dev`
+3. Make sure you have the dependencies installed by running
+`~$` `sudo apt install sfml-dev libjsoncpp-dev`
+
 or downloading it from aur on arch
 
 4. Build the game using ctrl-shift-B
@@ -42,9 +43,6 @@ or downloading it from aur on arch
 # How to play
 
 ## controls
-All controls and some other settings can be changed before building in the settings.cpp file
-
-### Default controls
 - Use [A] and [D] to walk around
 - Use [Space] to jump
 

@@ -5,31 +5,35 @@
 #include <SFML/Graphics.hpp>
 #include <sys/types.h>
 
-//Most game settings are controlled here for ease of use
 
-namespace settings {
+class Settings {
+        public:
+        Settings();
+//Player
+        float playerMoveSpeed;
+        float playerAcceleration;
+        float playerAirAccelerationMultiplier;
+        float playerStopAcceleration;
+        float playerFriction;
+        float groundedCheckOffset;
+        float jumpVelocity;
 
-        extern float playerMoveSpeed;
-        extern float playerAcceleration;
-        extern float playerStopAcceleration;
-        extern float playerAirAccelerationMultiplier;
-        extern float playerFriction;
-        extern float groundedCheckOffset;
-        extern float jumpVelocity;
+        float gravity;
+        float jumpGravity;
 
-        extern float gravity;
-        extern float jumpGravity;
-
-        //World generation
-        extern float noiseScale;
-        extern float octaves;
-        extern float persistence;
+//World generation
+        float tileSize;
+        sf::Vector2<int> worldSize;
+        sf::Vector2<float> noiseScale;
+        float octaves;
+        float persistence;
 
 
-        //Input
-        extern sf::Keyboard::Key left;
-        extern sf::Keyboard::Key right;
-        extern sf::Keyboard::Key jump;
+//Input
+        sf::Keyboard::Key left;
+        sf::Keyboard::Key right;
+        sf::Keyboard::Key jump;
 
 };
 
+extern Settings globalsettings;

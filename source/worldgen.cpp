@@ -30,7 +30,7 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
         std::vector<tile> column;
         for (int y = 0; y < worldsize.y; y++) {
             //Get noise
-			const double noise = perlin.octave2D_01((x * settings::noiseScale), (y * settings::noiseScale), settings::octaves, settings::persistence);
+			const double noise = perlin.octave2D_01((x * globalsettings.noiseScale.x), (y * globalsettings.noiseScale.y), globalsettings.octaves, globalsettings.persistence);
 
             int type = -1;
             for(auto const& mapLocation : noiseTileMap) {

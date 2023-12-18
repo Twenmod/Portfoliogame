@@ -21,24 +21,24 @@ Player::Player(float _walkSpeed, float _jumpVelocity, Gameobject playerObject) :
 void Player::OnLoop(sf::Time deltaTime, std::vector<sf::Sprite *> collisionList) {
     sf::Vector2<float> velocity = Gameobject::GetVelocity();
     
-    float acceleration = settings::playerAcceleration * deltaTime.asSeconds();
-    if (!grounded) acceleration *= settings::playerAirAccelerationMultiplier; 
+    float acceleration = globalsettings.playerAcceleration * deltaTime.asSeconds();
+    if (!grounded) acceleration *= globalsettings.playerAirAccelerationMultiplier; 
 
-    if (sf::Keyboard::isKeyPressed(settings::right)) {
+    if (sf::Keyboard::isKeyPressed(globalsettings.right)) {
         velocity.x += acceleration;
         if (velocity.x > walkSpeed)
             velocity.x = walkSpeed;
     }
-    else if (sf::Keyboard::isKeyPressed(settings::left)) {
+    else if (sf::Keyboard::isKeyPressed(globalsettings.left)) {
         velocity.x -= acceleration;
         if (velocity.x < -walkSpeed)
             velocity.x = -walkSpeed;
     }else {
-        acceleration = settings::playerStopAcceleration;
+        acceleration = globalsettings.playerStopAcceleration;
         if (!grounded)
-            acceleration *= settings::playerAirAccelerationMultiplier;
+            acceleration *= globalsettings.playerAirAccelerationMultiplier;
         
-        acceleration = settings::playerStopAcceleration*deltaTime.asSeconds();
+        acceleration = globalsettings.playerStopAcceleration*deltaTime.asSeconds();
         if (velocity.x > acceleration)
             velocity.x -= acceleration;
         else if (velocity.x < -acceleration)
@@ -46,7 +46,7 @@ void Player::OnLoop(sf::Time deltaTime, std::vector<sf::Sprite *> collisionList)
         else velocity.x = 0;
     }
 
-    if (sf::Keyboard::isKeyPressed(settings::jump) && grounded) {
+    if (sf::Keyboard::isKeyPressed(globalsettings.jump) && grounded) {
         velocity.y = -jumpVelocity;
         grounded = false;
     }
@@ -61,8 +61,8 @@ void Player::OnLoop(sf::Time deltaTime, std::vector<sf::Sprite *> collisionList)
 void Player::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList) {
 
     float currentGravity = gravity;
-    if(sf::Keyboard::isKeyPressed(settings::jump) && velocity.y < 0)
-        currentGravity = settings::jumpGravity;
+    if(sf::Keyboard::isKeyPressed(globalsettings.jump) && velocity.y < 0)
+        currentGravity = globalsettings.jumpGravity;
 
     velocity.y += currentGravity * deltaTime.asSeconds();
 
