@@ -33,7 +33,7 @@ with the theme "collect"
 3. Make sure you have the dependencies installed by running
 `~$` `sudo apt install sfml-dev libjsoncpp-dev`
 
-or downloading it from aur on arch
+or downloading it from the aur on arch
 
 4. Build the game using ctrl-shift-B
 

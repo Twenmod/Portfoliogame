@@ -1,18 +1,18 @@
 {
     //Player settings
-        "playerMoveSpeed": 150,
+        "playerMoveSpeed": 250,
         "playerAcceleration": 1000,
         "playerStopAcceleration": 1500,
         "playerAirAccelerationMultiplier": 0.8,
         "playerFriction": 0.1,
         "groundedCheckOffset": 5,
-        "jumpVelocity": 300,
+        "jumpVelocity": 400,
         "jumpGravity": 700,
     //World settings
-    "tileSize": 6,
-    "worldSize": {"width": 150, "height": 75},
-    "gravity": 1500,
-    "noiseScale": {"width": 0.02, "height": 0.04},
-    "octaves": 3,
-    "persistence": 0.4
+        "tileSize": 32,
+        "worldSize": {"width": 150, "height": 75},
+        "gravity": 1500,
+        "noiseScale": {"width": 0.02, "height": 0.04},
+        "octaves": 3,
+        "persistence": 0.4
 }

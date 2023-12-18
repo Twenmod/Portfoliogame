@@ -3,6 +3,7 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
+#include <cstdlib>
 #include <iostream>
 #include <vector>
 #include "perlinnoise.hpp"
@@ -17,9 +18,9 @@ tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject) : Gam
 }
 
 level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes, std::map<int, float> noiseTileMap) {
-    
+
     //Generate perlin
-    const siv::PerlinNoise::seed_type seed = random();
+    const siv::PerlinNoise::seed_type seed = time(0);
     const siv::PerlinNoise perlin { seed };
 
 

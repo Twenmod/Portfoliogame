@@ -13,11 +13,9 @@
 #include "settings.hpp"
 #include "worldgen.hpp"
 #include <SFML/Window/WindowStyle.hpp>
-#include <algorithm>
 #include <iostream>
 #include <map>
 #include <vector>
-#include "math.hpp"
 
 sf::Vector2<int> resolution(200,200);
 
