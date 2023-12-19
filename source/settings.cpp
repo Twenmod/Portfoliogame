@@ -19,6 +19,16 @@ Settings::Settings() {
     Json::Reader reader;
     reader.parse(file, settingsfile);
 
+    //Window
+    frameRateLimit = settingsfile["frameRateLimit"].asInt();
+    windowSize = sf::Vector2<int>(settingsfile["windowSize"]["width"].asInt(), settingsfile["windowSize"]["height"].asInt());
+
+    //physics
+    playerPhysicsStepDistance = settingsfile["playerPhysicsStepDistance"].asFloat();
+    playerMaxPhysicsIterations = settingsfile["playerMaxPhysicsIterations"].asInt();
+    maxDeltaTime = settingsfile["maxDeltaTime"].asFloat();
+
+    //Player
     playerMoveSpeed = settingsfile["playerMoveSpeed"].asFloat();
     playerAcceleration = settingsfile["playerAcceleration"].asFloat();
     playerStopAcceleration = settingsfile["playerStopAcceleration"].asFloat(); 

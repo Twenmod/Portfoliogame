@@ -14,7 +14,7 @@ class Camera {
 
         void Render(sf::RenderWindow &window, std::vector<Gameobject*> renderList);
 
-        void OnLoop(sf::Time deltaTime, sf::RenderWindow &window);
+        void OnLoop(sf::RenderWindow &window);
 
         void SetObjectToFollow(Gameobject* target, float lerpSpeed);
     private:

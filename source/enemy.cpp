@@ -63,6 +63,8 @@ void Enemy::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collis
 
                 //Find side by checking smallest distance between the sides
                 
+                float groundedMinDistance = 0.5f; // Override distance for bottom side to make sure enemy does not collide with side of tiles when walking on them
+
                 float minDistance = INFINITY;
                 int side = -1;
 
@@ -86,22 +88,15 @@ void Enemy::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collis
 
                 //Top side
                 bool sideCollision = topinsideother && !bottominsideother && (leftinsideother || rightinsideother);
-                if (sideCollision) {
+                if (sideCollision && topDistance == minDistance) {
                     side = 0;
                     normal = sf::Vector2<float>(0.f,  1.f);
                 }
-
                 //Right side
                 sideCollision = rightinsideother && !leftinsideother && (topinsideother || bottominsideother);
                 if (sideCollision && rightDistance == minDistance) {
                     side = 1;
                     normal = sf::Vector2<float>(1.f,  0.f);
-                }
-                //Bottom side
-                sideCollision = bottominsideother && !topinsideother && (leftinsideother || rightinsideother);
-                if (sideCollision && bottomDistance == minDistance) {
-                    side = 2;
-                    normal = sf::Vector2<float>(0,  -1.f);
                 }
                 //Left side
                 sideCollision = leftinsideother && !rightinsideother && (topinsideother || bottominsideother);
@@ -109,7 +104,12 @@ void Enemy::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collis
                     side = 3;
                     normal = sf::Vector2<float>(-1.f,  0.f);
                 }
-
+                //Bottom side
+                sideCollision = bottominsideother && !topinsideother && (leftinsideother || rightinsideother);
+                if (sideCollision && bottomDistance == minDistance || bottomDistance <= groundedMinDistance) {
+                    side = 2;
+                    normal = sf::Vector2<float>(0,  -1.f);
+                }
 
                 //std::cout << "\n Side: " << side << "\n";
 

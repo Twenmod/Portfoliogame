@@ -1,4 +1,11 @@
 {
+    //Video settings
+        "frameRateLimit": 60,
+        "windowSize": {"width": 1280, "height": 720},
+    //Physics settings
+        "playerPhysicsStepDistance": 8,
+        "playerMaxPhysicsIterations" : 10,
+        "maxDeltaTime": 0.1,
     //Player settings
         "playerMoveSpeed": 250,
         "playerAcceleration": 1000,

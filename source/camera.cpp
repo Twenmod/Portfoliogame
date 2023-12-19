@@ -6,6 +6,7 @@
 #include <memory>
 #include "camera.hpp"
 #include "gameobject.hpp"
+#include "settings.hpp"
 
 Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vector2<unsigned int> _resolution, sf::Vector2<float> _cullDistance) {
     position = _position;
@@ -51,7 +52,7 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderLis
     }
 };
 
-void Camera::OnLoop(sf::Time deltaTime, sf::RenderWindow &window) {
+void Camera::OnLoop(sf::RenderWindow &window) {
     //Lerp to target
     if (followTarget != nullptr) {
         sf::FloatRect targetRect = followTarget->sprite.getGlobalBounds();

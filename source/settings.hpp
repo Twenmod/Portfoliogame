@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <iostream>
@@ -9,6 +10,13 @@
 class Settings {
         public:
         Settings();
+//Video
+        int frameRateLimit;
+        sf::Vector2<int> windowSize;
+//Physics
+        float playerPhysicsStepDistance;
+        int playerMaxPhysicsIterations;
+        float maxDeltaTime;
 //Player
         float playerMoveSpeed;
         float playerAcceleration;
@@ -37,3 +45,4 @@ class Settings {
 };
 
 extern Settings globalsettings;
+extern sf::Time deltaTime;

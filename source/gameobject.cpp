@@ -7,6 +7,7 @@
 #include "gameobject.hpp"
 #include "SFMLMath.hpp"
 #include "math.hpp"
+#include "settings.hpp"
 
 sf::Texture emptyimage();
 
@@ -61,9 +62,9 @@ void Gameobject::OnEvent() {
 }
 
 //Called every frame
-void Gameobject::OnLoop(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList) {
+void Gameobject::OnLoop(std::vector<sf::Sprite*> collisionList) {
     if (!isStatic) {
-        CalculatePhysics(deltaTime, collisionList);
+        CalculatePhysics(collisionList);
         //std::cout << "\nRealpos: " << position.x;
     }
 };
@@ -76,7 +77,7 @@ void Gameobject::OnRender() {
     }
 };
 
-void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList) {
+void Gameobject::CalculatePhysics(std::vector<sf::Sprite*> collisionList) {
 
     velocity.y += gravity * deltaTime.asSeconds();
 
@@ -143,7 +144,7 @@ void Gameobject::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> c
 
                 //Top side
                 bool sideCollision = topinsideother && !bottominsideother && (leftinsideother || rightinsideother);
-                if (sideCollision) {
+                if (sideCollision && topDistance == minDistance) {
                     side = 0;
                     normal = sf::Vector2<float>(0.f,  1.f);
                 }

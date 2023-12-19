@@ -13,6 +13,7 @@
 #include "settings.hpp"
 #include "worldgen.hpp"
 #include <SFML/Window/WindowStyle.hpp>
+#include <algorithm>
 #include <iostream>
 #include <map>
 #include <vector>
@@ -20,7 +21,7 @@
 sf::Vector2<int> resolution(200,200);
 
 Settings globalsettings = Settings();
-
+sf::Time deltaTime;
 
 //The game itself
 class app {
@@ -53,13 +54,14 @@ class app {
         };
         void OnLoop(sf::RenderWindow &window) {
             //Get time elapsed since last frame
-            sf::Time deltaTime = gameClock.restart();
+            deltaTime = gameClock.restart();
+            deltaTime = sf::Time(sf::seconds(std::clamp(deltaTime.asSeconds(),0.0f,globalsettings.maxDeltaTime)));
             
             //Calculate camera
-            mainCamera.OnLoop(deltaTime, window);
+            mainCamera.OnLoop(window);
             //Calculate objects
             for (Gameobject* obj : objectList) {
-                obj->OnLoop(deltaTime, collisionList);
+                obj->OnLoop(collisionList);
             }
 
         };
@@ -81,14 +83,13 @@ sf::Texture addTexture(std::string file) {
 int main()
 {
 
-    //Get resolution
-    resolution = sf::Vector2<int>(sf::VideoMode::getDesktopMode().width,sf::VideoMode::getDesktopMode().height);
 
     //Initialize window
-    sf::RenderWindow window(sf::VideoMode((int)resolution.x,(int)resolution.y), "Minergame", sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode((int)globalsettings.windowSize.x,(int)globalsettings.windowSize.y), "Minergame", sf::Style::Close);
 
     window.setVerticalSyncEnabled(true);
     window.setActive(true);
+    window.setFramerateLimit(globalsettings.frameRateLimit);
 
     //Map of the games textures
 

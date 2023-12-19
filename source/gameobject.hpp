@@ -37,9 +37,9 @@ class Gameobject {
         void SetVelocity(sf::Vector2<float> newVelocity);
         sf::Vector2<float> GetVelocity();
         void OnEvent();
-        virtual void OnLoop(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList);
+        virtual void OnLoop(std::vector<sf::Sprite*> collisionList);
         void OnRender();
-        virtual void CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList);
+        virtual void CalculatePhysics(std::vector<sf::Sprite*> collisionList);
 
     private:
 };
