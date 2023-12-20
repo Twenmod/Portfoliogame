@@ -22,6 +22,7 @@ Settings::Settings() {
     //Window
     frameRateLimit = settingsfile["frameRateLimit"].asInt();
     windowSize = sf::Vector2<int>(settingsfile["windowSize"]["width"].asInt(), settingsfile["windowSize"]["height"].asInt());
+    cullSize = sf::Vector2<int>(settingsfile["cullSize"]["width"].asInt(), settingsfile["cullSize"]["height"].asInt());
 
     //physics
     playerPhysicsStepDistance = settingsfile["playerPhysicsStepDistance"].asFloat();
@@ -48,6 +49,7 @@ Settings::Settings() {
     tileSize = settingsfile["tileSize"].asInt();
     worldSize = sf::Vector2<int>(settingsfile["worldSize"]["width"].asInt(), settingsfile["worldSize"]["height"].asInt());
     noiseScale = sf::Vector2<float>(settingsfile["noiseScale"]["width"].asFloat(), settingsfile["noiseScale"]["height"].asFloat());
+    oreNoiseScale = sf::Vector2<float>(settingsfile["oreNoiseScale"]["width"].asFloat(), settingsfile["oreNoiseScale"]["height"].asFloat());
     octaves = settingsfile["octaves"].asInt();
     persistence = settingsfile["persistence"].asFloat();
 

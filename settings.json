@@ -2,6 +2,7 @@
     //Video settings
         "frameRateLimit": 60,
         "windowSize": {"width": 1280, "height": 720},
+        "cullSize": {"width": 1280, "height": 720},
     //Physics settings
         "playerPhysicsStepDistance": 8,
         "playerMaxPhysicsIterations" : 10,
@@ -19,7 +20,9 @@
         "tileSize": 32,
         "worldSize": {"width": 150, "height": 75},
         "gravity": 1500,
-        "noiseScale": {"width": 0.02, "height": 0.04},
-        "octaves": 3,
-        "persistence": 0.4
+        "noiseScale": {"width": 0.02, "height": 0.05},
+        "octaves": 4,
+        "persistence": 0.5,
+        "oreNoiseScale": {"width": 0.2, "height": 0.2}
+
 }

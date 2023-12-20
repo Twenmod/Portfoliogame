@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
+#include <utility>
 #include <vector>
 
 sf::Vector2<int> resolution(200,200);
@@ -40,11 +41,11 @@ class app {
         //Constructer/Init
         app(sf::RenderWindow &window) {
             gameWindow = &window;
-            mainCamera = generateCamera(sf::Vector2<float>(0,0), sf::Vector2<float>(1,1), sf::Vector2<float>(500,500));
+            mainCamera = generateCamera(sf::Vector2<float>(0,0), sf::Vector2<float>(1,1));
         }
 
-        Camera generateCamera(sf::Vector2<float> startPosition, sf::Vector2<float> scale, sf::Vector2<float> cullDistance) {
-            return Camera(startPosition,scale,gameWindow->getSize(),cullDistance);
+        Camera generateCamera(sf::Vector2<float> startPosition, sf::Vector2<float> scale) {
+            return Camera(startPosition,scale,gameWindow->getSize());
         }
 
         void OnEvents() {
@@ -97,6 +98,7 @@ int main()
         {"Square", addTexture("Sprites/Square.jpg")},
         {"Dirt", addTexture("Sprites/Tiles/Dirt.png")},
         {"Stone",addTexture("Sprites/Tiles/Stone.png")},
+        {"Gold",addTexture("Sprites/Tiles/Gold.png")},
         {"Noomba",addTexture("Sprites/noomba.png")}
     };
 
@@ -114,18 +116,25 @@ int main()
 
     std::vector<tile> tileTypes = {
         tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
-        tile("Stone",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)))
+        tile("Stone",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
+        tile("Gold",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)))
 
     };
 
+    //This map is used to determine the rough shape of the terain and places dirt and stone there
     //Int points to the type of tile to spawn if the noise is above the float the tile is used
     std::map<int, float> worldgenMap{
         {0,0.5f},
         {1,0.6f}
     };
 
+    //This map is used to add more detail to the terrain by replacing certain tiles with other tiles based on noise
+    //Int points to type to replace if the noise is above the float, the second int dictates which tile to place there
+    std::map<int, std::pair<float, int>> replacementLayerMap{
+        {1, std::pair<float, int>(0.75f, 2)},
+    };
 
-    level world = level(globalsettings.tileSize,globalsettings.worldSize, tileTypes, worldgenMap);
+    level world = level(globalsettings.tileSize,globalsettings.worldSize, tileTypes, worldgenMap,replacementLayerMap);
     
     for (std::vector<tile>& tilecolomn : world.tiles) {
         for (tile& _tile : tilecolomn) {

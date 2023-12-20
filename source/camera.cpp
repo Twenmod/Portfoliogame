@@ -8,11 +8,10 @@
 #include "gameobject.hpp"
 #include "settings.hpp"
 
-Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vector2<unsigned int> _resolution, sf::Vector2<float> _cullDistance) {
+Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vector2<unsigned int> _resolution) {
     position = _position;
     scale = _scale;
     resolution = _resolution;
-    cullDistance = _cullDistance;
     followTarget = nullptr;
 };
 
@@ -31,13 +30,13 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderLis
             //std::cout << "SpritePos: " << spritePos.x << ", " << spritePos.y);
 
             bool outSideCullDistance = 
-                (spritePos.x > cameraWorldPosition.x + cullDistance.x) 
+                (spritePos.x > cameraWorldPosition.x + globalsettings.cullSize.x) 
                 || 
-                (spritePos.x < cameraWorldPosition.x-cullDistance.x)
+                (spritePos.x < cameraWorldPosition.x - globalsettings.cullSize.x)
                 ||
-                (spritePos.y > cameraWorldPosition.y + cullDistance.y)
+                (spritePos.y > cameraWorldPosition.y + globalsettings.cullSize.y)
                 ||
-                (spritePos.y < cameraWorldPosition.y-cullDistance.y);
+                (spritePos.y < cameraWorldPosition.y - globalsettings.cullSize.y);
             if (!outSideCullDistance) {
                 //Copy world space sprite to a screen space sprite
                 sf::Sprite spriteToDraw = obj->sprite;

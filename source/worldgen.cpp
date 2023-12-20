@@ -5,6 +5,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <cstdlib>
 #include <iostream>
+#include <map>
+#include <utility>
 #include <vector>
 #include "perlinnoise.hpp"
 #include "settings.hpp"
@@ -17,7 +19,7 @@ tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject) : Gam
     health = _tileHealth;
 }
 
-level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes, std::map<int, float> noiseTileMap) {
+level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes, std::map<int, float> noiseTileMap, std::map<int, std::pair<float, int>> secondTileMap) {
 
     //Generate perlin
     const siv::PerlinNoise::seed_type seed = time(0);
@@ -32,11 +34,18 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
         for (int y = 0; y < worldsize.y; y++) {
             //Get noise
 			const double noise = perlin.octave2D_01((x * globalsettings.noiseScale.x), (y * globalsettings.noiseScale.y), globalsettings.octaves, globalsettings.persistence);
+            const double secondNoise = perlin.octave2D_01((x+1000)*globalsettings.oreNoiseScale.x, (y+1000)*globalsettings.oreNoiseScale.y, globalsettings.octaves, globalsettings.persistence);
 
             int type = -1;
             for(auto const& mapLocation : noiseTileMap) {
                 if (noise > mapLocation.second) { // If noise value is falls bellow location
                     type = mapLocation.first; // Set the type to type of that map location
+                    auto const& replacementMap = secondTileMap.find(mapLocation.first);
+                    if (type == replacementMap->first) {
+                        if (secondNoise > replacementMap->second.first) {
+                            type = replacementMap->second.second;
+                        }
+                    }
                 }
             }
 

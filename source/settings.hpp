@@ -13,6 +13,8 @@ class Settings {
 //Video
         int frameRateLimit;
         sf::Vector2<int> windowSize;
+        sf::Vector2<int> cullSize;
+
 //Physics
         float playerPhysicsStepDistance;
         int playerMaxPhysicsIterations;
@@ -33,6 +35,7 @@ class Settings {
         float tileSize;
         sf::Vector2<int> worldSize;
         sf::Vector2<float> noiseScale;
+        sf::Vector2<float> oreNoiseScale;
         float octaves;
         float persistence;
 
