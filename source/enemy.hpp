@@ -9,7 +9,7 @@
             float health;
             float speed;
 
-            void CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList);
+            void CalculatePhysics(std::vector<sf::Sprite*> collisionList);
 
         private:
             bool moveDirection; // 1 is right 0 is left;

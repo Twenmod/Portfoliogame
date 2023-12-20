@@ -5,6 +5,7 @@
 #include "math.hpp"
 #include "gameobject.hpp"
 #include "SFMLMath.hpp"
+#include "settings.hpp"
 
 Enemy::Enemy(float _health, float _speed, Gameobject enemyObject) : Gameobject(enemyObject) {
     health = _health;
@@ -12,7 +13,7 @@ Enemy::Enemy(float _health, float _speed, Gameobject enemyObject) : Gameobject(e
     moveDirection = 1;
 };
 
-void Enemy::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collisionList) {
+void Enemy::CalculatePhysics(std::vector<sf::Sprite*> collisionList) {
 
     if (moveDirection == 1) {
         velocity.x = speed;
@@ -20,8 +21,10 @@ void Enemy::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collis
         velocity.x = -speed;
     }
 
-
     velocity.y += gravity * deltaTime.asSeconds();
+
+    //Scale the velocity to deltaTime to get consistent velocity across framerates
+    position += velocity*deltaTime.asSeconds();
 
     //Collision detection
 
@@ -33,7 +36,6 @@ void Enemy::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collis
 
                 sf::FloatRect spriteRect = sprite.getGlobalBounds();
                 sf::FloatRect otherRect = other->getGlobalBounds();
-
 
                 sf::Vector2<float> relativeVelocity = velocity;
 
@@ -56,7 +58,6 @@ void Enemy::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collis
                 << leftinsideother << " o " << rightinsideother << "\n"
                 << "  B:" << bottominsideother << "\n"; 
                 //*/
-
 
                 //Find side by checking smallest distance between the sides
                 
@@ -158,9 +159,4 @@ void Enemy::CalculatePhysics(sf::Time deltaTime, std::vector<sf::Sprite*> collis
 
    // std::cout << "\nnewvelo:"<<velocity.y;
 
-
-    //Scale the velocity to deltaTime to get consistent velocity across framerates
-    position += velocity*std::clamp(deltaTime.asSeconds(),0.f,0.1f);
-
-    
 };
