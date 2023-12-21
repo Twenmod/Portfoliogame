@@ -1,4 +1,7 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
 #include <cstddef>
@@ -15,7 +18,8 @@ Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vecto
     followTarget = nullptr;
 };
 
-void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderList) {
+void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderList, std::vector<sf::Text*> uiElements) {
+    //Render objects
     for(Gameobject* obj : renderList) {
         obj->OnRender();
 
@@ -49,6 +53,17 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderLis
             }
         }
     }
+
+
+
+    //Render UI
+    for(sf::Text* text : uiElements) {
+        // Check if text.text is not null before drawing
+        if (text->getFont() != nullptr) {
+            window.draw(*text);
+        } else {
+            std::cout << "Error: Font pointer is null for textElement." << std::endl;
+        }    }
 };
 
 void Camera::OnLoop(sf::RenderWindow &window) {

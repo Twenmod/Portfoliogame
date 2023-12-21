@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -33,6 +35,7 @@ class app {
         //Lists of the objects split for optimisation
         std::vector<Gameobject*> objectList;
         std::vector<sf::Sprite*> collisionList;
+        std::vector<sf::Text*> uiElements;
         
         sf::Clock gameClock; 
 
@@ -65,11 +68,13 @@ class app {
                 obj->OnLoop(collisionList);
             }
 
+            //Set UI
+            uiElements[0]->setString("FPS: " + std::to_string(1.0f / deltaTime.asSeconds()));
+
         };
         void OnRender(sf::RenderWindow &window) {
-            mainCamera.Render(window,objectList);
+            mainCamera.Render(window,objectList, uiElements);
         };
-
 };
 
 
@@ -113,7 +118,8 @@ int main()
     Enemy enemy = Enemy(10,100,Gameobject(game.collisionList,sf::Vector2<float>(120,-200),0,sf::Vector2<float>(32,32),true,&texturemap.at("Noomba"),false,true,700,0,0, sf::Vector2<float>(0,0)));
     game.objectList.push_back(&enemy);
 
-
+#pragma region WorldGen
+    //Tile types
     std::vector<tile> tileTypes = {
         tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
         tile("Stone",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
@@ -143,6 +149,33 @@ int main()
         }
     }
 
+#pragma endregion
+
+#pragma region UI
+
+    sf::Text text;
+    sf::Font font;
+    if (!font.loadFromFile("Fonts/RubikScribble-Regular.ttf")) {
+        std::cout << "Failed to load font";
+    }
+    // select the font
+    text.setFont(font); // font is a sf::Font
+
+    // set the string to display
+    text.setString("Hello world");
+
+    // set the character size
+    text.setCharacterSize(24); // in pixels, not points!
+
+    // set the color
+    text.setFillColor(sf::Color::Red);
+
+    // set the text style
+    text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    game.uiElements.push_back(&text);
+
+
+#pragma endregion
 
     while (window.isOpen())
     {
