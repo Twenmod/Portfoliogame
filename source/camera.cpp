@@ -4,9 +4,7 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
-#include <cstddef>
 #include <iostream>
-#include <memory>
 #include "camera.hpp"
 #include "gameobject.hpp"
 #include "settings.hpp"

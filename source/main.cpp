@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/View.hpp>
+#include <SFML/System/String.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -16,8 +17,12 @@
 #include "worldgen.hpp"
 #include <SFML/Window/WindowStyle.hpp>
 #include <algorithm>
+#include <cmath>
 #include <iostream>
+#include <iterator>
+#include <limits>
 #include <map>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -40,6 +45,10 @@ class app {
         sf::Clock gameClock; 
 
         sf::RenderWindow* gameWindow;
+
+        //Fps calculator
+        int fpsI = 0;
+        float fpsArray[10];
 
         //Constructer/Init
         app(sf::RenderWindow &window) {
@@ -69,7 +78,17 @@ class app {
             }
 
             //Set UI
-            uiElements[0]->setString("FPS: " + std::to_string(1.0f / deltaTime.asSeconds()));
+            fpsArray[fpsI] = 1/deltaTime.asSeconds();
+            fpsI++;
+            int fpsArraySize = std::size(fpsArray);
+            if (fpsI >= fpsArraySize)
+                fpsI = 0;
+            float avarageFps = 0;
+            for (int i = 0; i < fpsArraySize; i++) {
+                avarageFps += fpsArray[i];
+            }
+            avarageFps /= fpsArraySize;
+            uiElements[0]->setString("FPS: " + std::to_string((int)avarageFps));
 
         };
         void OnRender(sf::RenderWindow &window) {
@@ -168,10 +187,10 @@ int main()
     text.setCharacterSize(24); // in pixels, not points!
 
     // set the color
-    text.setFillColor(sf::Color::Red);
+    text.setFillColor(sf::Color::White);
 
     // set the text style
-    text.setStyle(sf::Text::Bold | sf::Text::Underlined);
+    text.setStyle(sf::Text::Bold);
     game.uiElements.push_back(&text);
 
 
