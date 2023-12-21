@@ -52,6 +52,8 @@ Settings::Settings() {
     oreNoiseScale = sf::Vector2<float>(settingsfile["oreNoiseScale"]["width"].asFloat(), settingsfile["oreNoiseScale"]["height"].asFloat());
     octaves = settingsfile["octaves"].asInt();
     persistence = settingsfile["persistence"].asFloat();
+    amountOfEnemies = sf::Vector2<int>(settingsfile["amountOfEnemies"]["min"].asInt(), settingsfile["amountOfEnemies"]["max"].asInt());
+
 
     //Keybinds
     left =  sf::Keyboard::A;

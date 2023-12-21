@@ -32,7 +32,7 @@ class Gameobject {
         sf::Vector2<float> velocity;
         bool colliding;
 
-        Gameobject(std::vector<sf::Sprite*> &collisionList, sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _size, bool _hasSprite, sf::Texture* _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _friction, float _bounciness, sf::Vector2<float> _startVelocity);
+        Gameobject(std::vector<sf::Sprite*>* collisionList, sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _size, bool _hasSprite, sf::Texture* _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _friction, float _bounciness, sf::Vector2<float> _startVelocity);
         void SetScale(sf::Vector2<float> setscale);
         void SetVelocity(sf::Vector2<float> newVelocity);
         sf::Vector2<float> GetVelocity();

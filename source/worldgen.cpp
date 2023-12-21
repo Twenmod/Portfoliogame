@@ -19,7 +19,7 @@ tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject) : Gam
     health = _tileHealth;
 }
 
-level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes, std::map<int, float> noiseTileMap, std::map<int, std::pair<float, int>> secondTileMap) {
+level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes, int bedrockType, std::map<int, float> noiseTileMap, std::map<int, std::pair<float, int>> secondTileMap) {
 
     //Generate perlin
     const siv::PerlinNoise::seed_type seed = time(0);
@@ -32,23 +32,27 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
     for (int x = 0; x < worldsize.x; x++) {
         std::vector<tile> column;
         for (int y = 0; y < worldsize.y; y++) {
-            //Get noise
-			const double noise = perlin.octave2D_01((x * globalsettings.noiseScale.x), (y * globalsettings.noiseScale.y), globalsettings.octaves, globalsettings.persistence);
-            const double secondNoise = perlin.octave2D_01((x+1000)*globalsettings.oreNoiseScale.x, (y+1000)*globalsettings.oreNoiseScale.y, globalsettings.octaves, globalsettings.persistence);
-
             int type = -1;
-            for(auto const& mapLocation : noiseTileMap) {
-                if (noise > mapLocation.second) { // If noise value is falls bellow location
-                    type = mapLocation.first; // Set the type to type of that map location
-                    auto const& replacementMap = secondTileMap.find(mapLocation.first);
-                    if (type == replacementMap->first) {
-                        if (secondNoise > replacementMap->second.first) {
-                            type = replacementMap->second.second;
+            //Check if tile is on edge
+            if (x == 0 || y == 0 || x == worldsize.x-1 || y == worldsize.y-1) {
+                type = bedrockType;
+            }else {
+                //Get noise
+                const double noise = perlin.octave2D_01((x * globalsettings.noiseScale.x), (y * globalsettings.noiseScale.y), globalsettings.octaves, globalsettings.persistence);
+                const double secondNoise = perlin.octave2D_01((x+1000)*globalsettings.oreNoiseScale.x, (y+1000)*globalsettings.oreNoiseScale.y, globalsettings.octaves, globalsettings.persistence);
+
+                for(auto const& mapLocation : noiseTileMap) {
+                    if (noise > mapLocation.second) { // If noise value is falls bellow location
+                        type = mapLocation.first; // Set the type to type of that map location
+                        auto const& replacementMap = secondTileMap.find(mapLocation.first);
+                        if (type == replacementMap->first && replacementMap != secondTileMap.end()) {
+                            if (secondNoise > replacementMap->second.first) {
+                                type = replacementMap->second.second;
+                            }
                         }
                     }
                 }
             }
-
             //Spawn corresponding tile
             if (type != -1) {
                 tile currTile = tileTypes[type];
@@ -59,6 +63,20 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
             }
         }
         tiles.push_back(column);
+    }
+
+    //Spawn enemies
+    int amountToSpawn = random() % globalsettings.amountOfEnemies.y + globalsettings.amountOfEnemies.x;
+    for (int i = 0; i < amountToSpawn; i++) {
+        bool spawned = false; 
+        while (!spawned) {
+            int x = random() % worldsize.x;
+            int y = random() % worldsize.y;
+            //Check if tile position is empty
+            //if (tiles[x][y].tileName) {
+            //}
+            spawned = true;
+        }
     }
 
 }

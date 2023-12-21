@@ -123,48 +123,54 @@ int main()
         {"Dirt", addTexture("Sprites/Tiles/Dirt.png")},
         {"Stone",addTexture("Sprites/Tiles/Stone.png")},
         {"Gold",addTexture("Sprites/Tiles/Gold.png")},
-        {"Noomba",addTexture("Sprites/noomba.png")}
+        {"Noomba",addTexture("Sprites/noomba.png")},
+        {"Bedrock",addTexture("Sprites/Tiles/Bedrock.png")},
     };
 
     //Load game
     app game(window);
 
     //Load level
-    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(game.collisionList,sf::Vector2<float>(55,-300),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
+    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(&game.collisionList,sf::Vector2<float>(200,64),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
     game.objectList.push_back(&player);
     game.mainCamera.SetObjectToFollow(&player, 2);
 
-    Enemy enemy = Enemy(10,100,Gameobject(game.collisionList,sf::Vector2<float>(120,-200),0,sf::Vector2<float>(32,32),true,&texturemap.at("Noomba"),false,true,700,0,0, sf::Vector2<float>(0,0)));
+    Enemy enemy = Enemy(10,100,Gameobject(&game.collisionList,sf::Vector2<float>(120,-200),0,sf::Vector2<float>(32,32),true,&texturemap.at("Noomba"),false,true,700,0,0, sf::Vector2<float>(0,0)));
     game.objectList.push_back(&enemy);
 
 #pragma region WorldGen
     //Tile types
     std::vector<tile> tileTypes = {
-        tile("Dirt",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
-        tile("Stone",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
-        tile("Gold",10,Gameobject(game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)))
+        tile("Air",10,Gameobject(nullptr,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),false,nullptr,true,false,0,0,0, sf::Vector2<float>(0,0))),
+        tile("Dirt",10,Gameobject(&game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
+        tile("Stone",10,Gameobject(&game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
+        tile("Gold",10,Gameobject(&game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
+        tile("Bedrock",1000000,Gameobject(&game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
 
     };
 
     //This map is used to determine the rough shape of the terain and places dirt and stone there
     //Int points to the type of tile to spawn if the noise is above the float the tile is used
     std::map<int, float> worldgenMap{
-        {0,0.5f},
-        {1,0.6f}
+        {0,0.f},
+        {1,0.5f},
+        {2,0.6f},
     };
 
     //This map is used to add more detail to the terrain by replacing certain tiles with other tiles based on noise
     //Int points to type to replace if the noise is above the float, the second int dictates which tile to place there
     std::map<int, std::pair<float, int>> replacementLayerMap{
-        {1, std::pair<float, int>(0.75f, 2)},
+        {2, std::pair<float, int>(0.75f, 3)},
     };
 
-    level world = level(globalsettings.tileSize,globalsettings.worldSize, tileTypes, worldgenMap,replacementLayerMap);
+    level world = level(globalsettings.tileSize,globalsettings.worldSize, tileTypes, 4, worldgenMap,replacementLayerMap);
     
     for (std::vector<tile>& tilecolomn : world.tiles) {
         for (tile& _tile : tilecolomn) {
-            game.objectList.push_back(&_tile);
-            game.collisionList.push_back(&_tile.sprite);
+            if (_tile.tileName != "Air") {
+                game.objectList.push_back(&_tile);
+                game.collisionList.push_back(&_tile.sprite);
+            }
         }
     }
 

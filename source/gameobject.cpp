@@ -12,19 +12,19 @@
 sf::Texture emptyimage();
 
 //Constructor
-Gameobject::Gameobject(std::vector<sf::Sprite*> &collisionList, sf::Vector2<float> _position, float _rotation = 0,sf::Vector2<float> _size =sf::Vector2<float>(1,1), bool _hasSprite = false, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _friction = 0,float _bounciness = 0.2, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
+Gameobject::Gameobject(std::vector<sf::Sprite*>* collisionList, sf::Vector2<float> _position, float _rotation = 0,sf::Vector2<float> _size =sf::Vector2<float>(1,1), bool _hasSprite = false, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _friction = 0,float _bounciness = 0.2, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
 
     position = _position;
     rotation = _rotation;
-    sf::Vector2u imageSize = _texture->getSize();
-    scale.x = 1.f / imageSize.x * _size.x;
-    scale.y = 1.f / imageSize.y * _size.y;
+
 
     ///Sprite
 
     hasSprite = _hasSprite;
     if (hasSprite) {
-
+        sf::Vector2u imageSize = _texture->getSize();
+        scale.x = 1.f / imageSize.x * _size.x;
+        scale.y = 1.f / imageSize.y * _size.y;
         sprite.setTexture(*_texture);
         sprite.setPosition(position);
         sprite.setRotation(rotation);
@@ -44,8 +44,8 @@ Gameobject::Gameobject(std::vector<sf::Sprite*> &collisionList, sf::Vector2<floa
     drag = 0;
 
 
-    if (hasCollision && hasSprite) {
-        collisionList.push_back(&sprite);
+    if (hasCollision && hasSprite && collisionList != nullptr) {
+        collisionList->push_back(&sprite);
     }
 
 };

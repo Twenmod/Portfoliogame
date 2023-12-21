@@ -38,6 +38,7 @@ class Settings {
         sf::Vector2<float> oreNoiseScale;
         float octaves;
         float persistence;
+        sf::Vector2<int> amountOfEnemies;
 
 
 //Input
