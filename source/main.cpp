@@ -40,7 +40,7 @@ class app {
         //Lists of the objects split for optimisation
         std::vector<Gameobject*> objectList;
         std::vector<sf::Sprite*> collisionList;
-        std::vector<sf::Text*> uiElements;
+        std::vector<uiElement*> uiElements;
         
         sf::Clock gameClock; 
 
@@ -88,7 +88,7 @@ class app {
                 avarageFps += fpsArray[i];
             }
             avarageFps /= fpsArraySize;
-            uiElements[0]->setString("FPS: " + std::to_string((int)avarageFps));
+            uiElements[0]->text.setString("FPS: " + std::to_string((int)avarageFps));
 
         };
         void OnRender(sf::RenderWindow &window) {
@@ -183,8 +183,6 @@ int main()
     if (!font.loadFromFile("Fonts/RubikScribble-Regular.ttf")) {
         std::cout << "Failed to load font";
     }
-    // select the font
-    text.setFont(font); // font is a sf::Font
 
     // set the string to display
     text.setString("Hello world");
@@ -197,7 +195,9 @@ int main()
 
     // set the text style
     text.setStyle(sf::Text::Bold);
-    game.uiElements.push_back(&text);
+
+    uiElement textElement(text,font);
+    game.uiElements.push_back(&textElement);
 
 
 #pragma endregion

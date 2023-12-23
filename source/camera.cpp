@@ -9,6 +9,12 @@
 #include "gameobject.hpp"
 #include "settings.hpp"
 
+uiElement::uiElement(sf::Text _text, sf::Font _font) {
+    text = _text;
+    font = _font;
+    text.setFont(font);
+};
+
 Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vector2<unsigned int> _resolution) {
     position = _position;
     scale = _scale;
@@ -16,7 +22,7 @@ Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vecto
     followTarget = nullptr;
 };
 
-void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderList, std::vector<sf::Text*> uiElements) {
+void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderList, std::vector<uiElement*> uiElements) {
     //Render objects
     for(Gameobject* obj : renderList) {
         obj->OnRender();
@@ -55,10 +61,11 @@ void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderLis
 
 
     //Render UI
-    for(sf::Text* text : uiElements) {
+    for(uiElement* text : uiElements) {
+
         // Check if text.text is not null before drawing
-        if (text->getFont() != nullptr) {
-            window.draw(*text);
+        if (text->text.getFont() != nullptr) {
+            window.draw(text->text);
         } else {
             std::cout << "Error: Font pointer is null for textElement." << std::endl;
         }    }
