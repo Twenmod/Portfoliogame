@@ -101,7 +101,7 @@ class app {
             player->OnLoop(activeChunkList);
 
             for (chunk* _chunk : activeChunkList) {
-                _chunk->OnLoop(activeChunkList);
+                _chunk->OnLoop(activeChunkList, chunkList);
             }
 
             //Set UI
@@ -134,8 +134,6 @@ sf::Texture addTexture(std::string file) {
 
 int main()
 {
-
-
     //Initialize window
     sf::RenderWindow window(sf::VideoMode((int)globalsettings.windowSize.x,(int)globalsettings.windowSize.y), "Minergame", sf::Style::Close);
 
@@ -212,6 +210,31 @@ int main()
         }
     }
 
+    sf::Vector2<int> tileWorldSize = globalsettings.worldSize * globalsettings.chunkSize;
+
+    //Spawn enemies
+    int amountToSpawn = random() % globalsettings.amountOfEnemies.y + globalsettings.amountOfEnemies.x;
+    for (int i = 0; i < amountToSpawn; i++) {
+        bool spawned = false; 
+        while (!spawned) {
+            int x = random() % tileWorldSize.x;
+            int y = random() % tileWorldSize.y;
+            //Check if tile position is empty
+            if (world.tiles[x][y].tileName == "Air") {
+                //Spawn enemy
+                std::cout << "spawning enemy at x: " << x << " y: " << y << std::endl;
+                Enemy* enemy = new Enemy(10,50,Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,&texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0)));
+                //Get corresponding chunk
+                sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
+                enemy->currentChunk = chunks[chunkPos.x][chunkPos.y];
+                chunks[chunkPos.x][chunkPos.y]->objects.push_back(enemy);
+                if (enemy->hasCollision)
+                    chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(&enemy->sprite);
+
+                spawned = true;
+            }
+        }
+    }
 
     game.chunkList = chunks;
 

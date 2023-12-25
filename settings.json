@@ -1,7 +1,7 @@
 {
     //Video settings
         "frameRateLimit": 999999,
-        "vSync": true,
+        "vSync": false,
         "windowSize": {"width": 1280, "height": 720},
         "cullSize": {"width": 1280, "height": 720},
     //Physics settings
@@ -20,13 +20,13 @@
     //World settings
         "chunkSize": 16,
         "chunkLoadDistance" : 2,
-        "worldSize": {"width": 16, "height": 8},
+        "worldSize": {"width": 20, "height": 10},
         "tileSize": 32,
         "gravity": 1500,
         "noiseScale": {"width": 0.02, "height": 0.05},
-        "octaves": 4,
-        "persistence": 0.5,
+        "octaves": 3,
+        "persistence": 0.4,
         "oreNoiseScale": {"width": 0.2, "height": 0.2},
-        "amountOfEnemies": {"min": 1, "max": 3}
+        "amountOfEnemies": {"min": 5, "max": 30}
 
 }

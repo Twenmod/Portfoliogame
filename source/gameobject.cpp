@@ -65,6 +65,30 @@ void Gameobject::OnLoop(std::vector<chunk*> chunkList) {
     }
 };
 
+//FIX: chunks are not updated properly
+void Gameobject::updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList) {
+    //check if still in active chunk
+    sf::Vector2<int> chunkPos;
+    chunkPos.x = position.x/globalsettings.tileSize/globalsettings.chunkSize;
+    chunkPos.y = position.y/globalsettings.tileSize/globalsettings.chunkSize;
+
+    if (currentChunk != nullptr) {
+        if (chunkPos != currentChunk->chunkPosition) {
+            if (!((chunkPos.x < 0 || chunkPos.x > globalsettings.worldSize.x-1) || (chunkPos.y < 0 || chunkPos.y > globalsettings.worldSize.y-1))) return;
+
+            currentChunk->objects.erase(std::remove(currentChunk->objects.begin(), currentChunk->objects.end(), this), currentChunk->objects.end());
+            if (hasCollision) {
+                currentChunk->collisionObjects.erase(std::remove(currentChunk->collisionObjects.begin(), currentChunk->collisionObjects.end(), &sprite), currentChunk->collisionObjects.end());
+            }
+            currentChunk = chunkList[chunkPos.x-1][chunkPos.y-1];;
+            currentChunk->objects.push_back(this);
+            if (hasCollision) {
+                currentChunk->collisionObjects.push_back(&sprite);
+            }
+        }
+    }
+}
+
 //Called just before render
 void Gameobject::OnRender() {
     if(hasSprite) {

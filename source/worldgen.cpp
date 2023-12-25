@@ -28,10 +28,14 @@ void chunk::OnEvents() {
         object->OnEvent();
     }
 }
-void chunk::OnLoop(std::vector<chunk*> chunkList) {
+void chunk::OnLoop(std::vector<chunk*> chunkList, std::vector<std::vector<chunk*>> fullChunkList) {
     //Call OnLoop on all objects in chunk
     for (auto& object : objects) {
         object->OnLoop(chunkList);
+        //Test if object is still in chunk but
+        if (!object->isStatic) {
+            object->updateCurrentChunk(fullChunkList);
+        }
     }
 }
 void chunk::OnRender() {
@@ -85,22 +89,6 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
             }
         }
         tiles.push_back(column);
-    }
-
-    //Spawn enemies
-    int amountToSpawn = random() % globalsettings.amountOfEnemies.y + globalsettings.amountOfEnemies.x;
-    for (int i = 0; i < amountToSpawn; i++) {
-        bool spawned = false; 
-        while (!spawned) {
-            int x = random() % tileWorldSize.x;
-            int y = random() % tileWorldSize.y;
-            //Check if tile position is empty
-            if (tiles[x][y].tileName == "Air") {
-                //Spawn enemy
-                std::cout << "spawning enemy at x: " << x << " y: " << y << std::endl;
-                spawned = true;
-            }
-        }
     }
 
 }

@@ -30,7 +30,7 @@ class chunk {
         //Call OnEvent on all objects in chunk
         void OnEvents();
         //Call OnLoop on all objects in chunk
-        void OnLoop(std::vector<chunk*> chunkList);
+        void OnLoop(std::vector<chunk*> chunkList, std::vector<std::vector<chunk*>> fullChunkList);
         //Call OnRender on all objects in chunk
         void OnRender();
 };
