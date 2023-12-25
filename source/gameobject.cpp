@@ -88,8 +88,9 @@ void Gameobject::CalculatePhysics(std::vector<sf::Sprite*> collisionList) {
     for (sf::Sprite* other : collisionList) {
         if (&sprite != other) {
             if (sprite.getGlobalBounds().intersects(other->getGlobalBounds())) {
-
-                sf::FloatRect spriteRect = sprite.getGlobalBounds();
+                sf::Sprite _sprite = sprite;
+                _sprite.setPosition(position);
+                sf::FloatRect spriteRect = _sprite.getGlobalBounds();
                 sf::FloatRect otherRect = other->getGlobalBounds();
 
 

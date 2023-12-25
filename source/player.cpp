@@ -84,7 +84,7 @@ void Player::CalculatePhysics(std::vector<sf::Sprite*> collisionList) {
             break;
 
         sf::Sprite _sprite = sprite;
-        _sprite.setPosition(_sprite.getPosition() + sf::Vector2<float>(step.x * i, step.y * i));
+        _sprite.setPosition(position + sf::Vector2<float>(step.x * i, step.y * i));
         sf::FloatRect spriteRect = _sprite.getGlobalBounds();
 
         for (sf::Sprite* other : collisionList) {

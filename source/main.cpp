@@ -131,9 +131,6 @@ int main()
     app game(window);
 
     //Load level
-    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(&game.collisionList,sf::Vector2<float>(200,64),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
-    game.objectList.push_back(&player);
-    game.mainCamera.SetObjectToFollow(&player, 2);
 
     Enemy enemy = Enemy(10,100,Gameobject(&game.collisionList,sf::Vector2<float>(120,-200),0,sf::Vector2<float>(32,32),true,&texturemap.at("Noomba"),false,true,700,0,0, sf::Vector2<float>(0,0)));
     game.objectList.push_back(&enemy);
@@ -175,6 +172,40 @@ int main()
     }
 
 #pragma endregion
+
+    //Spawn player
+
+    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(&game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
+
+    int margin = 5;
+
+    player.position.x = margin * globalsettings.tileSize;
+    player.position.y = margin * globalsettings.tileSize;
+
+    //Check for spot
+    bool spawned = false;
+    while (!spawned) {
+        int x = player.position.x / globalsettings.tileSize;
+        int y = player.position.y / globalsettings.tileSize;
+        std::string currentTile = world.tiles[x][y].tileName;
+        std::string groundTile = world.tiles[x][y+1].tileName;
+        if (currentTile == "Air" && groundTile != "Air") {
+            spawned = true;
+        }else {
+            player.position.x += globalsettings.tileSize;
+            if (x >= globalsettings.worldSize.x-1) {
+                player.position.x = margin;
+                player.position.y += globalsettings.tileSize;
+            }
+            if (y >= globalsettings.worldSize.y) {
+                std::cout << "ERROR: Failed to spawn playerref";
+                window.close();
+                return 0;
+            }
+        }
+    }
+    game.objectList.push_back(&player);
+    game.mainCamera.SetObjectToFollow(&player, 2);
 
 #pragma region UI
 

@@ -89,5 +89,6 @@ void Camera::OnLoop(sf::RenderWindow &window) {
 void Camera::SetObjectToFollow(Gameobject* target, float lerpSpeed) {
     Camera::followTarget = target;
     Camera::lerpSpeed = lerpSpeed;
+    position = target->position;
 
 };
