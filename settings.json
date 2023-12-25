@@ -1,6 +1,7 @@
 {
     //Video settings
-        "frameRateLimit": 144,
+        "frameRateLimit": 999999,
+        "vSync": true,
         "windowSize": {"width": 1280, "height": 720},
         "cullSize": {"width": 1280, "height": 720},
     //Physics settings
@@ -20,7 +21,6 @@
         "chunkSize": 16,
         "chunkLoadDistance" : 2,
         "worldSize": {"width": 16, "height": 8},
-        
         "tileSize": 32,
         "gravity": 1500,
         "noiseScale": {"width": 0.02, "height": 0.05},

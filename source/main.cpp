@@ -139,7 +139,7 @@ int main()
     //Initialize window
     sf::RenderWindow window(sf::VideoMode((int)globalsettings.windowSize.x,(int)globalsettings.windowSize.y), "Minergame", sf::Style::Close);
 
-    window.setVerticalSyncEnabled(true);
+    window.setVerticalSyncEnabled(globalsettings.vSync);
     window.setActive(true);
     window.setFramerateLimit(globalsettings.frameRateLimit);
 

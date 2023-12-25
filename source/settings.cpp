@@ -21,6 +21,7 @@ Settings::Settings() {
 
     //Window
     frameRateLimit = settingsfile["frameRateLimit"].asInt();
+    vSync = settingsfile["vSync"].asBool();
     windowSize = sf::Vector2<int>(settingsfile["windowSize"]["width"].asInt(), settingsfile["windowSize"]["height"].asInt());
     cullSize = sf::Vector2<int>(settingsfile["cullSize"]["width"].asInt(), settingsfile["cullSize"]["height"].asInt());
 

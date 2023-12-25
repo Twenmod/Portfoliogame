@@ -12,6 +12,7 @@ class Settings {
         Settings();
 //Video
         int frameRateLimit;
+        bool vSync;
         sf::Vector2<int> windowSize;
         sf::Vector2<int> cullSize;
 
