@@ -46,6 +46,8 @@ Settings::Settings() {
 
 
     //World Generation
+    chunkSize = settingsfile["chunkSize"].asInt();
+    chunkLoadDistance = settingsfile["chunkLoadDistance"].asInt();
     tileSize = settingsfile["tileSize"].asInt();
     worldSize = sf::Vector2<int>(settingsfile["worldSize"]["width"].asInt(), settingsfile["worldSize"]["height"].asInt());
     noiseScale = sf::Vector2<float>(settingsfile["noiseScale"]["width"].asFloat(), settingsfile["noiseScale"]["height"].asFloat());

@@ -32,6 +32,8 @@ class Settings {
         float jumpGravity;
 
 //World generation
+        int chunkSize;
+        int chunkLoadDistance;
         float tileSize;
         sf::Vector2<int> worldSize;
         sf::Vector2<float> noiseScale;

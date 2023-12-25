@@ -15,8 +15,8 @@ class Player : public Gameobject {
 
         //Constructor
         Player(float walkSpeed, float jumpVelocity, Gameobject playerObject);
-        void OnLoop(std::vector<sf::Sprite*> collisionList);
-        void CalculatePhysics(std::vector<sf::Sprite*> collisionList);
+        void OnLoop(std::vector<chunk*> chunkList);
+        void CalculatePhysics(std::vector<chunk*> chunkList);
 };
 
 

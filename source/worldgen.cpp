@@ -19,22 +19,44 @@ tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject) : Gam
     health = _tileHealth;
 }
 
+chunk::chunk(sf::Vector2<int> position) {
+    chunkPosition = position;
+}
+
+void chunk::OnEvents() {
+    for (auto& object : objects) {
+        object->OnEvent();
+    }
+}
+void chunk::OnLoop(std::vector<chunk*> chunkList) {
+    //Call OnLoop on all objects in chunk
+    for (auto& object : objects) {
+        object->OnLoop(chunkList);
+    }
+}
+void chunk::OnRender() {
+    for (auto& object : objects) {
+        object->OnRender();
+    }
+}
+
+
 level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes, int bedrockType, std::map<int, float> noiseTileMap, std::map<int, std::pair<float, int>> secondTileMap) {
 
     //Generate perlin
     const siv::PerlinNoise::seed_type seed = time(0);
     const siv::PerlinNoise perlin { seed };
 
-
+    sf::Vector2<int> tileWorldSize = worldsize * globalsettings.chunkSize;
 
 
     //Spawn all tiles
-    for (int x = 0; x < worldsize.x; x++) {
+    for (int x = 0; x < tileWorldSize.x; x++) {
         std::vector<tile> column;
-        for (int y = 0; y < worldsize.y; y++) {
+        for (int y = 0; y < tileWorldSize.y; y++) {
             int type = -1;
             //Check if tile is on edge
-            if (x == 0 || y == 0 || x == worldsize.x-1 || y == worldsize.y-1) {
+            if (x == 0 || y == 0 || x == tileWorldSize.x-1 || y == tileWorldSize.y-1) {
                 type = bedrockType;
             }else {
                 //Get noise
@@ -70,12 +92,14 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
     for (int i = 0; i < amountToSpawn; i++) {
         bool spawned = false; 
         while (!spawned) {
-            int x = random() % worldsize.x;
-            int y = random() % worldsize.y;
+            int x = random() % tileWorldSize.x;
+            int y = random() % tileWorldSize.y;
             //Check if tile position is empty
-            //if (tiles[x][y].tileName) {
-            //}
-            spawned = true;
+            if (tiles[x][y].tileName == "Air") {
+                //Spawn enemy
+                std::cout << "spawning enemy at x: " << x << " y: " << y << std::endl;
+                spawned = true;
+            }
         }
     }
 

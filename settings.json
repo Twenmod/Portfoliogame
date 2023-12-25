@@ -17,8 +17,11 @@
         "jumpVelocity": 400,
         "jumpGravity": 700,
     //World settings
+        "chunkSize": 16,
+        "chunkLoadDistance" : 2,
+        "worldSize": {"width": 16, "height": 8},
+        
         "tileSize": 32,
-        "worldSize": {"width": 150, "height": 75},
         "gravity": 1500,
         "noiseScale": {"width": 0.02, "height": 0.05},
         "octaves": 4,

@@ -20,6 +20,21 @@ class tile : public Gameobject {
 
 };
 
+class chunk {
+    public:
+        chunk(sf::Vector2<int> position);
+        std::vector<Gameobject*> objects;
+        std::vector<sf::Sprite*> collisionObjects;
+        
+        sf::Vector2<int> chunkPosition;
+        //Call OnEvent on all objects in chunk
+        void OnEvents();
+        //Call OnLoop on all objects in chunk
+        void OnLoop(std::vector<chunk*> chunkList);
+        //Call OnRender on all objects in chunk
+        void OnRender();
+};
+
 class level {
 
     public:

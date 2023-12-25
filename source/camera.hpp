@@ -23,7 +23,7 @@ class Camera {
         //Constructor
         Camera(sf::Vector2<float> _position = sf::Vector2<float>(0,0), sf::Vector2<float> _scale = sf::Vector2<float>(1,1),sf::Vector2<unsigned int> _resolution = sf::Vector2<unsigned int>(0,0));
 
-        void Render(sf::RenderWindow &window, std::vector<Gameobject*> renderList, std::vector<uiElement*> uiElements);
+        void Render(sf::RenderWindow &window, Gameobject* player, std::vector<chunk*> chunkList, std::vector<uiElement*> uiElements);
 
         void OnLoop(sf::RenderWindow &window);
 

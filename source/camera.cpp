@@ -8,6 +8,7 @@
 #include "camera.hpp"
 #include "gameobject.hpp"
 #include "settings.hpp"
+#include "worldgen.hpp"
 
 uiElement::uiElement(sf::Text _text, sf::Font _font) {
     text = _text;
@@ -22,43 +23,49 @@ Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vecto
     followTarget = nullptr;
 };
 
-void Camera::Render(sf::RenderWindow &window, std::vector<Gameobject*> renderList, std::vector<uiElement*> uiElements) {
+void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chunk*> chunkList, std::vector<uiElement*> uiElements) {
     //Render objects
-    for(Gameobject* obj : renderList) {
-        obj->OnRender();
+    for (chunk* chunk : chunkList) {
+        for(Gameobject* obj : chunk->objects) {
+            obj->OnRender();
 
-        //Only render if object contains a sprite
-        if (obj->hasSprite) {
-            sf::Vector2<float> spritePos = obj->sprite.getPosition();
+            //Only render if object contains a sprite
+            if (obj->hasSprite) {
+                sf::Vector2<float> spritePos = obj->sprite.getPosition();
 
-            sf::Vector2<float> cameraWorldPosition = position;
-            cameraWorldPosition.x += (float)resolution.x/2;
-            cameraWorldPosition.y += (float)resolution.y/2;
+                sf::Vector2<float> cameraWorldPosition = position;
+                cameraWorldPosition.x += (float)resolution.x/2;
+                cameraWorldPosition.y += (float)resolution.y/2;
 
-            //std::cout << "SpritePos: " << spritePos.x << ", " << spritePos.y);
+                //std::cout << "SpritePos: " << spritePos.x << ", " << spritePos.y);
 
-            bool outSideCullDistance = 
-                (spritePos.x > cameraWorldPosition.x + globalsettings.cullSize.x) 
-                || 
-                (spritePos.x < cameraWorldPosition.x - globalsettings.cullSize.x)
-                ||
-                (spritePos.y > cameraWorldPosition.y + globalsettings.cullSize.y)
-                ||
-                (spritePos.y < cameraWorldPosition.y - globalsettings.cullSize.y);
-            if (!outSideCullDistance) {
-                //Copy world space sprite to a screen space sprite
-                sf::Sprite spriteToDraw = obj->sprite;
-                spriteToDraw.setPosition(spriteToDraw.getPosition() - position); 
-            
-                //std::cout << "Drawing sprite at: " << spriteToDraw.getPosition().x << ", " << spriteToDraw.getPosition().y << std::endl;
+                bool outSideCullDistance = 
+                    (spritePos.x > cameraWorldPosition.x + globalsettings.cullSize.x) 
+                    || 
+                    (spritePos.x < cameraWorldPosition.x - globalsettings.cullSize.x)
+                    ||
+                    (spritePos.y > cameraWorldPosition.y + globalsettings.cullSize.y)
+                    ||
+                    (spritePos.y < cameraWorldPosition.y - globalsettings.cullSize.y);
+                if (!outSideCullDistance) {
+                    //Copy world space sprite to a screen space sprite
+                    sf::Sprite spriteToDraw = obj->sprite;
+                    spriteToDraw.setPosition(spriteToDraw.getPosition() - position); 
+                
+                    //std::cout << "Drawing sprite at: " << spriteToDraw.getPosition().x << ", " << spriteToDraw.getPosition().y << std::endl;
 
 
-                window.draw(spriteToDraw);
+                    window.draw(spriteToDraw);
+                }
             }
         }
     }
 
-
+    //Render player
+    player->OnRender();
+    sf::Sprite playerSprite = player->sprite;
+    playerSprite.setPosition(playerSprite.getPosition() - position); 
+    window.draw(playerSprite);
 
     //Render UI
     for(uiElement* text : uiElements) {

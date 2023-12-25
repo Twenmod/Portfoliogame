@@ -36,15 +36,19 @@ class app {
     public:
         Camera mainCamera;
 
-
-        //Lists of the objects split for optimisation
-        std::vector<Gameobject*> objectList;
-        std::vector<sf::Sprite*> collisionList;
         std::vector<uiElement*> uiElements;
+
+        std::vector<std::vector<chunk*>> chunkList;
+        std::vector<chunk*> activeChunkList;
         
         sf::Clock gameClock; 
 
         sf::RenderWindow* gameWindow;
+
+        //Chunks
+        sf::Vector2<int> playerChunkPosition;
+
+        Gameobject* player;
 
         //Fps calculator
         int fpsI = 0;
@@ -61,8 +65,8 @@ class app {
         }
 
         void OnEvents() {
-            for (Gameobject* obj : objectList) {
-                obj->OnEvent();
+            for (chunk* _chunk : activeChunkList) {
+                _chunk->OnEvents();
             }
         };
         void OnLoop(sf::RenderWindow &window) {
@@ -72,9 +76,32 @@ class app {
             
             //Calculate camera
             mainCamera.OnLoop(window);
+
+            //Get active chunks
+            sf::Vector2<int> _playerchunkPos;
+            _playerchunkPos.x = player->position.x/globalsettings.tileSize/globalsettings.chunkSize;
+            _playerchunkPos.y = player->position.y/globalsettings.tileSize/globalsettings.chunkSize;
+            if (_playerchunkPos != playerChunkPosition) {
+                //Player moved to new chunk so update active chunks
+                playerChunkPosition = _playerchunkPos;
+                activeChunkList.clear();
+                for (int x = -globalsettings.chunkLoadDistance; x < globalsettings.chunkLoadDistance+1; x++) {
+                    for (int y = -globalsettings.chunkLoadDistance; y < globalsettings.chunkLoadDistance+1; y++) {
+                        int chunkposx = _playerchunkPos.x + x;
+                        int chunkposy = _playerchunkPos.y + y;
+                        //Check if not out of bounds
+                        if (!((chunkposx < 0 || chunkposx > globalsettings.worldSize.x-1) || (chunkposy < 0 || chunkposy > globalsettings.worldSize.y-1))) {
+                            activeChunkList.push_back(chunkList[chunkposx][chunkposy]);
+                        }
+                    }
+                }
+            }
+
             //Calculate objects
-            for (Gameobject* obj : objectList) {
-                obj->OnLoop(collisionList);
+            player->OnLoop(activeChunkList);
+
+            for (chunk* _chunk : activeChunkList) {
+                _chunk->OnLoop(activeChunkList);
             }
 
             //Set UI
@@ -92,7 +119,7 @@ class app {
 
         };
         void OnRender(sf::RenderWindow &window) {
-            mainCamera.Render(window,objectList, uiElements);
+            mainCamera.Render(window, player, activeChunkList, uiElements);
         };
 };
 
@@ -132,17 +159,14 @@ int main()
 
     //Load level
 
-    Enemy enemy = Enemy(10,100,Gameobject(&game.collisionList,sf::Vector2<float>(120,-200),0,sf::Vector2<float>(32,32),true,&texturemap.at("Noomba"),false,true,700,0,0, sf::Vector2<float>(0,0)));
-    game.objectList.push_back(&enemy);
-
 #pragma region WorldGen
     //Tile types
     std::vector<tile> tileTypes = {
-        tile("Air",10,Gameobject(nullptr,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),false,nullptr,true,false,0,0,0, sf::Vector2<float>(0,0))),
-        tile("Dirt",10,Gameobject(&game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
-        tile("Stone",10,Gameobject(&game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
-        tile("Gold",10,Gameobject(&game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
-        tile("Bedrock",1000000,Gameobject(&game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
+        tile("Air",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),false,nullptr,true,false,0,0,0, sf::Vector2<float>(0,0))),
+        tile("Dirt",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
+        tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
+        tile("Gold",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
+        tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
 
     };
 
@@ -162,27 +186,48 @@ int main()
 
     level world = level(globalsettings.tileSize,globalsettings.worldSize, tileTypes, 4, worldgenMap,replacementLayerMap);
     
+    //Generate chunks
+    std::vector<std::vector<chunk*>> chunks;
+    for (int x = 0; x < globalsettings.worldSize.x; x++) {
+        std::vector<chunk*> chunkcolomn;
+        for (int y = 0; y < globalsettings.worldSize.y; y++) {
+            chunkcolomn.push_back(new chunk(sf::Vector2<int>(x*globalsettings.chunkSize*globalsettings.tileSize,y*globalsettings.chunkSize*globalsettings.tileSize)));
+        }
+        chunks.push_back(chunkcolomn);
+    }
+
+    //Add tiles to chunks
     for (std::vector<tile>& tilecolomn : world.tiles) {
         for (tile& _tile : tilecolomn) {
             if (_tile.tileName != "Air") {
-                game.objectList.push_back(&_tile);
-                game.collisionList.push_back(&_tile.sprite);
+                //Get corresponding chunk
+                sf::Vector2<int> chunkPos(_tile.position.x / (globalsettings.chunkSize * globalsettings.tileSize), _tile.position.y / (globalsettings.chunkSize * globalsettings.tileSize));
+                
+                //Add to chunk
+                chunks[chunkPos.x][chunkPos.y]->objects.push_back(&_tile);
+                if(_tile.hasCollision) {
+                    chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(&_tile.sprite);
+                }
             }
         }
     }
+
+
+    game.chunkList = chunks;
+
 
 #pragma endregion
 
     //Spawn player
 
-    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(&game.collisionList,sf::Vector2<float>(0,0),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
+    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
 
     int margin = 5;
 
     player.position.x = margin * globalsettings.tileSize;
     player.position.y = margin * globalsettings.tileSize;
 
-    //Check for spot
+    //Check for spot for player
     bool spawned = false;
     while (!spawned) {
         int x = player.position.x / globalsettings.tileSize;
@@ -193,18 +238,18 @@ int main()
             spawned = true;
         }else {
             player.position.x += globalsettings.tileSize;
-            if (x >= globalsettings.worldSize.x-1) {
+            if (x >= globalsettings.worldSize.x*globalsettings.chunkSize-1) {
                 player.position.x = margin;
                 player.position.y += globalsettings.tileSize;
             }
-            if (y >= globalsettings.worldSize.y) {
+            if (y >= globalsettings.worldSize.y*globalsettings.chunkSize-1) {
                 std::cout << "ERROR: Failed to spawn playerref";
                 window.close();
                 return 0;
             }
         }
     }
-    game.objectList.push_back(&player);
+    game.player = &player;
     game.mainCamera.SetObjectToFollow(&player, 2);
 
 #pragma region UI
