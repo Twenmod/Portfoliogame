@@ -4,6 +4,7 @@
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/String.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <list>
@@ -28,6 +29,7 @@ class Camera {
         void OnLoop(sf::RenderWindow &window);
 
         void SetObjectToFollow(Gameobject* target, float lerpSpeed);
+        sf::Texture* tileBreakTexture;
 
     private:
         sf::Vector2<unsigned int> resolution;

@@ -58,22 +58,22 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
 
     if (sf::Keyboard::isKeyPressed(globalsettings.attackRight) && attackDelay <= 0) {
         attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(sprite.getScale().x,0,globalsettings.attackRange,32);
+        sf::FloatRect attackRect(sprite.getScale().x,8,globalsettings.attackRange,16);
         Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
     }
     if (sf::Keyboard::isKeyPressed(globalsettings.attackLeft) && attackDelay <= 0) {
         attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(-globalsettings.attackRange,0,globalsettings.attackRange,32);
+        sf::FloatRect attackRect(-globalsettings.attackRange,8,globalsettings.attackRange,16);
         Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
     }
     if (sf::Keyboard::isKeyPressed(globalsettings.attackUp) && attackDelay <= 0) {
         attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(0,-globalsettings.attackRange,32,globalsettings.attackRange);
+        sf::FloatRect attackRect(8,-globalsettings.attackRange,16,globalsettings.attackRange);
         Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
     }
     if (sf::Keyboard::isKeyPressed(globalsettings.attackDown) && attackDelay <= 0) {
         attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(0,sprite.getScale().y,32,globalsettings.attackRange);
+        sf::FloatRect attackRect(8,sprite.getScale().y,16,globalsettings.attackRange);
         Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
     }
 

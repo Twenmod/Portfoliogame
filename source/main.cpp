@@ -3,6 +3,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/View.hpp>
 #include <SFML/System/String.hpp>
 #include <SFML/System/Time.hpp>
@@ -270,7 +271,7 @@ int main()
 
     //Spawn player
 
-    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(32,32),true,&texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
+    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,&texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
 
     int margin = 5;
 
@@ -301,6 +302,8 @@ int main()
     }
     game.player = &player;
     game.mainCamera.SetObjectToFollow(&player, 2);
+    sf::Texture tileBreakTexture = addTexture("Sprites/Tilebreaksheet.png");
+    game.mainCamera.tileBreakTexture = &tileBreakTexture;
 
 #pragma region UI
 

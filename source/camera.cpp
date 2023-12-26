@@ -1,9 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include "camera.hpp"
 #include "gameobject.hpp"
@@ -21,6 +23,7 @@ Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vecto
     scale = _scale;
     resolution = _resolution;
     followTarget = nullptr;
+
 };
 
 void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chunk*> chunkList, std::vector<uiElement*> uiElements) {
@@ -56,6 +59,25 @@ void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chu
 
 
                     window.draw(spriteToDraw);
+
+                    if (tile* _tile = dynamic_cast<tile*>(obj)) {
+                        if (_tile->health != _tile->maxHealth) {
+                            //Tile has damage so draw damage sprite
+                            int texturesize = tileBreakTexture->getSize().y;
+                            int Slices = tileBreakTexture->getSize().x/texturesize;
+                            int slice = std::round((_tile->health/_tile->maxHealth)*Slices);
+
+
+                            sf::Sprite damageOverlay;
+                            damageOverlay.setTexture(*tileBreakTexture);
+                            damageOverlay.setTextureRect(sf::IntRect(tileBreakTexture->getSize().x-slice*texturesize,0,texturesize,texturesize));
+                            damageOverlay.setPosition(spriteToDraw.getPosition());
+                            damageOverlay.setScale(spriteToDraw.getScale());
+                            window.draw(damageOverlay);
+                        }
+
+                    }
+
                 }
             }
         }
