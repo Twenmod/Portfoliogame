@@ -3,6 +3,7 @@
 #include "gameobject.hpp"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/String.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
@@ -16,8 +17,11 @@ class tile : public Gameobject {
         float health;
         float maxHealth;
         //Constructor
-        tile(sf::String _tileName,float _tileHealth, Gameobject tileObject);
+        tile(sf::String _tileName,float _tileHealth, Gameobject tileObject, sf::Texture* _topOverrideTexture, sf::Texture* _bottomOverrideTexture);
         void TakeDamage(float damage);
+        sf::Texture* topOverrideTexture;
+        sf::Texture* bottomOverrideTexture;
+
 };
 
 class chunk {

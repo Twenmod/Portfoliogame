@@ -18,6 +18,7 @@
 #include <SFML/Window/WindowStyle.hpp>
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -146,6 +147,8 @@ int main()
     std::map<std::string, sf::Texture> texturemap = {
         {"Square", addTexture("Sprites/Square.jpg")},
         {"Dirt", addTexture("Sprites/Tiles/Dirt.png")},
+        {"Grass", addTexture("Sprites/Tiles/Grass.png")},
+        {"Dirtbottom", addTexture("Sprites/Tiles/Dirtbottom.png")},
         {"Stone",addTexture("Sprites/Tiles/Stone.png")},
         {"Gold",addTexture("Sprites/Tiles/Gold.png")},
         {"Noomba",addTexture("Sprites/noomba.png")},
@@ -160,11 +163,11 @@ int main()
 #pragma region WorldGen
     //Tile types
     std::vector<tile> tileTypes = {
-        tile("Air",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),false,nullptr,true,false,0,0,0, sf::Vector2<float>(0,0))),
-        tile("Dirt",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
-        tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
-        tile("Gold",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
-        tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0))),
+        tile("Air",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),false,nullptr,true,false,0,0,0, sf::Vector2<float>(0,0)),nullptr,nullptr),
+        tile("Dirt",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),&texturemap.at("Grass"),&texturemap.at("Dirtbottom")),
+        tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),nullptr,nullptr),
+        tile("Gold",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),nullptr,nullptr),
+        tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),nullptr,nullptr),
 
     };
 
@@ -194,20 +197,44 @@ int main()
         chunks.push_back(chunkcolomn);
     }
 
-    //Add tiles to chunks
+    //Loop to all tiles and add them to chunks and change textures
     for (std::vector<tile>& tilecolomn : world.tiles) {
         for (tile& _tile : tilecolomn) {
             if (_tile.tileName != "Air") {
-                //Get corresponding chunk
-                sf::Vector2<int> chunkPos(_tile.position.x / (globalsettings.chunkSize * globalsettings.tileSize), _tile.position.y / (globalsettings.chunkSize * globalsettings.tileSize));
-                
-                //Add to chunk
-                chunks[chunkPos.x][chunkPos.y]->objects.push_back(&_tile);
-                if(_tile.hasCollision) {
-                    chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(&_tile);
+                //Change tile textures based on tiles around
+                if (_tile.topOverrideTexture != nullptr) {
+                    //If above tile is air change texture
+                    //Make sure not out of bounds
+                    if (_tile.position.y/globalsettings.tileSize - 1 > 0) {
+                        if(world.tiles[_tile.position.x/globalsettings.tileSize][_tile.position.y/globalsettings.tileSize - 1].tileName == "Air") {
+                            _tile.sprite.setTexture(*_tile.topOverrideTexture, false);
+                        }
+                    }
+                }
+
+                if (_tile.bottomOverrideTexture != nullptr) {
+                    //If below tile is air change texture
+                    //Make sure not out of bounds
+                    if (_tile.position.y/globalsettings.tileSize + 1 < globalsettings.worldSize.y*globalsettings.chunkSize) {
+                        if(world.tiles[_tile.position.x/globalsettings.tileSize][_tile.position.y/globalsettings.tileSize + 1].tileName == "Air") {
+                            _tile.sprite.setTexture(*_tile.bottomOverrideTexture, false);
+                        }
+                    }
                 }
             }
-        }
+
+            
+
+
+            //Get corresponding chunk
+            sf::Vector2<int> chunkPos(_tile.position.x / (globalsettings.chunkSize * globalsettings.tileSize), _tile.position.y / (globalsettings.chunkSize * globalsettings.tileSize));
+            
+            //Add to chunk
+            chunks[chunkPos.x][chunkPos.y]->objects.push_back(&_tile);
+            if(_tile.hasCollision) {
+                chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(&_tile);
+            }
+         }
     }
 
     sf::Vector2<int> tileWorldSize = globalsettings.worldSize * globalsettings.chunkSize;

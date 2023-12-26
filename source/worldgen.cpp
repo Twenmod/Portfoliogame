@@ -2,6 +2,7 @@
 #include "gameobject.hpp"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <cstdlib>
 #include <iostream>
@@ -13,10 +14,12 @@
 
 
 //Constructor
-tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject) : Gameobject(tileObject) {
+tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject, sf::Texture* _topOverrideTexture, sf::Texture* _bottomOverrideTexture) : Gameobject(tileObject) {
     tileName = _tileName;
     maxHealth = _tileHealth;
     health = _tileHealth;
+    topOverrideTexture = _topOverrideTexture;
+    bottomOverrideTexture = _bottomOverrideTexture;
 }
 void tile::TakeDamage(float damage) {
     health -= damage;
