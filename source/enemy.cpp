@@ -14,6 +14,10 @@ Enemy::Enemy(float _health, float _speed, Gameobject enemyObject) : Gameobject(e
     moveDirection = 1;
 };
 
+Enemy::~Enemy() {
+    delete this;
+};
+
 void Enemy::CalculatePhysics(std::vector<chunk*> chunkList) 
 {
 
@@ -35,8 +39,9 @@ void Enemy::CalculatePhysics(std::vector<chunk*> chunkList)
     for (chunk* _chunk : chunkList) 
     {
         if (_chunk->collisionObjects.size() == 0) continue;
-        for (sf::Sprite* other : _chunk->collisionObjects) 
+        for (Gameobject* otherobject : _chunk->collisionObjects) 
         {
+            sf::Sprite* other = &otherobject->sprite;
             if (&sprite != other) {
                 if (sprite.getGlobalBounds().intersects(other->getGlobalBounds())) {
                     sf::Sprite _sprite = sprite;

@@ -18,6 +18,14 @@ tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject) : Gam
     maxHealth = _tileHealth;
     health = _tileHealth;
 }
+void tile::TakeDamage(float damage) {
+    health -= damage;
+    if (health <= 0) {
+        destroyed = true;
+    }
+}
+
+
 
 chunk::chunk(sf::Vector2<int> position) {
     chunkPosition = position;
@@ -30,7 +38,15 @@ void chunk::OnEvents() {
 }
 void chunk::OnLoop(std::vector<chunk*> chunkList, std::vector<std::vector<chunk*>> fullChunkList) {
     //Call OnLoop on all objects in chunk
-    for (auto& object : objects) {
+    for (Gameobject* object : objects) {
+        if (object->destroyed) {
+            objects.erase(std::remove(objects.begin(), objects.end(), object), objects.end());
+            if (object->hasCollision) {
+                object->hasCollision = false;
+                collisionObjects.erase(std::remove(collisionObjects.begin(), collisionObjects.end(), object), collisionObjects.end());
+            }
+        }
+
         object->OnLoop(chunkList);
         //Test if object is still in chunk but
         if (!object->isStatic) {

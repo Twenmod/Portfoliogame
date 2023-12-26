@@ -34,6 +34,8 @@ class Gameobject {
 
         sf::Vector2<float> velocity;
         bool colliding;
+        
+        bool destroyed = false;
 
         chunk* currentChunk;
 
@@ -46,6 +48,7 @@ class Gameobject {
         virtual void OnLoop(std::vector<chunk*> chunkList);
         void OnRender();
         virtual void CalculatePhysics(std::vector<chunk*> chunkList);
+        virtual void TakeDamage(float damage);
 
     private:
 };

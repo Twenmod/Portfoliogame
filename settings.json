@@ -17,6 +17,8 @@
         "groundedCheckOffset": 5,
         "jumpVelocity": 400,
         "jumpGravity": 700,
+        "attackRange": 64,
+        "attackDamage": 1,
     //World settings
         "chunkSize": 16,
         "chunkLoadDistance" : 2,

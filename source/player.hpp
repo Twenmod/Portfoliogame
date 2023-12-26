@@ -17,6 +17,9 @@ class Player : public Gameobject {
         Player(float walkSpeed, float jumpVelocity, Gameobject playerObject);
         void OnLoop(std::vector<chunk*> chunkList);
         void CalculatePhysics(std::vector<chunk*> chunkList);
+
+        //Attacks in a rect returns true if attack hits something
+        bool Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int tileAttackDamage, int enemyAttackDamage);
 };
 
 

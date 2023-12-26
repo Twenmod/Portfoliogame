@@ -6,6 +6,7 @@
     class Enemy : public Gameobject{
         public:
             Enemy(float health, float speed, Gameobject enemyObject);
+            ~Enemy();
             float health;
             float speed;
 

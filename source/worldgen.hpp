@@ -17,14 +17,14 @@ class tile : public Gameobject {
         float maxHealth;
         //Constructor
         tile(sf::String _tileName,float _tileHealth, Gameobject tileObject);
-
+        void TakeDamage(float damage);
 };
 
 class chunk {
     public:
         chunk(sf::Vector2<int> position);
         std::vector<Gameobject*> objects;
-        std::vector<sf::Sprite*> collisionObjects;
+        std::vector<Gameobject*> collisionObjects;
         
         sf::Vector2<int> chunkPosition;
         //Call OnEvent on all objects in chunk

@@ -2,6 +2,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
+#include <cstddef>
 #include <iostream>
 #include <vector>
 #include "gameobject.hpp"
@@ -78,12 +79,14 @@ void Gameobject::updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList) 
 
             currentChunk->objects.erase(std::remove(currentChunk->objects.begin(), currentChunk->objects.end(), this), currentChunk->objects.end());
             if (hasCollision) {
-                currentChunk->collisionObjects.erase(std::remove(currentChunk->collisionObjects.begin(), currentChunk->collisionObjects.end(), &sprite), currentChunk->collisionObjects.end());
+                currentChunk->collisionObjects.erase(std::remove(currentChunk->collisionObjects.begin(), currentChunk->collisionObjects.end(), this), currentChunk->collisionObjects.end());
             }
             currentChunk = chunkList[chunkPos.x-1][chunkPos.y-1];;
-            currentChunk->objects.push_back(this);
-            if (hasCollision) {
-                currentChunk->collisionObjects.push_back(&sprite);
+            if (currentChunk != NULL) {
+                currentChunk->objects.push_back(this);
+                if (hasCollision) {
+                    currentChunk->collisionObjects.push_back(this);
+                }
             }
         }
     }
@@ -108,8 +111,9 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
     for (chunk* _chunk : chunkList) 
     {
         if (_chunk->collisionObjects.size() == 0) continue;
-        for (sf::Sprite* other : _chunk->collisionObjects) 
+        for (Gameobject* otherobject : _chunk->collisionObjects) 
         {
+            sf::Sprite* other = &otherobject->sprite;
             if (&sprite != other) 
             {
                 if (sprite.getGlobalBounds().intersects(other->getGlobalBounds())) 
@@ -249,4 +253,7 @@ void Gameobject::SetVelocity(sf::Vector2<float> newVelocity) {
 
 sf::Vector2<float> Gameobject::GetVelocity() {
     return velocity;
+};
+
+void Gameobject::TakeDamage(float damage) {
 };

@@ -32,6 +32,9 @@ class Settings {
         float gravity;
         float jumpGravity;
 
+        float attackRange;
+        float attackDamage;
+
 //World generation
         int chunkSize;
         int chunkLoadDistance;
@@ -48,6 +51,13 @@ class Settings {
         sf::Keyboard::Key left;
         sf::Keyboard::Key right;
         sf::Keyboard::Key jump;
+
+        sf::Keyboard::Key attackRight;
+        sf::Keyboard::Key attackLeft;
+        sf::Keyboard::Key attackUp;
+        sf::Keyboard::Key attackDown;
+
+        
 
 };
 

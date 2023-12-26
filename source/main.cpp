@@ -204,7 +204,7 @@ int main()
                 //Add to chunk
                 chunks[chunkPos.x][chunkPos.y]->objects.push_back(&_tile);
                 if(_tile.hasCollision) {
-                    chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(&_tile.sprite);
+                    chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(&_tile);
                 }
             }
         }
@@ -229,7 +229,7 @@ int main()
                 enemy->currentChunk = chunks[chunkPos.x][chunkPos.y];
                 chunks[chunkPos.x][chunkPos.y]->objects.push_back(enemy);
                 if (enemy->hasCollision)
-                    chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(&enemy->sprite);
+                    chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(enemy);
 
                 spawned = true;
             }

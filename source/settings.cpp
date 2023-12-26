@@ -45,6 +45,8 @@ Settings::Settings() {
     // Gravity that is used when holding jump and moving up (to give more jump control)
     jumpGravity = settingsfile["jumpGravity"].asFloat();
 
+    attackRange = settingsfile["attackRange"].asFloat();
+    attackDamage = settingsfile["attackDamage"].asFloat();
 
     //World Generation
     chunkSize = settingsfile["chunkSize"].asInt();
@@ -63,6 +65,10 @@ Settings::Settings() {
     right = sf::Keyboard::D;
     jump = sf::Keyboard::Space;
 
+    attackRight = sf::Keyboard::Right;
+    attackLeft = sf::Keyboard::Left;
+    attackUp = sf::Keyboard::Up;
+    attackDown = sf::Keyboard::Down;
 };
 
 

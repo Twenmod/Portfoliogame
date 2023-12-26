@@ -45,7 +45,11 @@ or downloading it from the aur on arch
 ## controls
 - Use [A] and [D] to walk around
 - Use [Space] to jump
+- Use [UP][LEFT][DOWN][RIGHT] to attack around you
 
 ## Gameplay
-- Dont get hit by enemies lmao
-- Git gud
+- Your objective is to collect as much treasure/gold as possible
+- Get to the exit point alive (Not yet in game)
+
+## Tips
+- Do not die

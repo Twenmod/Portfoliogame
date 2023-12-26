@@ -2,6 +2,7 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
+#include <SFML/Window/Mouse.hpp>
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -52,6 +53,23 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
         grounded = false;
     }
 
+    //Attacks
+    if (sf::Keyboard::isKeyPressed(globalsettings.attackRight)) {
+        sf::FloatRect attackRect(sprite.getScale().x,0,globalsettings.attackRange,32);
+        Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
+    }
+    if (sf::Keyboard::isKeyPressed(globalsettings.attackLeft)) {
+        sf::FloatRect attackRect(-globalsettings.attackRange,0,globalsettings.attackRange,32);
+        Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
+    }
+    if (sf::Keyboard::isKeyPressed(globalsettings.attackUp)) {
+        sf::FloatRect attackRect(0,-globalsettings.attackRange,32,globalsettings.attackRange);
+        Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
+    }
+    if (sf::Keyboard::isKeyPressed(globalsettings.attackDown)) {
+        sf::FloatRect attackRect(0,0,32,globalsettings.attackRange);
+        Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
+    }
 
     Gameobject::SetVelocity(velocity);
     
@@ -89,12 +107,12 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
         sf::FloatRect spriteRect = _sprite.getGlobalBounds();
 
         for (chunk* _chunk : chunkList) {
-            int BITCHES = _chunk->collisionObjects.size();
             if (_chunk->collisionObjects.size() == 0) {
                 continue;
             }
-            for (sf::Sprite* other : _chunk->collisionObjects) 
+            for (Gameobject* otherobject : _chunk->collisionObjects) 
             {
+                sf::Sprite* other = &otherobject->sprite;
                 if (&sprite != other) 
                 {
                     if (spriteRect.intersects(other->getGlobalBounds())) {
@@ -217,5 +235,38 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
 
 };
+
+bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int tileAttackDamage, int enemyAttackDamage) {
+    //Construct attackRect
+    attackRect.left += position.x;
+    attackRect.top += position.y;
+
+    //Get all colliding objects
+    std::vector<Gameobject*> collidingObjects;
+    for (chunk* chunk : chunkList) {
+        for (Gameobject* gameobject : chunk->objects) {
+            if (gameobject->hasCollision) {
+                if (attackRect.intersects(gameobject->sprite.getGlobalBounds())) {
+                    collidingObjects.push_back(gameobject);
+                }
+            }
+        }
+    }
+
+    if (collidingObjects.size() != 0) {
+        bool hitSomething = false;
+
+        for (Gameobject* gameobject : collidingObjects) {
+            //Check if object is tile
+            if (dynamic_cast<tile*>(gameobject)) {
+                gameobject->TakeDamage(tileAttackDamage);
+                hitSomething = true;
+            }
+        }
+
+        return hitSomething;
+    }
+    return false;
+}
 
 
