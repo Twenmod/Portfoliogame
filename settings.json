@@ -3,32 +3,32 @@
         "frameRateLimit": 999999,
         "vSync": false,
         "windowSize": {"width": 1280, "height": 720},
-        "cullSize": {"width": 1280, "height": 720},
+        "cullSize": {"width": 1280, "height": 720}, // Does not draw objects if they are outside this distance
     //Physics settings
-        "playerPhysicsStepDistance": 8,
-        "playerMaxPhysicsIterations" : 10,
-        "maxDeltaTime": 0.1,
+        "playerPhysicsStepDistance": 8, // Pixels per physics step
+        "playerMaxPhysicsIterations" : 10, // Max physics steps per frame
+        "maxDeltaTime": 0.1, // Clamps deltatime to this (in seconds)
     //Player settings
-        "playerMoveSpeed": 250,
+        "playerMoveSpeed": 250, // Movement speed in pixels per second
         "playerAcceleration": 1000,
-        "playerStopAcceleration": 1500,
-        "playerAirAccelerationMultiplier": 0.8,
+        "playerStopAcceleration": 1500, //Acceleration when not holding a direction
+        "playerAirAccelerationMultiplier": 0.8, // Multiply acceleration values 
         "playerFriction": 0.1,
-        "groundedCheckOffset": 5,
+        "groundedCheckOffset": 5, // UNUSED
         "jumpVelocity": 400,
-        "jumpGravity": 700,
-        "attackRange": 64,
+        "jumpGravity": 700, // Gravity while jumping up and holding jump
+        "attackRange": 64, // Attackrange in pixels
         "attackDamage": 1,
+        "attackInterval": 0.1, //Time between attacks in Seconds 
     //World settings
-        "chunkSize": 16,
-        "chunkLoadDistance" : 2,
-        "worldSize": {"width": 20, "height": 10},
-        "tileSize": 32,
+        "chunkSize": 16, // Tiles per chunk (width and height)
+        "chunkLoadDistance" : 2, // Amount of chunks loaded around the player (in a box) so 1 means render 3x3 chunks
+        "worldSize": {"width": 20, "height": 10}, // Size of world in chunks
+        "tileSize": 32, //Size of tiles in pixels
         "gravity": 1500,
-        "noiseScale": {"width": 0.02, "height": 0.05},
-        "octaves": 3,
-        "persistence": 0.4,
-        "oreNoiseScale": {"width": 0.2, "height": 0.2},
-        "amountOfEnemies": {"min": 5, "max": 30}
-
+        "noiseScale": {"width": 0.02, "height": 0.05}, // Scale for base world generation noise
+        "octaves": 3, // Amount of noises to layer above eachother
+        "persistence": 0.4, //Persistance of those layers
+        "oreNoiseScale": {"width": 0.2, "height": 0.2}, // Scale for the noise used for spawning gold
+        "amountOfEnemies": {"min": 5, "max": 30} // Amount of enemies to spawn in the world random in between min/max
 }
