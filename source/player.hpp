@@ -13,6 +13,8 @@ class Player : public Gameobject {
         float jumpVelocity;
         bool grounded = true;
 
+        float attackDelay = 0;
+
         //Constructor
         Player(float walkSpeed, float jumpVelocity, Gameobject playerObject);
         void OnLoop(std::vector<chunk*> chunkList);
