@@ -15,9 +15,10 @@
 #include "worldgen.hpp"
 
 //Constructor
-Player::Player(float _walkSpeed, float _jumpVelocity, Gameobject playerObject) : Gameobject(playerObject) {
+Player::Player(float _walkSpeed, float _jumpVelocity, sf::FloatRect _playerRect, Gameobject playerObject) : Gameobject(playerObject) {
     walkSpeed = _walkSpeed;
     jumpVelocity = _jumpVelocity;
+    playerRect = _playerRect;
 }
 
 void Player::OnLoop(std::vector<chunk*> chunkList) {
@@ -99,6 +100,9 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
     position += velocity*deltaTime.asSeconds();
 
+    playerRect.top = position.y;
+    playerRect.left = position.x;
+
     //Collision detection
     bool test = false;
 
@@ -112,9 +116,9 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
         if (test == true)
             break;
 
-        sf::Sprite _sprite = sprite;
-        _sprite.setPosition(position + sf::Vector2<float>(step.x * i, step.y * i));
-        sf::FloatRect spriteRect = _sprite.getGlobalBounds();
+        sf::FloatRect spriteRect = playerRect;
+        spriteRect.left = position.x + step.x * i;
+        spriteRect.top = position.y + step.y * i;
 
         for (chunk* _chunk : chunkList) {
             if (_chunk->collisionObjects.size() == 0) {

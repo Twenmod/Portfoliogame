@@ -1,5 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -15,8 +16,10 @@ class Player : public Gameobject {
 
         float attackDelay = 0;
 
+        sf::FloatRect playerRect;
+
         //Constructor
-        Player(float walkSpeed, float jumpVelocity, Gameobject playerObject);
+        Player(float walkSpeed, float jumpVelocity, sf::FloatRect playerRect, Gameobject playerObject);
         void OnLoop(std::vector<chunk*> chunkList);
         void CalculatePhysics(std::vector<chunk*> chunkList);
 

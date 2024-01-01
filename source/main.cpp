@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Font.hpp>
+#include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
@@ -156,7 +157,7 @@ int main()
         {"Dirt", {new sf::Texture(addTexture("Sprites/Tiles/Dirt/Dirt.png")),new sf::Texture(addTexture("Sprites/Tiles/Dirt/Dirt2.png")),new sf::Texture(addTexture("Sprites/Tiles/Dirt/Dirt3.png"))}},
         {"Grass", {new sf::Texture(addTexture("Sprites/Tiles/Grass.png"))}},
         {"Dirtbottom", {new sf::Texture(addTexture("Sprites/Tiles/Dirtbottom.png"))}},
-        {"Stone",{new sf::Texture(addTexture("Sprites/Tiles/Stone.png"))}},
+        {"Stone",{new sf::Texture(addTexture("Sprites/Tiles/Stone/Stone.png")),new sf::Texture(addTexture("Sprites/Tiles/Stone/Stone2.png"))}},
         {"Gold",{new sf::Texture(addTexture("Sprites/Tiles/Gold/Gold.png")),new sf::Texture(addTexture("Sprites/Tiles/Gold/Gold2.png"))}},
         {"Noomba",{new sf::Texture(addTexture("Sprites/noomba.png"))}},
         {"Bedrock",{new sf::Texture(addTexture("Sprites/Tiles/Bedrock.png"))}},
@@ -276,7 +277,7 @@ int main()
 
     //Spawn player
 
-    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
+    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,sf::FloatRect(0,0,30,30) ,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
 
     int margin = 5;
 
