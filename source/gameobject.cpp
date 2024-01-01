@@ -75,14 +75,16 @@ void Gameobject::updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList) 
 
     if (currentChunk != nullptr) {
         if (chunkPos != currentChunk->chunkPosition) {
-            if (!((chunkPos.x < 0 || chunkPos.x > globalsettings.worldSize.x-1) || (chunkPos.y < 0 || chunkPos.y > globalsettings.worldSize.y-1))) return;
+            if (!((chunkPos.x < 0 || chunkPos.x >= globalsettings.worldSize.x-1) || (chunkPos.y <= 0 || chunkPos.y >= globalsettings.worldSize.y-1))) return;
+
+
 
             currentChunk->objects.erase(std::remove(currentChunk->objects.begin(), currentChunk->objects.end(), this), currentChunk->objects.end());
             if (hasCollision) {
                 currentChunk->collisionObjects.erase(std::remove(currentChunk->collisionObjects.begin(), currentChunk->collisionObjects.end(), this), currentChunk->collisionObjects.end());
             }
-            currentChunk = chunkList[chunkPos.x-1][chunkPos.y-1];;
-            if (currentChunk != NULL) {
+            currentChunk = chunkList[chunkPos.x][chunkPos.y];;
+            if (currentChunk != NULL && currentChunk != nullptr) {
                 currentChunk->objects.push_back(this);
                 if (hasCollision) {
                     currentChunk->collisionObjects.push_back(this);

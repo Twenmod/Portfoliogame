@@ -19,7 +19,7 @@
         "jumpGravity": 700, // Gravity while jumping up and holding jump
         "attackRange": 64, // Attackrange in pixels
         "attackDamage": 1,
-        "attackInterval": 0.1, //Time between attacks in Seconds 
+        "attackInterval": 0.01, //Time between attacks in Seconds 
     //World settings
         "chunkSize": 16, // Tiles per chunk (width and height)
         "chunkLoadDistance" : 2, // Amount of chunks loaded around the player (in a box) so 1 means render 3x3 chunks
