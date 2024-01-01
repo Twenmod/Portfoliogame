@@ -14,12 +14,12 @@
 
 
 //Constructor
-tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject, sf::Texture* _topOverrideTexture, sf::Texture* _bottomOverrideTexture) : Gameobject(tileObject) {
+tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject, std::vector<sf::Texture*> _topOverrideTexture, std::vector<sf::Texture*> _bottomOverrideTexture) : Gameobject(tileObject) {
     tileName = _tileName;
     maxHealth = _tileHealth;
     health = _tileHealth;
-    topOverrideTexture = _topOverrideTexture;
-    bottomOverrideTexture = _bottomOverrideTexture;
+    topOverrideTexture = _topOverrideTexture[rand() % _topOverrideTexture.size()];
+    bottomOverrideTexture = _bottomOverrideTexture[rand() % _bottomOverrideTexture.size()];
 }
 void tile::TakeDamage(float damage) {
     health -= damage;
@@ -103,6 +103,7 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
                 tile currTile = tileTypes[type];
                 currTile.position.x = x*tileGridSize;
                 currTile.position.y = y*tileGridSize;
+                currTile.resetTexture();
                 column.push_back(currTile);
             }
         }

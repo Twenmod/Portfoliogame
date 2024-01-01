@@ -20,7 +20,7 @@ class Gameobject {
         ///Sprite
 
         bool hasSprite;
-        sf::Texture texture;
+        std::vector<sf::Texture*> textures;
         sf::Sprite sprite;
 
         ///Physics
@@ -39,7 +39,8 @@ class Gameobject {
 
         chunk* currentChunk;
 
-        Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _size, bool _hasSprite, sf::Texture* _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _friction, float _bounciness, sf::Vector2<float> _startVelocity);
+        Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _size, bool _hasSprite, std::vector<sf::Texture*> _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _friction, float _bounciness, sf::Vector2<float> _startVelocity);
+        void resetTexture(); //Resets the texture to a random one in its textures
         void updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList);
         void SetScale(sf::Vector2<float> setscale);
         void SetVelocity(sf::Vector2<float> newVelocity);

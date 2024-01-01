@@ -151,15 +151,15 @@ int main()
 
     //Map of the games textures
 
-    std::map<std::string, sf::Texture> texturemap = {
-        {"Square", addTexture("Sprites/Square.jpg")},
-        {"Dirt", addTexture("Sprites/Tiles/Dirt.png")},
-        {"Grass", addTexture("Sprites/Tiles/Grass.png")},
-        {"Dirtbottom", addTexture("Sprites/Tiles/Dirtbottom.png")},
-        {"Stone",addTexture("Sprites/Tiles/Stone.png")},
-        {"Gold",addTexture("Sprites/Tiles/Gold.png")},
-        {"Noomba",addTexture("Sprites/noomba.png")},
-        {"Bedrock",addTexture("Sprites/Tiles/Bedrock.png")},
+    std::map<std::string, std::vector<sf::Texture*>> texturemap = {
+        {"Square", { new sf::Texture(addTexture("Sprites/Square.jpg")) }},
+        {"Dirt", {new sf::Texture(addTexture("Sprites/Tiles/Dirt/Dirt.png")),new sf::Texture(addTexture("Sprites/Tiles/Dirt/Dirt2.png")),new sf::Texture(addTexture("Sprites/Tiles/Dirt/Dirt3.png"))}},
+        {"Grass", {new sf::Texture(addTexture("Sprites/Tiles/Grass.png"))}},
+        {"Dirtbottom", {new sf::Texture(addTexture("Sprites/Tiles/Dirtbottom.png"))}},
+        {"Stone",{new sf::Texture(addTexture("Sprites/Tiles/Stone.png"))}},
+        {"Gold",{new sf::Texture(addTexture("Sprites/Tiles/Gold.png"))}},
+        {"Noomba",{new sf::Texture(addTexture("Sprites/noomba.png"))}},
+        {"Bedrock",{new sf::Texture(addTexture("Sprites/Tiles/Bedrock.png"))}},
     };
 
     //Load game
@@ -170,11 +170,11 @@ int main()
 #pragma region WorldGen
     //Tile types
     std::vector<tile> tileTypes = {
-        tile("Air",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),false,nullptr,true,false,0,0,0, sf::Vector2<float>(0,0)),nullptr,nullptr),
-        tile("Dirt",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),&texturemap.at("Grass"),&texturemap.at("Dirtbottom")),
-        tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),nullptr,nullptr),
-        tile("Gold",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),nullptr,nullptr),
-        tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,&texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),nullptr,nullptr),
+        tile("Air",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),false,{nullptr},true,false,0,0,0, sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
+        tile("Dirt",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),texturemap.at("Grass"),texturemap.at("Dirtbottom")),
+        tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
+        tile("Gold",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
+        tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
 
     };
 
@@ -256,7 +256,7 @@ int main()
             //Check if tile position is empty
             if (world.tiles[x][y].tileName == "Air") {
                 //Spawn enemy
-                Enemy* enemy = new Enemy(10,50,Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,&texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0)));
+                Enemy* enemy = new Enemy(10,50,Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0)));
                 //Get corresponding chunk
                 sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
                 enemy->currentChunk = chunks[chunkPos.x][chunkPos.y];
@@ -276,7 +276,7 @@ int main()
 
     //Spawn player
 
-    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,&texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
+    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
 
     int margin = 5;
 

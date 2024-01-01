@@ -1,8 +1,10 @@
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
 #include <cstddef>
+#include <cstdlib>
 #include <iostream>
 #include <vector>
 #include "gameobject.hpp"
@@ -14,7 +16,7 @@
 sf::Texture emptyimage();
 
 //Constructor
-Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation = 0,sf::Vector2<float> _size =sf::Vector2<float>(1,1), bool _hasSprite = false, sf::Texture* _texture = nullptr, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _friction = 0,float _bounciness = 0.2, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
+Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation = 0,sf::Vector2<float> _size =sf::Vector2<float>(1,1), bool _hasSprite = false, std::vector<sf::Texture*> _texture = {}, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _friction = 0,float _bounciness = 0.2, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
 
     position = _position;
     rotation = _rotation;
@@ -24,10 +26,14 @@ Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation = 0,sf::Vec
 
     hasSprite = _hasSprite;
     if (hasSprite) {
-        sf::Vector2u imageSize = _texture->getSize();
+        textures = _texture;
+
+        int select = rand() % _texture.size();
+        sf::Texture* selectedTexture = _texture[select];
+        sf::Vector2u imageSize = selectedTexture->getSize();
         scale.x = 1.f / imageSize.x * _size.x;
         scale.y = 1.f / imageSize.y * _size.y;
-        sprite.setTexture(*_texture);
+        sprite.setTexture(*selectedTexture);
         sprite.setPosition(position);
         sprite.setRotation(rotation);
         SetScale(scale);
@@ -46,6 +52,19 @@ Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation = 0,sf::Vec
     drag = 0;
 
 };
+
+void Gameobject::resetTexture() {
+    if (hasSprite) {
+        if (textures.size() > 1) {
+            std::cout << "TEST";
+        }
+        int select = rand() % textures.size();
+        sf::Texture* selectedTexture = textures[select];
+        sf::Vector2u imageSize = selectedTexture->getSize();
+
+        sprite.setTexture(*selectedTexture);
+    }
+}
 
 //Sets scale of the sprite
 void Gameobject::SetScale(sf::Vector2<float> scaleToSet) {
