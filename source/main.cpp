@@ -157,7 +157,7 @@ int main()
         {"Grass", {new sf::Texture(addTexture("Sprites/Tiles/Grass.png"))}},
         {"Dirtbottom", {new sf::Texture(addTexture("Sprites/Tiles/Dirtbottom.png"))}},
         {"Stone",{new sf::Texture(addTexture("Sprites/Tiles/Stone.png"))}},
-        {"Gold",{new sf::Texture(addTexture("Sprites/Tiles/Gold.png"))}},
+        {"Gold",{new sf::Texture(addTexture("Sprites/Tiles/Gold/Gold.png")),new sf::Texture(addTexture("Sprites/Tiles/Gold/Gold2.png"))}},
         {"Noomba",{new sf::Texture(addTexture("Sprites/noomba.png"))}},
         {"Bedrock",{new sf::Texture(addTexture("Sprites/Tiles/Bedrock.png"))}},
     };

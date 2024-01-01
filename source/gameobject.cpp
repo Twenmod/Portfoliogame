@@ -55,9 +55,6 @@ Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation = 0,sf::Vec
 
 void Gameobject::resetTexture() {
     if (hasSprite) {
-        if (textures.size() > 1) {
-            std::cout << "TEST";
-        }
         int select = rand() % textures.size();
         sf::Texture* selectedTexture = textures[select];
         sf::Vector2u imageSize = selectedTexture->getSize();
