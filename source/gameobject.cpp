@@ -62,7 +62,6 @@ void Gameobject::OnEvent() {
 void Gameobject::OnLoop(std::vector<chunk*> chunkList) {
     if (!isStatic) {
         CalculatePhysics(chunkList);
-        //std::cout << "\nRealpos: " << position.x;
     }
 };
 
@@ -142,12 +141,6 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
                     bool leftinsideother = spriteRect.left >= otherRect.left && spriteRect.left <= otherRight;
                     bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
 
-                    /*Debug visualizer*//*
-                    std::cout << "\n  T:"<< topinsideother << "\n"
-                    << leftinsideother << " o " << rightinsideother << "\n"
-                    << "  B:" << bottominsideother << "\n"; 
-                    //*/
-
 
                     //Find side by checking smallest distance between the sides
                     
@@ -201,9 +194,6 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
                         normal = sf::Vector2<float>(-1.f,  0.f);
                     }
 
-
-                    //std::cout << "\n Side: " << side << "\n";
-
                     //Move to closest side
                     switch (side) {
                         case 0: // Top
@@ -222,7 +212,6 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
 
                     //Negate velocity / bounce
                     float totalVelocity = -1*(normal*relativeVelocity);
-                    //std::cout << "\nOldvelo:"<<velocity.y<<"\nAddVelo: " << totalVelocity;
 
                     //Apply velocity;
                     bool normalNegative = normal.y < 0 || normal.x < 0;
@@ -230,7 +219,6 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
                     if ((normalNegative && !addNegative) || (addNegative && !normalNegative))
                         velocity += normal * totalVelocity;
 
-                    //std::cout << "\n Normal: " << normal.y;
                     if (normal != sf::Vector2<float>(0,0)) {
                         velocity += -relativeVelocity*friction;
                         test = true;
@@ -241,7 +229,6 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
     }
     colliding = test;
 
-   // std::cout << "\nnewvelo:"<<velocity.y;
 
 
     //Scale the velocity to deltaTime to get consistent velocity across framerates

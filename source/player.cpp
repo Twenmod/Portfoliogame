@@ -147,12 +147,6 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                         bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
 
 
-                        /*Debug visualizer*//*
-                        std::cout << "\n  T:"<< topinsideother << "\n"
-                        << leftinsideother << " o " << rightinsideother << "\n"
-                        << "  B:" << bottominsideother << "\n"; 
-                        //*/
-
 
                         //Find side by checking smallest distance between the sides
                         
@@ -207,8 +201,6 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                             grounded = false;
                         }
 
-                        //std::cout << "\n Side: " << side << "\n";
-
                         //Move to closest side
                         switch (side) {
                             case 0: // Top
@@ -238,12 +230,6 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
         }
     }
     colliding = test;
-
-   // std::cout << "\nnewvelo:"<<velocity.y;
-
-
-
-
 };
 
 bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int tileAttackDamage, int enemyAttackDamage) {

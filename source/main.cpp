@@ -20,6 +20,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -143,6 +144,11 @@ int main()
     window.setActive(true);
     window.setFramerateLimit(globalsettings.frameRateLimit);
 
+    //Random seed
+    srand(globalsettings.worldSeed);
+    std::cout << "Starting game with seed: " << globalsettings.worldSeed << "\n";
+
+
     //Map of the games textures
 
     std::map<std::string, sf::Texture> texturemap = {
@@ -241,16 +247,15 @@ int main()
     sf::Vector2<int> tileWorldSize = globalsettings.worldSize * globalsettings.chunkSize;
 
     //Spawn enemies
-    int amountToSpawn = random() % globalsettings.amountOfEnemies.y + globalsettings.amountOfEnemies.x;
+    int amountToSpawn = rand() % globalsettings.amountOfEnemies.y + globalsettings.amountOfEnemies.x;
     for (int i = 0; i < amountToSpawn; i++) {
         bool spawned = false; 
         while (!spawned) {
-            int x = random() % tileWorldSize.x;
-            int y = random() % tileWorldSize.y;
+            int x = rand() % tileWorldSize.x;
+            int y = rand() % tileWorldSize.y;
             //Check if tile position is empty
             if (world.tiles[x][y].tileName == "Air") {
                 //Spawn enemy
-                std::cout << "spawning enemy at x: " << x << " y: " << y << std::endl;
                 Enemy* enemy = new Enemy(10,50,Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,&texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0)));
                 //Get corresponding chunk
                 sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));

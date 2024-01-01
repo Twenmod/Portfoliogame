@@ -67,7 +67,7 @@ void chunk::OnRender() {
 level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes, int bedrockType, std::map<int, float> noiseTileMap, std::map<int, std::pair<float, int>> secondTileMap) {
 
     //Generate perlin
-    const siv::PerlinNoise::seed_type seed = time(0);
+    const siv::PerlinNoise::seed_type seed = globalsettings.worldSeed;
     const siv::PerlinNoise perlin { seed };
 
     sf::Vector2<int> tileWorldSize = worldsize * globalsettings.chunkSize;
@@ -104,7 +104,6 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
                 currTile.position.x = x*tileGridSize;
                 currTile.position.y = y*tileGridSize;
                 column.push_back(currTile);
-                std::cout <<"spawning tile at x: " << x << " y: " << y << std::endl;
             }
         }
         tiles.push_back(column);

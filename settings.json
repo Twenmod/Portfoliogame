@@ -1,9 +1,20 @@
 {
+/// User settings ///
+    //Video
+    "frameRateLimit": 999999,
+    "vSync": false,
+    "windowSize": {"width": 1280, "height": 720},
+
+    //World generation
+    "worldSeed": 0, // Seed for world generation only use numbers (set 0 for random)
+    "worldSize": {"width": 20, "height": 10}, // Size of world in chunks
+
+
+
+
+/// Base Game Settings ///
     //Video settings
-        "frameRateLimit": 999999,
-        "vSync": false,
-        "windowSize": {"width": 1280, "height": 720},
-        "cullSize": {"width": 1280, "height": 720}, // Does not draw objects if they are outside this distance
+        "cullSize": {"width": 1920, "height": 1080}, // Does not draw objects if they are outside this distance
     //Physics settings
         "playerPhysicsStepDistance": 8, // Pixels per physics step
         "playerMaxPhysicsIterations" : 10, // Max physics steps per frame
@@ -23,7 +34,6 @@
     //World settings
         "chunkSize": 16, // Tiles per chunk (width and height)
         "chunkLoadDistance" : 2, // Amount of chunks loaded around the player (in a box) so 1 means render 3x3 chunks
-        "worldSize": {"width": 20, "height": 10}, // Size of world in chunks
         "tileSize": 32, //Size of tiles in pixels
         "gravity": 1500,
         "noiseScale": {"width": 0.02, "height": 0.05}, // Scale for base world generation noise

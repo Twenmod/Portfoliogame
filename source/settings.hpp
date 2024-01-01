@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include <SFML/System/String.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
@@ -46,6 +47,7 @@ class Settings {
         float octaves;
         float persistence;
         sf::Vector2<int> amountOfEnemies;
+        int worldSeed;
 
 
 //Input

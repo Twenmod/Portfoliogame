@@ -50,6 +50,13 @@ Settings::Settings() {
     attackInterval = settingsfile["attackInterval"].asFloat();
 
     //World Generation
+
+    worldSeed = settingsfile["worldSeed"].asInt();
+    if (worldSeed == 0) {
+        worldSeed = time(0) * 80085; // Set random worldseed
+    }
+
+
     chunkSize = settingsfile["chunkSize"].asInt();
     chunkLoadDistance = settingsfile["chunkLoadDistance"].asInt();
     tileSize = settingsfile["tileSize"].asInt();

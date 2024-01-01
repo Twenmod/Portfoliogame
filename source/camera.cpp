@@ -40,8 +40,6 @@ void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chu
                 cameraWorldPosition.x += (float)resolution.x/2;
                 cameraWorldPosition.y += (float)resolution.y/2;
 
-                //std::cout << "SpritePos: " << spritePos.x << ", " << spritePos.y);
-
                 bool outSideCullDistance = 
                     (spritePos.x > cameraWorldPosition.x + globalsettings.cullSize.x) 
                     || 
@@ -55,8 +53,6 @@ void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chu
                     sf::Sprite spriteToDraw = obj->sprite;
                     spriteToDraw.setPosition(spriteToDraw.getPosition() - position); 
                 
-                    //std::cout << "Drawing sprite at: " << spriteToDraw.getPosition().x << ", " << spriteToDraw.getPosition().y << std::endl;
-
 
                     window.draw(spriteToDraw);
 
@@ -104,9 +100,6 @@ void Camera::OnLoop(sf::RenderWindow &window) {
     //Lerp to target
     if (followTarget != nullptr) {
         sf::FloatRect targetRect = followTarget->sprite.getGlobalBounds();
-
-
-        //std::cout << "\nTargetPos: " << followTarget->position.x << " CurrentPos: "<<position.x<< " Window: "<< window.getSize().x;
         
         // X
         position.x = position.x+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.x - float(resolution.x)/2-(targetRect.width/2)) - position.x),-lerpSpeed*10,lerpSpeed*10);
