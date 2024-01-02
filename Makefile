@@ -22,7 +22,7 @@ $(EXECUTABLE): $(OBJECTS)
 all: $(EXECUTABLE)
 
 clean:
-	rm -rf $(EXECUTABLE) $(SOURCEDIR)/*.o
+	rm -rf $(SOURCEDIR)/*.o
 
 phony: clean
 

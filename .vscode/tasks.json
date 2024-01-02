@@ -4,7 +4,16 @@
         {
             "label": "make all",
             "type": "shell",
-            "command": "make all && make clean",
+            "command": "make all",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+        },
+        {
+            "label": "build and run",
+            "type": "shell",
+            "command": "make all && make run",
             "group": {
                 "kind": "build",
                 "isDefault": true
