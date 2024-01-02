@@ -1,37 +1,14 @@
 {
+    "version": "2.0.0",
     "tasks": [
         {
+            "label": "make all",
             "type": "shell",
-            "label": "C/C++: g++ build the game",
-            "command": "g++",
-            "args": [
-                "-g",
-                "source/*.cpp",
-                "-I",
-                "${workspaceFolder}/src",
-                "-o",
-                "${workspaceFolder}/game",
-                "-L",
-                "/usr/lib",
-                "-I",
-                "/usr/include",
-                "-l", "sfml-graphics",
-                "-l", "sfml-window",
-                "-l", "sfml-system",                
-                "-l", "jsoncpp",
-                "-std=c++17"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
+            "command": "make all && make clean",
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-            "problemMatcher": [
-                "$gcc"
-            ]
         }
-    ],
-    "version": "2.0.0"
+    ]
 }
