@@ -14,6 +14,7 @@
 #include "settings.hpp"
 #include "math.hpp"
 #include "worldgen.hpp"
+#include "items.hpp"
 
 //Constructor
 Player::Player(float _walkSpeed, float _jumpVelocity, sf::FloatRect _playerRect, sf::Vector2<float> _size, sf::Vector2<float> _spriteOffset, Gameobject playerObject) : Gameobject(playerObject) {
@@ -152,6 +153,15 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                 sf::Sprite* other = &otherobject->sprite;
                 if (&sprite != other) 
                 {
+
+                    //Pick up if is a item
+                    if (treasureItem* treasure = dynamic_cast<treasureItem*>(otherobject)) {
+                        gold += treasure->value;
+                        treasure->PickUp();
+                    }
+
+
+
                     if (spriteRect.intersects(other->getGlobalBounds())) {
 
                         sf::FloatRect otherRect = other->getGlobalBounds();

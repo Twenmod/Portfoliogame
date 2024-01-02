@@ -7,7 +7,7 @@
             "command": "make all",
             "group": {
                 "kind": "build",
-                "isDefault": true
+                "isDefault": false
             },
         },
         {
@@ -17,6 +17,15 @@
             "group": {
                 "kind": "build",
                 "isDefault": true
+            },
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "make clean",
+            "group": {
+                "kind": "build",
+                "isDefault": false
             },
         }
     ]

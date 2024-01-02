@@ -13,6 +13,9 @@ class Player : public Gameobject {
 
 
     public:
+
+        int gold;
+
         float walkSpeed;
         float jumpVelocity;
         bool grounded = true;
