@@ -20,13 +20,13 @@
         "playerMaxPhysicsIterations" : 10, // Max physics steps per frame
         "maxDeltaTime": 0.1, // Clamps deltatime to this (in seconds)
     //Player settings
-        "playerMoveSpeed": 250, // Movement speed in pixels per second
-        "playerAcceleration": 1000,
-        "playerStopAcceleration": 1500, //Acceleration when not holding a direction
+        "playerMoveSpeed": 120, // Movement speed in pixels per second
+        "playerAcceleration": 600,
+        "playerStopAcceleration": 800, //Acceleration when not holding a direction
         "playerAirAccelerationMultiplier": 0.8, // Multiply acceleration values 
         "playerFriction": 0.1,
         "groundedCheckOffset": 5, // UNUSED
-        "jumpVelocity": 400,
+        "jumpVelocity": 350,
         "jumpGravity": 700, // Gravity while jumping up and holding jump
         "attackRange": 64, // Attackrange in pixels
         "attackDamage": 1,

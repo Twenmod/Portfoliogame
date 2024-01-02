@@ -15,10 +15,14 @@
 #include "worldgen.hpp"
 
 //Constructor
-Player::Player(float _walkSpeed, float _jumpVelocity, sf::FloatRect _playerRect, Gameobject playerObject) : Gameobject(playerObject) {
+Player::Player(float _walkSpeed, float _jumpVelocity, sf::FloatRect _playerRect, sf::Vector2<float> _size, sf::Vector2<float> _spriteOffset, Gameobject playerObject) : Gameobject(playerObject) {
     walkSpeed = _walkSpeed;
     jumpVelocity = _jumpVelocity;
     playerRect = _playerRect;
+    scale.x = 1.f / 34 * _size.x;
+    scale.y = 1.f / 34 * _size.y;
+    SetScale(scale);
+    spriteOffset = _spriteOffset;
 }
 
 void Player::OnLoop(std::vector<chunk*> chunkList) {
@@ -27,16 +31,29 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
     float acceleration = globalsettings.playerAcceleration * deltaTime.asSeconds();
     if (!grounded) acceleration *= globalsettings.playerAirAccelerationMultiplier; 
 
+
+    if (!jumpKeyHold && sf::Keyboard::isKeyPressed(globalsettings.jump)) {
+        jumpKeyDown = true;
+    }else {
+        jumpKeyDown = false;
+    }
+    jumpKeyHold = sf::Keyboard::isKeyPressed(globalsettings.jump);
+
     if (sf::Keyboard::isKeyPressed(globalsettings.right)) {
+        facing = 1;
+        walking = true;
         velocity.x += acceleration;
         if (velocity.x > walkSpeed)
             velocity.x = walkSpeed;
     }
     else if (sf::Keyboard::isKeyPressed(globalsettings.left)) {
+        facing = 0;
+        walking = true;
         velocity.x -= acceleration;
         if (velocity.x < -walkSpeed)
             velocity.x = -walkSpeed;
     }else {
+        walking = false;
         acceleration = globalsettings.playerStopAcceleration;
         if (!grounded)
             acceleration *= globalsettings.playerAirAccelerationMultiplier;
@@ -49,9 +66,14 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
         else velocity.x = 0;
     }
 
-    if (sf::Keyboard::isKeyPressed(globalsettings.jump) && grounded) {
+    if (jumpKeyDown && grounded) {
+        jumpTrigger = true;
         velocity.y = -jumpVelocity;
         grounded = false;
+    }
+
+    if (grounded) {
+        jumping = false;
     }
 
     //Attacks
@@ -143,6 +165,8 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                         float otherBottom = otherRect.top + otherRect.height;
                         float spriteRight = spriteRect.left + spriteRect.width;
                         float otherRight = otherRect.left + otherRect.width;
+                        
+                        float groundedMinDistance = 1.f; // Override distance for bottom side to make sure player does not collide with side of tiles when walking on them
 
                         //Test all sides
                         bool bottominsideother = spriteBottom <= otherBottom && spriteBottom >= otherRect.top;
@@ -154,7 +178,6 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
                         //Find side by checking smallest distance between the sides
                         
-                        float groundedMinDistance = 1.f; // Override distance for bottom side to make sure player does not collide with side of tiles when walking on them
 
                         float minDistance = INFINITY;
                         int side = -1;
@@ -269,4 +292,58 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
     return false;
 }
 
+void Player::OnRender() {
 
+    if (animationDelay >= 0) {
+        animationDelay -= deltaTime.asSeconds();
+    }else if (jumpTrigger) {
+        jumpTrigger = false;
+        //Start a jumpanimation
+        if (facing == 1) { // Facing right
+            sprite.setTextureRect(sf::IntRect(238,0,34,34));
+        }else { // Facing left
+            sprite.setTextureRect(sf::IntRect(238,34,34,34));
+        }
+        animationDelay = 0.1f;
+    }else if (!grounded) {
+        //Set falling animation
+        if (facing == 1) { // Facing right
+            sprite.setTextureRect(sf::IntRect(272,0,34,34));
+        }else { // Facing left
+            sprite.setTextureRect(sf::IntRect(272,34,34,34));
+        }
+    }else if (!wasGrounded && grounded) {
+        //Set land animation
+        if (facing == 1) { // Facing right
+            sprite.setTextureRect(sf::IntRect(306,0,34,34));
+        }else { // Facing left
+            sprite.setTextureRect(sf::IntRect(306,34,34,34));
+        }
+        animationDelay = 0.1f;
+    }else if (walking) {
+        //Walk animation
+        walkanimationDelay -= deltaTime.asSeconds() * std::abs(velocity.x);
+        if (walkanimationDelay <= 0){
+            walkanimationDelay = animationWalkSpeed;;
+            walkanimationFrame++;
+            if (walkanimationFrame >= 6) walkanimationFrame = 0;
+        }
+        if (facing == 1) { // Facing right
+            sprite.setTextureRect(sf::IntRect(34+walkanimationFrame*34,0,34,34));
+        }else {
+            sprite.setTextureRect(sf::IntRect(34+walkanimationFrame*34,34,34,34)); 
+        }
+    }else {
+        //Idle
+        if (facing == 1) { // Facing right
+            sprite.setTextureRect(sf::IntRect(0,0,34,34));
+        }else { // Facing left
+            sprite.setTextureRect(sf::IntRect(0,34,34,34));
+        }
+    }
+
+    wasGrounded = grounded;
+
+    sprite.setPosition(position + spriteOffset);
+    sprite.setRotation(rotation);
+}

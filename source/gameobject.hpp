@@ -47,7 +47,7 @@ class Gameobject {
         sf::Vector2<float> GetVelocity();
         void OnEvent();
         virtual void OnLoop(std::vector<chunk*> chunkList);
-        void OnRender();
+        virtual void OnRender();
         virtual void CalculatePhysics(std::vector<chunk*> chunkList);
         virtual void TakeDamage(float damage);
 

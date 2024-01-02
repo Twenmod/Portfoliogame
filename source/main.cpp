@@ -153,6 +153,7 @@ int main()
     //Map of the games textures
 
     std::map<std::string, std::vector<sf::Texture*>> texturemap = {
+        {"Player", {new sf::Texture(addTexture("Sprites/Player/playerSheet.png"))}},
         {"Square", { new sf::Texture(addTexture("Sprites/Square.jpg")) }},
         {"Dirt", {new sf::Texture(addTexture("Sprites/Tiles/Dirt/Dirt.png")),new sf::Texture(addTexture("Sprites/Tiles/Dirt/Dirt2.png")),new sf::Texture(addTexture("Sprites/Tiles/Dirt/Dirt3.png"))}},
         {"Grass", {new sf::Texture(addTexture("Sprites/Tiles/Grass.png"))}},
@@ -277,7 +278,7 @@ int main()
 
     //Spawn player
 
-    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,sf::FloatRect(0,0,30,30) ,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,texturemap.at("Square"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
+    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,sf::FloatRect(0,0,15,30), sf::Vector2<float>(40,40),sf::Vector2<float>(-12.5,-10),Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,texturemap.at("Player"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
 
     int margin = 5;
 
