@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <limits>
 #include <vector>
 #include "player.hpp"
 #include "gameobject.hpp"
@@ -258,8 +259,14 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
 bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int tileAttackDamage, int enemyAttackDamage) {
     //Construct attackRect
-    attackRect.left += position.x;
-    attackRect.top += position.y;
+
+    sf::Vector2<float> roundedPosition = position;
+    roundedPosition.x = std::floor(roundedPosition.x/globalsettings.tileSize)*globalsettings.tileSize;
+    roundedPosition.y = std::floor(roundedPosition.y/globalsettings.tileSize)*globalsettings.tileSize;
+
+
+    attackRect.left += roundedPosition.x;
+    attackRect.top += roundedPosition.y;
 
     //Get all colliding objects
     std::vector<Gameobject*> collidingObjects;
