@@ -101,12 +101,15 @@ class app {
                 }
             }
 
-            //Calculate objects
-            player->OnLoop(activeChunkList);
-
+            //Calculate Objects
             for (chunk* _chunk : activeChunkList) {
                 _chunk->OnLoop(activeChunkList, chunkList);
             }
+
+            //Calculate Player
+            player->OnLoop(activeChunkList);
+
+
 
             //Set UI
             fpsArray[fpsI] = 1/deltaTime.asSeconds();
@@ -285,10 +288,10 @@ int main()
 
     Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,sf::FloatRect(0,0,15,30), sf::Vector2<float>(40,40),sf::Vector2<float>(-12.5,-10),Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,texturemap.at("Player"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
 
-    int margin = 5;
+    sf::Vector2<int> margin(30,5);
 
-    player.position.x = margin * globalsettings.tileSize;
-    player.position.y = margin * globalsettings.tileSize;
+    player.position.x = margin.x * globalsettings.tileSize;
+    player.position.y = margin.y * globalsettings.tileSize;
 
     //Check for spot for player
     bool spawned = false;
@@ -302,7 +305,7 @@ int main()
         }else {
             player.position.x += globalsettings.tileSize;
             if (x >= globalsettings.worldSize.x*globalsettings.chunkSize-1) {
-                player.position.x = margin;
+                player.position.x = margin.x;
                 player.position.y += globalsettings.tileSize;
             }
             if (y >= globalsettings.worldSize.y*globalsettings.chunkSize-1) {
