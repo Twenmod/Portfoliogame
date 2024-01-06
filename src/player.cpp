@@ -129,6 +129,7 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
     //Collision detection
     bool test = false;
+    bool groundedTest = false;
 
     sf::Vector2<float> scaledVelocity = velocity * deltaTime.asSeconds();
     float distance = std::sqrt(scaledVelocity.x * scaledVelocity.x + scaledVelocity.y * scaledVelocity.y);
@@ -144,6 +145,7 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
         spriteRect.left = position.x + step.x * i;
         spriteRect.top = position.y + step.y * i;
 
+
         for (chunk* _chunk : chunkList) {
             if (_chunk->collisionObjects.size() == 0) {
                 continue;
@@ -154,15 +156,21 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                 if (&sprite != other) 
                 {
 
-                    //Pick up if is a item
-                    if (treasureItem* treasure = dynamic_cast<treasureItem*>(otherobject)) {
-                        gold += treasure->value;
-                        treasure->PickUp();
+
+
+                    //Check if collides with feet
+                    if (other->getGlobalBounds().contains(spriteRect.left+spriteRect.width/2,spriteRect.top+spriteRect.height+globalsettings.groundedCheckOffset)) {
+                        groundedTest = true;
                     }
 
-
-
                     if (spriteRect.intersects(other->getGlobalBounds())) {
+
+                        //Pick up if is a item
+                        if (treasureItem* treasure = dynamic_cast<treasureItem*>(otherobject)) {
+                            gold += treasure->value;
+                            treasure->PickUp();
+                        }
+
 
                         sf::FloatRect otherRect = other->getGlobalBounds();
 
@@ -231,13 +239,10 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                         if (sideCollision && (bottomDistance <= groundedMinDistance || bottomDistance == minDistance)) {
                             side = 2;
                             normal = sf::Vector2<float>(0,  -1.f);
-                            grounded = true;
-                        } else {
-                            grounded = false;
                         }
 
                         //Move to closest side
-                        switch (side) {
+                         switch (side) {
                             case 0: // Top
                                 position.y = otherBottom;
                                 if (velocity.y < 0) velocity.y = 0;
@@ -263,8 +268,11 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                 }
             }
         }
+
+
     }
     colliding = test;
+    grounded = groundedTest;
 };
 
 bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int tileAttackDamage, int enemyAttackDamage) {

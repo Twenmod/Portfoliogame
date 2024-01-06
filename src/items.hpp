@@ -3,7 +3,7 @@
 #include "gameobject.hpp"
 #include <SFML/System/String.hpp>
 
-class treasureItem : Gameobject {
+class treasureItem : public Gameobject {
     public:
         treasureItem(int _value, Gameobject itemObject);
         int value;
