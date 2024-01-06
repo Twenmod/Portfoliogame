@@ -44,7 +44,7 @@ class Player : public Gameobject {
 
         //Animation/Sprites
 
-
+        float cayote;
 
         bool wasGrounded;
 
@@ -52,7 +52,6 @@ class Player : public Gameobject {
         bool facing;
         bool walking;
         bool jumpTrigger;
-        bool jumping;
 
         float walkanimationDelay = 0;
         int walkanimationFrame = 0;

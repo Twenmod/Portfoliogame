@@ -25,7 +25,7 @@
         "playerStopAcceleration": 800, //Acceleration when not holding a direction
         "playerAirAccelerationMultiplier": 0.8, // Multiply acceleration values 
         "playerFriction": 0.1,
-        "groundedCheckOffset": 5, // How far under the player to check for ground
+        "cayoteTime": 0.12, // How long after going of a platform to update grounded
         "jumpVelocity": 350,
         "jumpGravity": 700, // Gravity while jumping up and holding jump
         "attackRange": 64, // Attackrange in pixels

@@ -68,15 +68,15 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
         else velocity.x = 0;
     }
 
+
     if (jumpKeyDown && grounded) {
         jumpTrigger = true;
         velocity.y = -jumpVelocity;
         grounded = false;
+        cayote = 0;
     }
 
-    if (grounded) {
-        jumping = false;
-    }
+
 
     //Attacks
     attackDelay -= deltaTime.asSeconds();
@@ -159,7 +159,7 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
 
                     //Check if collides with feet
-                    if (other->getGlobalBounds().contains(spriteRect.left+spriteRect.width/2,spriteRect.top+spriteRect.height+globalsettings.groundedCheckOffset)) {
+                    if (other->getGlobalBounds().contains(spriteRect.left,spriteRect.top+spriteRect.height) || other->getGlobalBounds().contains(spriteRect.left+spriteRect.width,spriteRect.top+spriteRect.height)) {
                         groundedTest = true;
                     }
 
@@ -268,11 +268,18 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                 }
             }
         }
-
-
     }
     colliding = test;
-    grounded = groundedTest;
+    if (!groundedTest || jumpTrigger) {
+        cayote -= deltaTime.asSeconds();
+        if (cayote <= 0) {
+            grounded = false;
+        }
+    }else {
+        grounded = true;
+        cayote = globalsettings.cayoteTime;
+    }
+
 };
 
 bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int tileAttackDamage, int enemyAttackDamage) {
