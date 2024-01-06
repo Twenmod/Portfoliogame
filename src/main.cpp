@@ -13,6 +13,8 @@
 #include <SFML/Window/VideoMode.hpp>
 #include "gameobject.hpp"
 #include "camera.hpp"
+#include "globals.hpp"
+#include "items.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
 #include "settings.hpp"
@@ -26,6 +28,7 @@
 #include <iterator>
 #include <limits>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -124,6 +127,11 @@ class app {
             avarageFps /= fpsArraySize;
             uiElements[0]->text.setString("FPS: " + std::to_string((int)avarageFps));
 
+            if (Player *_player = dynamic_cast<Player*>(player)) {
+                uiElements[1]->text.setString("Health: " + std::to_string((int)_player->health) + "/" + std::to_string((int)_player->maxHealth));
+                uiElements[2]->text.setString("Gold: " + std::to_string(_player->gold));
+            }
+
         };
         void OnRender(sf::RenderWindow &window) {
             mainCamera.Render(window, player, activeChunkList, uiElements);
@@ -170,6 +178,7 @@ int main()
         {"Gold",{new sf::Texture(addTexture("sprites/tiles/gold/gold.png")),new sf::Texture(addTexture("sprites/tiles/gold/gold2.png"))}},
         {"Noomba",{new sf::Texture(addTexture("sprites/noomba.png"))}},
         {"Bedrock",{new sf::Texture(addTexture("sprites/tiles/bedrock.png"))}},
+        {"Goldnugget",{new sf::Texture(addTexture("sprites/goldnugget.png")),new sf::Texture(addTexture("sprites/goldnugget2.png"))}},
     };
 
     //Load game
@@ -180,11 +189,12 @@ int main()
 #pragma region WorldGen
     //Tile types
     std::vector<tile> tileTypes = {
-        tile("Air",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),false,{nullptr},true,false,0,0,0, sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
-        tile("Dirt",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),texturemap.at("Grass"),texturemap.at("Dirtbottom")),
-        tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
-        tile("Gold",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
-        tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
+        tile("Air",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),false,{nullptr},true,false,0,0,0, sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
+        tile("Dirt",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),texturemap.at("Grass"),texturemap.at("Dirtbottom"), false, treasureItem()),
+        tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
+        tile("Gold",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, true,
+            treasureItem(10,200,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(10,10),true,texturemap.at("Goldnugget"),false,true,globalsettings.gravity,100,0.4f,sf::Vector2<float>(0,0)))),
+        tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
 
     };
 
@@ -280,6 +290,7 @@ int main()
     }
 
     game.chunkList = chunks;
+    globalChunkList = chunks;
 
 
 #pragma endregion
@@ -322,27 +333,41 @@ int main()
 
 #pragma region UI
 
-    sf::Text text;
     sf::Font font;
     if (!font.loadFromFile("Fonts/RubikScribble-Regular.ttf")) {
         std::cout << "Failed to load font";
     }
 
-    // set the string to display
-    text.setString("Hello world");
 
-    // set the character size
-    text.setCharacterSize(24); // in pixels, not points!
+    //FPS text
+    sf::Text fpstext;
+    fpstext.setCharacterSize(24);
+    fpstext.setFillColor(sf::Color::White);
+    fpstext.setStyle(sf::Text::Bold);
+    fpstext.setPosition(globalsettings.windowSize.x-150,0);
 
-    // set the color
-    text.setFillColor(sf::Color::White);
+    uiElement fpstextElement(fpstext,font);
+    game.uiElements.push_back(&fpstextElement);
 
-    // set the text style
-    text.setStyle(sf::Text::Bold);
+    //Health text
+    sf::Text hptext;
+    hptext.setCharacterSize(24);
+    hptext.setFillColor(sf::Color::Red);
+    hptext.setStyle(sf::Text::Bold);
+    hptext.setPosition(sf::Vector2<float>(0,0));
 
-    uiElement textElement(text,font);
-    game.uiElements.push_back(&textElement);
+    uiElement healthElement(hptext,font);
+    game.uiElements.push_back(&healthElement);
 
+    //Gold Text
+    sf::Text goldtext;
+    goldtext.setCharacterSize(24);
+    goldtext.setFillColor(sf::Color::Yellow);
+    goldtext.setStyle(sf::Text::Bold);
+    goldtext.setPosition(sf::Vector2<float>(0,24));
+
+    uiElement goldElement(goldtext,font);
+    game.uiElements.push_back(&goldElement);
 
 #pragma endregion
 

@@ -14,7 +14,7 @@ SOURCES := $(wildcard $(SOURCEDIR)/*.cpp)
 OBJECTS := $(patsubst %.cpp, %.o, $(SOURCES))
 
 %.o: %.cpp
-	$(CC) -c -Wall -o $@ $^ -I$(INCLUDEDIR) -I$(SOURCEINCLUDEDIR)
+	$(CC) -c -Wall -g -o $@ $^ -I$(INCLUDEDIR) -I$(SOURCEINCLUDEDIR)
 
 $(EXECUTABLE): $(OBJECTS)
 	$(CC) -o $@ $^ $(LFLAGS) $(LDFLAGS)

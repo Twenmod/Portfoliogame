@@ -7,24 +7,47 @@
 #include <cstdlib>
 #include <iostream>
 #include <map>
+#include <memory>
 #include <utility>
 #include <vector>
+#include "globals.hpp"
+#include "items.hpp"
 #include "perlinnoise.hpp"
 #include "settings.hpp"
 
 
 //Constructor
-tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject, std::vector<sf::Texture*> _topOverrideTexture, std::vector<sf::Texture*> _bottomOverrideTexture) : Gameobject(tileObject) {
+tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject, std::vector<sf::Texture*> _topOverrideTexture, std::vector<sf::Texture*> _bottomOverrideTexture, bool _dropsItem, treasureItem _itemToDrop) : Gameobject(tileObject) {
     tileName = _tileName;
     maxHealth = _tileHealth;
     health = _tileHealth;
     topOverrideTexture = _topOverrideTexture[rand() % _topOverrideTexture.size()];
     bottomOverrideTexture = _bottomOverrideTexture[rand() % _bottomOverrideTexture.size()];
+    dropItem = _dropsItem;
+    if (_dropsItem)
+        itemToDrop = _itemToDrop;
+
 }
 void tile::TakeDamage(float damage) {
     health -= damage;
-    if (health <= 0) {
+    if (health <= 0 && !destroyed) {
         destroyed = true;
+        //Spawn dropitem
+        if (dropItem) {
+            treasureItem* dropped = new treasureItem(itemToDrop);
+            dropped->resetTexture();
+            dropped->velocity = sf::Vector2<float>((((float)rand()/RAND_MAX)-0.5f)*dropped->startVelocity,(((float)rand()/RAND_MAX)-0.5f)*dropped->startVelocity);
+            dropped->position.x = position.x+globalsettings.tileSize/2-dropped->sprite.getGlobalBounds().width/2;
+            dropped->position.y = position.y+globalsettings.tileSize/2-dropped->sprite.getGlobalBounds().height/2;
+            sf::Vector2<int> chunkPos;
+            chunkPos.x = dropped->position.x/globalsettings.tileSize/globalsettings.chunkSize;
+            chunkPos.y = dropped->position.y/globalsettings.tileSize/globalsettings.chunkSize;
+
+            chunk* _chunk = globalChunkList[chunkPos.x][chunkPos.y];
+            _chunk->objects.push_back(dropped);
+            _chunk->collisionObjects.push_back(dropped);
+            dropped->currentChunk = _chunk;
+        }
     }
 }
 

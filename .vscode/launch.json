@@ -4,10 +4,29 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Launch",
+      "name": "Debug",
       "program": "${workspaceFolder}/Spelunker.out",
       "args": [],
-      "cwd": "${workspaceFolder}"
+      "cwd": "${workspaceFolder}/"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "cwd": "/home/twenmod/Documents/Buas/Portfoliogame/src",
+      "program": "/home/twenmod/Documents/Buas/Portfoliogame/src/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
+        {
+          "description": "Enable pretty-printing for gdb",
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
+        }
+      ]
     }
   ]
 }

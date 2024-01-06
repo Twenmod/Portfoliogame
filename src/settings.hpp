@@ -27,8 +27,8 @@ class Settings {
         float playerAirAccelerationMultiplier;
         float playerStopAcceleration;
         float playerFriction;
-        float groundedCheckOffset;
         float jumpVelocity;
+        float cayoteTime;
 
         float gravity;
         float jumpGravity;

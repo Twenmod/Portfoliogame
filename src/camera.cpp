@@ -102,9 +102,9 @@ void Camera::OnLoop(sf::RenderWindow &window) {
         sf::FloatRect targetRect = followTarget->sprite.getGlobalBounds();
         
         // X
-        position.x = position.x+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.x - float(resolution.x)/2-(targetRect.width/2)) - position.x),-lerpSpeed*10,lerpSpeed*10);
+        position.x = position.x+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.x - float(globalsettings.windowSize.x)/2+(targetRect.width/4)) - position.x),-lerpSpeed*10,lerpSpeed*10);
         // Y
-        position.y = position.y+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.y - float(resolution.y)/2-(targetRect.height/2)) - position.y),-lerpSpeed*10,lerpSpeed*10);
+        position.y = position.y+std::clamp(deltaTime.asSeconds()*lerpSpeed*((followTarget->position.y - float(resolution.y)/2+(targetRect.height/4)) - position.y),-lerpSpeed*10,lerpSpeed*10);
     }
 }
 

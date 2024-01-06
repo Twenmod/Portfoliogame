@@ -3,11 +3,12 @@
 #include "gameobject.hpp"
 #include <SFML/System/String.hpp>
 
-class treasureItem : Gameobject {
+class treasureItem : public Gameobject {
     public:
-        treasureItem(int _value, Gameobject itemObject);
+        treasureItem(); // Default constructor
+        treasureItem(int _value,float startVelocity, Gameobject itemObject);
         int value;
-
+        float startVelocity;
         void PickUp();
 };
 

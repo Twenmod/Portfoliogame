@@ -14,7 +14,10 @@ class Player : public Gameobject {
 
     public:
 
-        int gold;
+        int gold = 0;
+
+        float health = 10;
+        float maxHealth = 10;
 
         float walkSpeed;
         float jumpVelocity;
@@ -44,7 +47,7 @@ class Player : public Gameobject {
 
         //Animation/Sprites
 
-
+        float cayote;
 
         bool wasGrounded;
 
@@ -52,7 +55,6 @@ class Player : public Gameobject {
         bool facing;
         bool walking;
         bool jumpTrigger;
-        bool jumping;
 
         float walkanimationDelay = 0;
         int walkanimationFrame = 0;

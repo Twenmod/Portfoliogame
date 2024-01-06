@@ -38,8 +38,9 @@ Settings::Settings() {
     // Reduces player speed when moving across ground value between 0-1
     playerFriction = settingsfile["playerFriction"].asFloat(); 
     // Moves groundcheck x pixels under players bottom rect
-    groundedCheckOffset = settingsfile["groundedCheckOffset"].asFloat();
     jumpVelocity = settingsfile["jumpVelocity"].asFloat();
+    cayoteTime = settingsfile["cayoteTime"].asFloat();
+    
 
     gravity = settingsfile["gravity"].asFloat();
     // Gravity that is used when holding jump and moving up (to give more jump control)
