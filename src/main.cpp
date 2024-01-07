@@ -179,6 +179,7 @@ int main()
         {"Noomba",{new sf::Texture(addTexture("sprites/noomba.png"))}},
         {"Bedrock",{new sf::Texture(addTexture("sprites/tiles/bedrock.png"))}},
         {"Goldnugget",{new sf::Texture(addTexture("sprites/goldnugget.png")),new sf::Texture(addTexture("sprites/goldnugget2.png"))}},
+        {"exitDoor",{new sf::Texture(addTexture("sprites/exitDoor.png"))}},
     };
 
     //Load game
@@ -189,7 +190,7 @@ int main()
 #pragma region WorldGen
     //Tile types
     std::vector<tile> tileTypes = {
-        tile("Air",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),false,{nullptr},true,false,0,0,0, sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
+        tile("Air",10,Gameobject(),{nullptr},{nullptr}, false, treasureItem()),
         tile("Dirt",5,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),texturemap.at("Grass"),texturemap.at("Dirtbottom"), false, treasureItem()),
         tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
         tile("Gold",15,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, true,
@@ -265,6 +266,47 @@ int main()
     }
 
     sf::Vector2<int> tileWorldSize = globalsettings.worldSize * globalsettings.chunkSize;
+
+    //Spawn exit Door
+    bool spawnedDoor = false;
+    
+    int startX;
+    int x = startX = rand() % tileWorldSize.x;
+    int y = tileWorldSize.y-2;
+
+    while (!spawnedDoor) {
+            //Try to spawn door as low as possible
+            //Check for space
+            bool space = world.tiles[x][y].tileName == "Air" && world.tiles[x][y-1].tileName == "Air" && world.tiles[x+1][y].tileName == "Air" && world.tiles[x+1][y-1].tileName == "Air";
+            bool grounded = (world.tiles[x][y+1].tileName != "Air" && world.tiles[x][y+1].tileName != "Bedrock") && (world.tiles[x+1][y+1].tileName != "Air" && world.tiles[x+1][y+1].tileName != "Bedrock");
+            if (space && grounded) {
+                spawnedDoor = true;
+                //Spawn door
+                Gameobject* door = new Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,(y-1)*globalsettings.tileSize),0,sf::Vector2<float>(globalsettings.tileSize*2,globalsettings.tileSize*2),true,texturemap.at("exitDoor"),true,true,0,0,0,sf::Vector2<float>(0,0),"exit");
+                
+                //Get corresponding chunk
+                sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
+                door->currentChunk = chunks[chunkPos.x][chunkPos.y];
+                chunks[chunkPos.x][chunkPos.y]->objects.push_back(door);
+                chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(door);
+            }else {
+                x++;
+                if (x == startX || (startX == 0 && x == 1)) {
+                    x = startX = rand() % tileWorldSize.x;
+                    y--;
+                    if (y <= 0) {
+                        std::cout << "Failed to spawn exitdoor can not continue" << std::endl;
+                        abort();
+                    }
+                }
+                if (x >= tileWorldSize.x-1)
+                    x = 0;
+            }
+
+
+    }
+
+
 
     //Spawn enemies
     int amountToSpawn = rand() % globalsettings.amountOfEnemies.y + globalsettings.amountOfEnemies.x;

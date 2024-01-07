@@ -1,5 +1,6 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
+#include <SFML/System/String.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -16,6 +17,8 @@ class Gameobject {
         sf::Vector2<float> position;
         float rotation;
         sf::Vector2<float> scale;
+
+        sf::String objectName;
 
         ///Sprite
 
@@ -39,8 +42,7 @@ class Gameobject {
 
         chunk* currentChunk;
 
-        Gameobject(); // Default constructor
-        Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _size, bool _hasSprite, std::vector<sf::Texture*> _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _friction, float _bounciness, sf::Vector2<float> _startVelocity);
+        Gameobject(sf::Vector2<float> _position = sf::Vector2<float>(0,0), float _rotation = 0,sf::Vector2<float> _size = sf::Vector2<float>(32,32), bool _hasSprite = false, std::vector<sf::Texture*> _texture = {}, bool _isStatic = true, bool  _hasCollision = true, float _gravity = 0, float _friction = 0, float _bounciness = 0, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0), sf::String _objectName = "GenericObject");
         void resetTexture(); //Resets the texture to a random one in its textures
         void updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList);
         void SetScale(sf::Vector2<float> setscale);
