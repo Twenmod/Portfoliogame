@@ -22,7 +22,6 @@ class Player : public Gameobject {
         float walkSpeed;
         float jumpVelocity;
         bool grounded = true;
-        float attackDelay = 0;
         sf::FloatRect playerRect;
 
         sf::Vector2<float> spriteOffset;
@@ -48,8 +47,12 @@ class Player : public Gameobject {
         //Animation/Sprites
 
         float cayote;
-
         bool wasGrounded;
+        bool attacking;
+        int attackDirection; // 0 is left 1 is right 2 is up 3 is down
+        float attackInterval = 0;
+        float _attackDelay;
+
 
         //Direction player is facing 0 is left 1 is right
         bool facing;

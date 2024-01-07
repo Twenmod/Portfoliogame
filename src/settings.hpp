@@ -36,6 +36,7 @@ class Settings {
         float attackRange;
         float attackDamage;
         float attackInterval;
+        float attackDelay;
 
 //World generation
         int chunkSize;

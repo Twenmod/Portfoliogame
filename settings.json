@@ -28,9 +28,10 @@
         "cayoteTime": 0.12, // How long after going of a platform to update grounded
         "jumpVelocity": 350,
         "jumpGravity": 700, // Gravity while jumping up and holding jump
-        "attackRange": 64, // Attackrange in pixels
-        "attackDamage": 1,
-        "attackInterval": 0.01, //Time between attacks in Seconds 
+        "attackRange": 32, // Attackrange in pixels
+        "attackDamage": 3,
+        "attackInterval": 0.5, //Time between attacks in Seconds 
+        "attackDelay": 0.1, //Time between starting attack and hit frame
     //World settings
         "chunkSize": 16, // Tiles per chunk (width and height)
         "chunkLoadDistance" : 2, // Amount of chunks loaded around the player (in a box) so 1 means render 3x3 chunks

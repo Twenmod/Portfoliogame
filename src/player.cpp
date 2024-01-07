@@ -79,28 +79,53 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
 
 
     //Attacks
-    attackDelay -= deltaTime.asSeconds();
+    attackInterval -= deltaTime.asSeconds();
+    _attackDelay -= deltaTime.asSeconds();
 
-    if (sf::Keyboard::isKeyPressed(globalsettings.attackRight) && attackDelay <= 0) {
-        attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(sprite.getScale().x,8,globalsettings.attackRange,16);
+    if (_attackDelay <= 0 && attacking) {
+        attacking = false;
+        attackInterval = globalsettings.attackInterval;
+        sf::FloatRect attackRect(0,0,0,0);
+        switch (attackDirection) {
+            case 0:
+                attackRect = sf::FloatRect(-globalsettings.attackRange,8,globalsettings.attackRange,16);
+                break;
+            case 1:
+                attackRect = sf::FloatRect(globalsettings.tileSize,8,globalsettings.attackRange,16);
+                break;
+            case 2:
+                attackRect = sf::FloatRect(8,-globalsettings.attackRange,16,globalsettings.attackRange);
+                break;
+            case 3:
+                attackRect = sf::FloatRect(8,globalsettings.tileSize,16,globalsettings.attackRange);
+                break;
+        }
         Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
     }
-    if (sf::Keyboard::isKeyPressed(globalsettings.attackLeft) && attackDelay <= 0) {
-        attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(-globalsettings.attackRange,8,globalsettings.attackRange,16);
-        Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
+
+    if (_attackDelay <= 0) {
+        if (sf::Keyboard::isKeyPressed(globalsettings.attackRight) && attackInterval <= 0) {
+            _attackDelay = globalsettings.attackDelay;
+            attackDirection = 1;
+            attacking = true;
+        }
+        if (sf::Keyboard::isKeyPressed(globalsettings.attackLeft) && attackInterval <= 0) {
+            _attackDelay = globalsettings.attackDelay;
+            attackDirection = 0;
+            attacking = true;
+        }
+        if (sf::Keyboard::isKeyPressed(globalsettings.attackUp) && attackInterval <= 0) {
+            _attackDelay = globalsettings.attackDelay;
+            attackDirection = 2;
+            attacking = true;
+        }
+        if (sf::Keyboard::isKeyPressed(globalsettings.attackDown) && attackInterval <= 0) {
+            _attackDelay = globalsettings.attackDelay;
+            attackDirection = 3;
+            attacking = true;
+        }
     }
-    if (sf::Keyboard::isKeyPressed(globalsettings.attackUp) && attackDelay <= 0) {
-        attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(8,-globalsettings.attackRange,16,globalsettings.attackRange);
-        Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
-    }
-    if (sf::Keyboard::isKeyPressed(globalsettings.attackDown) && attackDelay <= 0) {
-        attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(8,sprite.getScale().y,16,globalsettings.attackRange);
-        Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
-    }
+
 
     Gameobject::SetVelocity(velocity);
 
@@ -323,7 +348,22 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
 
 void Player::OnRender() {
 
-    if (animationDelay >= 0) {
+
+    if (_attackDelay > -globalsettings.attackDelay) {
+        if (_attackDelay > 0) {
+            if (facing == 1) { // Facing right
+                sprite.setTextureRect(sf::IntRect(340,0,34,34));
+            }else { // Facing left
+                sprite.setTextureRect(sf::IntRect(340,34,34,34));
+            }
+        }else {
+            if (facing == 1) { // Facing right
+                sprite.setTextureRect(sf::IntRect(374,0,34,34));
+            }else { // Facing left
+                sprite.setTextureRect(sf::IntRect(374,34,34,34));
+            }
+        }
+    } else if (animationDelay >= 0) {
         animationDelay -= deltaTime.asSeconds();
     }else if (jumpTrigger) {
         jumpTrigger = false;

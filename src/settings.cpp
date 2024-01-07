@@ -49,6 +49,7 @@ Settings::Settings() {
     attackRange = settingsfile["attackRange"].asFloat();
     attackDamage = settingsfile["attackDamage"].asFloat();
     attackInterval = settingsfile["attackInterval"].asFloat();
+    attackDelay = settingsfile["attackDelay"].asFloat();
 
     //World Generation
 

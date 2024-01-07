@@ -49,6 +49,7 @@ or downloading it from the aur on arch
 
 ## Gameplay
 - Your objective is to collect as much treasure/gold as possible
+- Collect gold by mining ore or finding treasure
 - Get to the exit point alive (Not yet in game)
 
 ## Tips
