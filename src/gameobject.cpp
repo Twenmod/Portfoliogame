@@ -104,6 +104,15 @@ void Gameobject::updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList) 
                 currentChunk->collisionObjects.push_back(this);
             }
         }
+    }else {
+            if (((chunkPos.x < 0 || chunkPos.x >= globalsettings.worldSize.x) || (chunkPos.y <= 0 || chunkPos.y >= globalsettings.worldSize.y))) {
+                return;
+            }
+            currentChunk = chunkList[chunkPos.x][chunkPos.y];;
+            currentChunk->objects.push_back(this);
+            if (hasCollision) {
+                currentChunk->collisionObjects.push_back(this);
+            }
     }
 }
 

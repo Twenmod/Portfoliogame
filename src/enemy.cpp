@@ -5,12 +5,14 @@
 #include "math.hpp"
 #include "gameobject.hpp"
 #include "SFMLMath.hpp"
+#include "player.hpp"
 #include "settings.hpp"
 #include "worldgen.hpp"
 
-Enemy::Enemy(float _health, float _speed, Gameobject enemyObject) : Gameobject(enemyObject) {
+Enemy::Enemy(float _health, float _speed, float _attackDamage, Gameobject enemyObject) : Gameobject(enemyObject) {
     health = _health;
     speed = _speed;
+    attackDamage = _attackDamage;
     moveDirection = 1;
 };
 
@@ -144,11 +146,23 @@ void Enemy::CalculatePhysics(std::vector<chunk*> chunkList)
                         test = true;
                     }
 
+                    //Check if hit player via sides 
+                    if (side == 1 || side == 3) {
+                        //cast to player
+                        if (Player *player = dynamic_cast<Player*>(otherobject)) {
+                            player->TakeDamage(attackDamage);
+                        }
+                    }
+
                     if (side == 1) {
                         moveDirection = 0;
                     }else if (side == 3) {
                         moveDirection = 1;
                     }
+
+
+
+
                 }
             }
         }

@@ -14,7 +14,7 @@
 
 /// Base Game Settings ///
     //Video settings
-        "cullSize": {"width": 1920, "height": 1080}, // Does not draw objects if they are outside this distance
+        "cullSize": {"width": 2000, "height": 1100}, // Does not draw objects if they are outside this distance
     //Physics settings
         "playerPhysicsStepDistance": 8, // Pixels per physics step
         "playerMaxPhysicsIterations" : 10, // Max physics steps per frame

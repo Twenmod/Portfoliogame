@@ -38,6 +38,7 @@ class Player : public Gameobject {
         //Attacks in a rect returns true if attack hits something
         bool Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int tileAttackDamage, int enemyAttackDamage);
 
+        void TakeDamage(float damage);
         
     private:
 

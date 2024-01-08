@@ -71,6 +71,9 @@ void chunk::OnEvents() {
 void chunk::OnLoop(std::vector<chunk*> chunkList, std::vector<std::vector<chunk*>> fullChunkList) {
     //Call OnLoop on all objects in chunk
     for (Gameobject* object : objects) {
+
+        if (object->objectName == "Player") return;
+
         if (object->destroyed) {
             objects.erase(std::remove(objects.begin(), objects.end(), object), objects.end());
             if (object->hasCollision) {

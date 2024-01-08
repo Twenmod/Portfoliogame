@@ -318,7 +318,7 @@ int main()
             //Check if tile position is empty
             if (world.tiles[x][y].tileName == "Air") {
                 //Spawn enemy
-                Enemy* enemy = new Enemy(10,50,Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0)));
+                Enemy* enemy = new Enemy(10,50,2,Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0)));
                 //Get corresponding chunk
                 sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
                 enemy->currentChunk = chunks[chunkPos.x][chunkPos.y];
@@ -339,7 +339,7 @@ int main()
 
     //Spawn player
 
-    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,sf::FloatRect(0,0,15,30), sf::Vector2<float>(40,40),sf::Vector2<float>(-12.5,-10),Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,texturemap.at("Player"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
+    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,sf::FloatRect(0,0,15,30), sf::Vector2<float>(40,40),sf::Vector2<float>(-12.5,-10),Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,texturemap.at("Player"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0),"Player"));
 
     sf::Vector2<int> margin(30,5);
 

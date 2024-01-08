@@ -8,6 +8,7 @@
 #include <iostream>
 #include <limits>
 #include <vector>
+#include "globals.hpp"
 #include "player.hpp"
 #include "gameobject.hpp"
 #include "SFMLMath.hpp"
@@ -131,9 +132,9 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
 
 
 
+    updateCurrentChunk(globalChunkList);
 
-
-    //Calculate Base gameobject physics 
+    //Calculate physics 
     Gameobject::OnLoop(chunkList);
 }
 
@@ -344,6 +345,13 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
         return hitSomething;
     }
     return false;
+}
+
+void Player::TakeDamage(float damage) {
+    health -= damage;
+    if (health <= 0) {
+        //TODO: Death screen
+    }
 }
 
 void Player::OnRender() {
