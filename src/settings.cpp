@@ -11,6 +11,7 @@
 #include <json/json.h>
 #include <json/value.h>
 #include <json/reader.h>
+#include <time.h>
 
 //Read all configs from settings.json
 Settings::Settings() {
