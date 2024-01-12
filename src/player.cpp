@@ -8,6 +8,7 @@
 #include <iostream>
 #include <limits>
 #include <vector>
+#include "globals.hpp"
 #include "player.hpp"
 #include "gameobject.hpp"
 #include "SFMLMath.hpp"
@@ -68,47 +69,72 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
         else velocity.x = 0;
     }
 
+
     if (jumpKeyDown && grounded) {
         jumpTrigger = true;
         velocity.y = -jumpVelocity;
         grounded = false;
+        cayote = 0;
     }
 
-    if (grounded) {
-        jumping = false;
-    }
+
 
     //Attacks
-    attackDelay -= deltaTime.asSeconds();
+    attackInterval -= deltaTime.asSeconds();
+    _attackDelay -= deltaTime.asSeconds();
 
-    if (sf::Keyboard::isKeyPressed(globalsettings.attackRight) && attackDelay <= 0) {
-        attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(sprite.getScale().x,8,globalsettings.attackRange,16);
+    if (_attackDelay <= 0 && attacking) {
+        attacking = false;
+        attackInterval = globalsettings.attackInterval;
+        sf::FloatRect attackRect(0,0,0,0);
+        switch (attackDirection) {
+            case 0:
+                attackRect = sf::FloatRect(-globalsettings.attackRange,8,globalsettings.attackRange,16);
+                break;
+            case 1:
+                attackRect = sf::FloatRect(globalsettings.tileSize,8,globalsettings.attackRange,16);
+                break;
+            case 2:
+                attackRect = sf::FloatRect(8,-globalsettings.attackRange,16,globalsettings.attackRange);
+                break;
+            case 3:
+                attackRect = sf::FloatRect(8,globalsettings.tileSize,16,globalsettings.attackRange);
+                break;
+        }
         Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
     }
-    if (sf::Keyboard::isKeyPressed(globalsettings.attackLeft) && attackDelay <= 0) {
-        attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(-globalsettings.attackRange,8,globalsettings.attackRange,16);
-        Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
+
+    if (_attackDelay <= 0) {
+        if (sf::Keyboard::isKeyPressed(globalsettings.attackRight) && attackInterval <= 0) {
+            _attackDelay = globalsettings.attackDelay;
+            attackDirection = 1;
+            attacking = true;
+        }
+        if (sf::Keyboard::isKeyPressed(globalsettings.attackLeft) && attackInterval <= 0) {
+            _attackDelay = globalsettings.attackDelay;
+            attackDirection = 0;
+            attacking = true;
+        }
+        if (sf::Keyboard::isKeyPressed(globalsettings.attackUp) && attackInterval <= 0) {
+            _attackDelay = globalsettings.attackDelay;
+            attackDirection = 2;
+            attacking = true;
+        }
+        if (sf::Keyboard::isKeyPressed(globalsettings.attackDown) && attackInterval <= 0) {
+            _attackDelay = globalsettings.attackDelay;
+            attackDirection = 3;
+            attacking = true;
+        }
     }
-    if (sf::Keyboard::isKeyPressed(globalsettings.attackUp) && attackDelay <= 0) {
-        attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(8,-globalsettings.attackRange,16,globalsettings.attackRange);
-        Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
-    }
-    if (sf::Keyboard::isKeyPressed(globalsettings.attackDown) && attackDelay <= 0) {
-        attackDelay = globalsettings.attackInterval;
-        sf::FloatRect attackRect(8,sprite.getScale().y,16,globalsettings.attackRange);
-        Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
-    }
+
 
     Gameobject::SetVelocity(velocity);
 
 
 
+    updateCurrentChunk(globalChunkList);
 
-
-    //Calculate Base gameobject physics 
+    //Calculate physics 
     Gameobject::OnLoop(chunkList);
 }
 
@@ -129,6 +155,7 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
     //Collision detection
     bool test = false;
+    bool groundedTest = false;
 
     sf::Vector2<float> scaledVelocity = velocity * deltaTime.asSeconds();
     float distance = std::sqrt(scaledVelocity.x * scaledVelocity.x + scaledVelocity.y * scaledVelocity.y);
@@ -144,6 +171,7 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
         spriteRect.left = position.x + step.x * i;
         spriteRect.top = position.y + step.y * i;
 
+
         for (chunk* _chunk : chunkList) {
             if (_chunk->collisionObjects.size() == 0) {
                 continue;
@@ -154,15 +182,21 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                 if (&sprite != other) 
                 {
 
-                    //Pick up if is a item
-                    if (treasureItem* treasure = dynamic_cast<treasureItem*>(otherobject)) {
-                        gold += treasure->value;
-                        treasure->PickUp();
+
+
+                    //Check if collides with feet
+                    if (other->getGlobalBounds().contains(spriteRect.left,spriteRect.top+spriteRect.height) || other->getGlobalBounds().contains(spriteRect.left+spriteRect.width,spriteRect.top+spriteRect.height)) {
+                        groundedTest = true;
                     }
 
-
-
                     if (spriteRect.intersects(other->getGlobalBounds())) {
+
+                        //Pick up if is a item
+                        if (treasureItem* treasure = dynamic_cast<treasureItem*>(otherobject)) {
+                            gold += treasure->value;
+                            treasure->PickUp();
+                        }
+
 
                         sf::FloatRect otherRect = other->getGlobalBounds();
 
@@ -231,13 +265,10 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                         if (sideCollision && (bottomDistance <= groundedMinDistance || bottomDistance == minDistance)) {
                             side = 2;
                             normal = sf::Vector2<float>(0,  -1.f);
-                            grounded = true;
-                        } else {
-                            grounded = false;
                         }
 
                         //Move to closest side
-                        switch (side) {
+                         switch (side) {
                             case 0: // Top
                                 position.y = otherBottom;
                                 if (velocity.y < 0) velocity.y = 0;
@@ -265,6 +296,16 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
         }
     }
     colliding = test;
+    if (!groundedTest || jumpTrigger) {
+        cayote -= deltaTime.asSeconds();
+        if (cayote <= 0) {
+            grounded = false;
+        }
+    }else {
+        grounded = true;
+        cayote = globalsettings.cayoteTime;
+    }
+
 };
 
 bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int tileAttackDamage, int enemyAttackDamage) {
@@ -306,9 +347,31 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
     return false;
 }
 
+void Player::TakeDamage(float damage) {
+    health -= damage;
+    if (health <= 0) {
+        //TODO: Death screen
+    }
+}
+
 void Player::OnRender() {
 
-    if (animationDelay >= 0) {
+
+    if (_attackDelay > -globalsettings.attackDelay) {
+        if (_attackDelay > 0) {
+            if (facing == 1) { // Facing right
+                sprite.setTextureRect(sf::IntRect(340,0,34,34));
+            }else { // Facing left
+                sprite.setTextureRect(sf::IntRect(340,34,34,34));
+            }
+        }else {
+            if (facing == 1) { // Facing right
+                sprite.setTextureRect(sf::IntRect(374,0,34,34));
+            }else { // Facing left
+                sprite.setTextureRect(sf::IntRect(374,34,34,34));
+            }
+        }
+    } else if (animationDelay >= 0) {
         animationDelay -= deltaTime.asSeconds();
     }else if (jumpTrigger) {
         jumpTrigger = false;

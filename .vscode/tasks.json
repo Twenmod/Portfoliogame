@@ -13,7 +13,7 @@
         {
             "label": "build and run",
             "type": "shell",
-            "command": "make all && make run",
+            "command": "make clean && make all && make run",
             "group": {
                 "kind": "build",
                 "isDefault": true

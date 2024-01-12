@@ -5,9 +5,10 @@
 
     class Enemy : public Gameobject{
         public:
-            Enemy(float health, float speed, Gameobject enemyObject);
+            Enemy(float health, float speed, float attackDamage, Gameobject enemyObject);
             float health;
             float speed;
+            float attackDamage;
 
             void CalculatePhysics(std::vector<chunk*> chunkList);
 

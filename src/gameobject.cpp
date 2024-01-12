@@ -16,11 +16,13 @@
 sf::Texture emptyimage();
 
 //Constructor
-Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation = 0,sf::Vector2<float> _size =sf::Vector2<float>(1,1), bool _hasSprite = false, std::vector<sf::Texture*> _texture = {}, bool _isStatic = false, bool _hasCollision = true, float _gravity = 10, float _friction = 0,float _bounciness = 0.2, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0)) {
+Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _size, bool _hasSprite, std::vector<sf::Texture*> _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _friction, float _bounciness, sf::Vector2<float> _startVelocity, sf::String _objectName) {
 
     position = _position;
     rotation = _rotation;
 
+    objectName = _objectName;
+    
 
     ///Sprite
 
@@ -80,7 +82,6 @@ void Gameobject::OnLoop(std::vector<chunk*> chunkList) {
     }
 };
 
-//FIX: chunks are not updated properly
 void Gameobject::updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList) {
     //check if still in active chunk
     sf::Vector2<int> chunkPos;
@@ -89,22 +90,29 @@ void Gameobject::updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList) 
 
     if (currentChunk != nullptr) {
         if (chunkPos != currentChunk->chunkPosition) {
-            if (!((chunkPos.x < 0 || chunkPos.x >= globalsettings.worldSize.x-1) || (chunkPos.y <= 0 || chunkPos.y >= globalsettings.worldSize.y-1))) return;
-
-
+            if (((chunkPos.x < 0 || chunkPos.x >= globalsettings.worldSize.x) || (chunkPos.y <= 0 || chunkPos.y >= globalsettings.worldSize.y))) {
+                return;
+            }
 
             currentChunk->objects.erase(std::remove(currentChunk->objects.begin(), currentChunk->objects.end(), this), currentChunk->objects.end());
             if (hasCollision) {
                 currentChunk->collisionObjects.erase(std::remove(currentChunk->collisionObjects.begin(), currentChunk->collisionObjects.end(), this), currentChunk->collisionObjects.end());
             }
             currentChunk = chunkList[chunkPos.x][chunkPos.y];;
-            if (currentChunk != NULL && currentChunk != nullptr) {
-                currentChunk->objects.push_back(this);
-                if (hasCollision) {
-                    currentChunk->collisionObjects.push_back(this);
-                }
+            currentChunk->objects.push_back(this);
+            if (hasCollision) {
+                currentChunk->collisionObjects.push_back(this);
             }
         }
+    }else {
+            if (((chunkPos.x < 0 || chunkPos.x >= globalsettings.worldSize.x) || (chunkPos.y <= 0 || chunkPos.y >= globalsettings.worldSize.y))) {
+                return;
+            }
+            currentChunk = chunkList[chunkPos.x][chunkPos.y];;
+            currentChunk->objects.push_back(this);
+            if (hasCollision) {
+                currentChunk->collisionObjects.push_back(this);
+            }
     }
 }
 
@@ -226,7 +234,7 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
                     }
 
                     //Negate velocity / bounce
-                    float totalVelocity = -1*(normal*relativeVelocity);
+                    float totalVelocity = -1*(normal*relativeVelocity)*(1+bounciness);
 
                     //Apply velocity;
                     bool normalNegative = normal.y < 0 || normal.x < 0;
@@ -235,7 +243,7 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
                         velocity += normal * totalVelocity;
 
                     if (normal != sf::Vector2<float>(0,0)) {
-                        velocity += -relativeVelocity*friction;
+                        velocity += -relativeVelocity*friction*deltaTime.asSeconds();
                         test = true;
                     }
                 }

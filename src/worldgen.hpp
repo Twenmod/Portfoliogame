@@ -1,14 +1,18 @@
 #ifndef WORLDGEN_H
 #define WORLDGEN_H
 #include "gameobject.hpp"
+#include "items.hpp"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/String.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
+#include <cstddef>
 #include <iostream>
+#include <memory>
 #include <vector>
+
 
 class tile : public Gameobject {
 
@@ -17,10 +21,13 @@ class tile : public Gameobject {
         float health;
         float maxHealth;
         //Constructor
-        tile(sf::String _tileName,float _tileHealth, Gameobject tileObject, std::vector<sf::Texture*> _topOverrideTexture, std::vector<sf::Texture*> _bottomOverrideTexture);
+        tile(sf::String _tileName,float _tileHealth, Gameobject tileObject, std::vector<sf::Texture*> _topOverrideTexture, std::vector<sf::Texture*> _bottomOverrideTexture,bool dropsItem, treasureItem _itemToDrop);
         void TakeDamage(float damage);
         sf::Texture* topOverrideTexture;
         sf::Texture* bottomOverrideTexture;
+        treasureItem itemToDrop = treasureItem();
+    private:
+        bool dropItem = false;
 
 };
 

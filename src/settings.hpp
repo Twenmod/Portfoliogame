@@ -27,8 +27,8 @@ class Settings {
         float playerAirAccelerationMultiplier;
         float playerStopAcceleration;
         float playerFriction;
-        float groundedCheckOffset;
         float jumpVelocity;
+        float cayoteTime;
 
         float gravity;
         float jumpGravity;
@@ -36,6 +36,7 @@ class Settings {
         float attackRange;
         float attackDamage;
         float attackInterval;
+        float attackDelay;
 
 //World generation
         int chunkSize;

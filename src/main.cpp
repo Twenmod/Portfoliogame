@@ -13,6 +13,8 @@
 #include <SFML/Window/VideoMode.hpp>
 #include "gameobject.hpp"
 #include "camera.hpp"
+#include "globals.hpp"
+#include "items.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
 #include "settings.hpp"
@@ -26,6 +28,7 @@
 #include <iterator>
 #include <limits>
 #include <map>
+#include <memory>
 #include <string>
 #include <utility>
 #include <vector>
@@ -124,6 +127,11 @@ class app {
             avarageFps /= fpsArraySize;
             uiElements[0]->text.setString("FPS: " + std::to_string((int)avarageFps));
 
+            if (Player *_player = dynamic_cast<Player*>(player)) {
+                uiElements[1]->text.setString("Health: " + std::to_string((int)_player->health) + "/" + std::to_string((int)_player->maxHealth));
+                uiElements[2]->text.setString("Gold: " + std::to_string(_player->gold));
+            }
+
         };
         void OnRender(sf::RenderWindow &window) {
             mainCamera.Render(window, player, activeChunkList, uiElements);
@@ -170,6 +178,8 @@ int main()
         {"Gold",{new sf::Texture(addTexture("sprites/tiles/gold/gold.png")),new sf::Texture(addTexture("sprites/tiles/gold/gold2.png"))}},
         {"Noomba",{new sf::Texture(addTexture("sprites/noomba.png"))}},
         {"Bedrock",{new sf::Texture(addTexture("sprites/tiles/bedrock.png"))}},
+        {"Goldnugget",{new sf::Texture(addTexture("sprites/goldnugget.png")),new sf::Texture(addTexture("sprites/goldnugget2.png"))}},
+        {"exitDoor",{new sf::Texture(addTexture("sprites/exitDoor.png"))}},
     };
 
     //Load game
@@ -180,11 +190,12 @@ int main()
 #pragma region WorldGen
     //Tile types
     std::vector<tile> tileTypes = {
-        tile("Air",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),false,{nullptr},true,false,0,0,0, sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
-        tile("Dirt",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),texturemap.at("Grass"),texturemap.at("Dirtbottom")),
-        tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
-        tile("Gold",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
-        tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}),
+        tile("Air",10,Gameobject(),{nullptr},{nullptr}, false, treasureItem()),
+        tile("Dirt",5,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),texturemap.at("Grass"),texturemap.at("Dirtbottom"), false, treasureItem()),
+        tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
+        tile("Gold",15,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, true,
+            treasureItem(10,200,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(10,10),true,texturemap.at("Goldnugget"),false,true,globalsettings.gravity,100,0.4f,sf::Vector2<float>(0,0)))),
+        tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
 
     };
 
@@ -256,6 +267,47 @@ int main()
 
     sf::Vector2<int> tileWorldSize = globalsettings.worldSize * globalsettings.chunkSize;
 
+    //Spawn exit Door
+    bool spawnedDoor = false;
+    
+    int startX;
+    int x = startX = rand() % tileWorldSize.x;
+    int y = tileWorldSize.y-2;
+
+    while (!spawnedDoor) {
+            //Try to spawn door as low as possible
+            //Check for space
+            bool space = world.tiles[x][y].tileName == "Air" && world.tiles[x][y-1].tileName == "Air" && world.tiles[x+1][y].tileName == "Air" && world.tiles[x+1][y-1].tileName == "Air";
+            bool grounded = (world.tiles[x][y+1].tileName != "Air" && world.tiles[x][y+1].tileName != "Bedrock") && (world.tiles[x+1][y+1].tileName != "Air" && world.tiles[x+1][y+1].tileName != "Bedrock");
+            if (space && grounded) {
+                spawnedDoor = true;
+                //Spawn door
+                Gameobject* door = new Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,(y-1)*globalsettings.tileSize),0,sf::Vector2<float>(globalsettings.tileSize*2,globalsettings.tileSize*2),true,texturemap.at("exitDoor"),true,true,0,0,0,sf::Vector2<float>(0,0),"exit");
+                
+                //Get corresponding chunk
+                sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
+                door->currentChunk = chunks[chunkPos.x][chunkPos.y];
+                chunks[chunkPos.x][chunkPos.y]->objects.push_back(door);
+                chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(door);
+            }else {
+                x++;
+                if (x == startX || (startX == 0 && x == 1)) {
+                    x = startX = rand() % tileWorldSize.x;
+                    y--;
+                    if (y <= 0) {
+                        std::cout << "Failed to spawn exitdoor can not continue" << std::endl;
+                        abort();
+                    }
+                }
+                if (x >= tileWorldSize.x-1)
+                    x = 0;
+            }
+
+
+    }
+
+
+
     //Spawn enemies
     int amountToSpawn = rand() % globalsettings.amountOfEnemies.y + globalsettings.amountOfEnemies.x;
     for (int i = 0; i < amountToSpawn; i++) {
@@ -266,7 +318,7 @@ int main()
             //Check if tile position is empty
             if (world.tiles[x][y].tileName == "Air") {
                 //Spawn enemy
-                Enemy* enemy = new Enemy(10,50,Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0)));
+                Enemy* enemy = new Enemy(10,50,2,Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0)));
                 //Get corresponding chunk
                 sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
                 enemy->currentChunk = chunks[chunkPos.x][chunkPos.y];
@@ -280,13 +332,14 @@ int main()
     }
 
     game.chunkList = chunks;
+    globalChunkList = chunks;
 
 
 #pragma endregion
 
     //Spawn player
 
-    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,sf::FloatRect(0,0,15,30), sf::Vector2<float>(40,40),sf::Vector2<float>(-12.5,-10),Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,texturemap.at("Player"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0)));
+    Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,sf::FloatRect(0,0,15,30), sf::Vector2<float>(40,40),sf::Vector2<float>(-12.5,-10),Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,texturemap.at("Player"),false,true,globalsettings.gravity,globalsettings.playerFriction,0, sf::Vector2<float>(50,0),"Player"));
 
     sf::Vector2<int> margin(30,5);
 
@@ -322,27 +375,41 @@ int main()
 
 #pragma region UI
 
-    sf::Text text;
     sf::Font font;
     if (!font.loadFromFile("Fonts/RubikScribble-Regular.ttf")) {
         std::cout << "Failed to load font";
     }
 
-    // set the string to display
-    text.setString("Hello world");
 
-    // set the character size
-    text.setCharacterSize(24); // in pixels, not points!
+    //FPS text
+    sf::Text fpstext;
+    fpstext.setCharacterSize(24);
+    fpstext.setFillColor(sf::Color::White);
+    fpstext.setStyle(sf::Text::Bold);
+    fpstext.setPosition(globalsettings.windowSize.x-150,0);
 
-    // set the color
-    text.setFillColor(sf::Color::White);
+    uiElement fpstextElement(fpstext,font);
+    game.uiElements.push_back(&fpstextElement);
 
-    // set the text style
-    text.setStyle(sf::Text::Bold);
+    //Health text
+    sf::Text hptext;
+    hptext.setCharacterSize(24);
+    hptext.setFillColor(sf::Color::Red);
+    hptext.setStyle(sf::Text::Bold);
+    hptext.setPosition(sf::Vector2<float>(0,0));
 
-    uiElement textElement(text,font);
-    game.uiElements.push_back(&textElement);
+    uiElement healthElement(hptext,font);
+    game.uiElements.push_back(&healthElement);
 
+    //Gold Text
+    sf::Text goldtext;
+    goldtext.setCharacterSize(24);
+    goldtext.setFillColor(sf::Color::Yellow);
+    goldtext.setStyle(sf::Text::Bold);
+    goldtext.setPosition(sf::Vector2<float>(0,24));
+
+    uiElement goldElement(goldtext,font);
+    game.uiElements.push_back(&goldElement);
 
 #pragma endregion
 

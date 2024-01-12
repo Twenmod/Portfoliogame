@@ -14,12 +14,14 @@ class Player : public Gameobject {
 
     public:
 
-        int gold;
+        int gold = 0;
+
+        float health = 10;
+        float maxHealth = 10;
 
         float walkSpeed;
         float jumpVelocity;
         bool grounded = true;
-        float attackDelay = 0;
         sf::FloatRect playerRect;
 
         sf::Vector2<float> spriteOffset;
@@ -36,6 +38,7 @@ class Player : public Gameobject {
         //Attacks in a rect returns true if attack hits something
         bool Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int tileAttackDamage, int enemyAttackDamage);
 
+        void TakeDamage(float damage);
         
     private:
 
@@ -44,15 +47,18 @@ class Player : public Gameobject {
 
         //Animation/Sprites
 
-
-
+        float cayote;
         bool wasGrounded;
+        bool attacking;
+        int attackDirection; // 0 is left 1 is right 2 is up 3 is down
+        float attackInterval = 0;
+        float _attackDelay;
+
 
         //Direction player is facing 0 is left 1 is right
         bool facing;
         bool walking;
         bool jumpTrigger;
-        bool jumping;
 
         float walkanimationDelay = 0;
         int walkanimationFrame = 0;
