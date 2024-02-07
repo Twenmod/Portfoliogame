@@ -247,8 +247,13 @@ int main()
 
 
             //Random seed
-            srand(globalsettings.worldSeed);
-            std::cout << "Starting game with seed: " << globalsettings.worldSeed << "\n";
+            unsigned int seed = globalsettings.worldSeed;
+            if (seed == 0) { // If seed is unset in the settings
+                seed = (long)time(0); // Set random worldseed
+            }
+            currentSeed = seed;
+            srand(seed);
+            std::cout << "Starting game with seed: " << seed << "\n";
 
             //Load level
 

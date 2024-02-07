@@ -6,6 +6,7 @@
 class chunk;
 
 extern std::vector<std::vector<chunk*>> globalChunkList;
+extern int currentSeed;
 
 
 #endif

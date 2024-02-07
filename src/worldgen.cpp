@@ -99,7 +99,7 @@ void chunk::OnRender() {
 level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> tileTypes, int bedrockType, std::map<int, float> noiseTileMap, std::map<int, std::pair<float, int>> secondTileMap) {
 
     //Generate perlin
-    const siv::PerlinNoise::seed_type seed = globalsettings.worldSeed;
+    const siv::PerlinNoise::seed_type seed = currentSeed;
     const siv::PerlinNoise perlin { seed };
 
     sf::Vector2<int> tileWorldSize = worldsize * globalsettings.chunkSize;

@@ -55,9 +55,7 @@ Settings::Settings() {
     //World Generation
 
     worldSeed = settingsfile["worldSeed"].asInt();
-    if (worldSeed == 0) {
-        worldSeed = time(0) * 80085; // Set random worldseed
-    }
+
 
 
     chunkSize = settingsfile["chunkSize"].asInt();
