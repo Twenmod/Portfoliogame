@@ -11,13 +11,13 @@
     },
     {
       "name": "C/C++ Runner: Debug Session",
-      "type": "cppdbg",
+      "type": "lldb",
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/twenmod/Documents/Buas/Portfoliogame/src",
-      "program": "/home/twenmod/Documents/Buas/Portfoliogame/src/build/Debug/outDebug",
+      "cwd": "/home/twenmod/Documents/BUas/Game/",
+      "program": "/home/twenmod/Documents/BUas/Game/Spelunker.out",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

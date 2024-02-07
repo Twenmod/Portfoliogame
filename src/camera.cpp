@@ -93,7 +93,8 @@ void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chu
             window.draw(text->text);
         } else {
             std::cout << "Error: Font pointer is null for textElement." << std::endl;
-        }    }
+        }    
+    }
 };
 
 void Camera::OnLoop(sf::RenderWindow &window) {
