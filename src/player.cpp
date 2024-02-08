@@ -137,7 +137,7 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
     //Calculate physics 
     Gameobject::OnLoop(chunkList);
 }
-
+ 
 void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
     //Scale the velocity to deltaTime to get consistent velocity across framerates

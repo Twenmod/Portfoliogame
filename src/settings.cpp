@@ -20,11 +20,12 @@ Settings::Settings() {
     Json::Reader reader;
     reader.parse(file, settingsfile);
 
-    //Window
+    //Video
     frameRateLimit = settingsfile["frameRateLimit"].asInt();
     vSync = settingsfile["vSync"].asBool();
     windowSize = sf::Vector2<int>(settingsfile["windowSize"]["width"].asInt(), settingsfile["windowSize"]["height"].asInt());
     cullSize = sf::Vector2<int>(settingsfile["cullSize"]["width"].asInt(), settingsfile["cullSize"]["height"].asInt());
+    backgroundColor = sf::Color(settingsfile["backgroundColor"]["r"].asInt(), settingsfile["backgroundColor"]["g"].asInt(), settingsfile["backgroundColor"]["b"].asInt());
 
     //physics
     playerPhysicsStepDistance = settingsfile["playerPhysicsStepDistance"].asFloat();

@@ -46,10 +46,11 @@ or downloading it from the aur on arch
 - Use [A] and [D] to walk around
 - Use [Space] to jump
 - Use [UP][LEFT][DOWN][RIGHT] to attack around you
+- Press [ESC] to return to the main menu (lose progress)
 
 ## Gameplay
 - Your objective is to collect as much treasure/gold as possible
-- Collect gold by mining ore or finding treasure
+- Collect gold by mining ore or ~~finding treasure~~
 - Get to the exit point alive (Not yet in game)
 
 ## Tips

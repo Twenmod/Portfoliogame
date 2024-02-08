@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -38,6 +39,8 @@ sf::Vector2<int> resolution(200,200);
 Settings globalsettings = Settings();
 sf::Time deltaTime;
 
+
+
 class mainMenu {
 
     public:
@@ -62,7 +65,7 @@ class mainMenu {
         };
         void OnRender(sf::RenderWindow &window) {
             //Render background
-            window.clear(sf::Color::Green);
+            window.clear(globalsettings.backgroundColor);
 
             //Render UI
             for(uiElement* text : uiElements) {
@@ -74,7 +77,7 @@ class mainMenu {
                     std::cout << "Error: Font pointer is null for textElement." << std::endl;
                 }    
             }
-
+            window.display();
         };
 };
 
@@ -99,7 +102,7 @@ class mainLevel {
 
         //Fps calculator
         int fpsI = 0;
-        float fpsArray[10];
+        float fpsArray[300];
 
         //Constructer/Init
         mainLevel(sf::RenderWindow &window) {
@@ -204,6 +207,21 @@ int main()
 
     mainMenu menu = mainMenu(window);
 
+    sf::Font font;
+    if (!font.loadFromFile("Fonts/RubikScribble-Regular.ttf")) {
+        std::cout << "Failed to load font";
+    }
+
+    //Main menu UI
+    uiElement mainmenuTextElement = generateUIElement(font, 100, sf::Color(116, 12, 12), sf::Text::Bold, sf::Vector2<float>(50,0), "Spelunker");
+    menu.uiElements.push_back(&mainmenuTextElement);
+    
+    uiElement playTextElement = generateUIElement(font, 50, sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,300), "Press [Space] To Start");
+    menu.uiElements.push_back(&playTextElement);
+    
+    uiElement exitTextElement = generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-350,0), "Press [Q] To Exit");
+    menu.uiElements.push_back(&exitTextElement);
+
     bool gameRunning = false;
 
     mainLevel game(window);
@@ -228,8 +246,7 @@ int main()
         menu.OnEvents();
         menu.OnLoop(window);
         menu.OnRender(window);
-        window.display();
-        window.clear();
+
 
         //Remove straggling startgameTriggers when game already started
         if (gameRunning && menu.startGameTrigger) {
@@ -445,41 +462,35 @@ int main()
 
         #pragma region UI
 
-            sf::Font font;
-            if (!font.loadFromFile("Fonts/RubikScribble-Regular.ttf")) {
-                std::cout << "Failed to load font";
-            }
+            uiElement fpsTextElement = generateUIElement(
+                font, //Font
+                24, //Size
+                sf::Color::White, //Color 
+                sf::Text::Bold,  //Style
+                sf::Vector2<float>(globalsettings.windowSize.x-150,0), //Position 
+                "FPS" //Text
+            );
+            game.uiElements.push_back(&fpsTextElement);
 
+            uiElement healthTextElement = generateUIElement(
+                font, //Font
+                24, //Size
+                sf::Color::Red, //Color 
+                sf::Text::Bold,  //Style
+                sf::Vector2<float>(0,0), //Position 
+                "HP" //Text
+            );
+            game.uiElements.push_back(&healthTextElement);
 
-            //FPS text
-            sf::Text fpstext;
-            fpstext.setCharacterSize(24);
-            fpstext.setFillColor(sf::Color::White);
-            fpstext.setStyle(sf::Text::Bold);
-            fpstext.setPosition(globalsettings.windowSize.x-150,0);
-
-            uiElement fpstextElement(fpstext,font);
-            game.uiElements.push_back(&fpstextElement);
-
-            //Health text
-            sf::Text hptext;
-            hptext.setCharacterSize(24);
-            hptext.setFillColor(sf::Color::Red);
-            hptext.setStyle(sf::Text::Bold);
-            hptext.setPosition(sf::Vector2<float>(0,0));
-
-            uiElement healthElement(hptext,font);
-            game.uiElements.push_back(&healthElement);
-
-            //Gold Text
-            sf::Text goldtext;
-            goldtext.setCharacterSize(24);
-            goldtext.setFillColor(sf::Color::Yellow);
-            goldtext.setStyle(sf::Text::Bold);
-            goldtext.setPosition(sf::Vector2<float>(0,24));
-
-            uiElement goldElement(goldtext,font);
-            game.uiElements.push_back(&goldElement);
+            uiElement goldTextElement = generateUIElement(
+                font, //Font
+                24, //Size
+                sf::Color::Yellow, //Color 
+                sf::Text::Bold,  //Style
+                sf::Vector2<float>(0,24), //Position 
+                "GOLD" //Text
+            );
+            game.uiElements.push_back(&goldTextElement);
 
         #pragma endregion
 
@@ -506,7 +517,7 @@ int main()
                 }
 
                 window.display();
-                window.clear();
+                window.clear(globalsettings.backgroundColor);
 
             }
 
@@ -520,7 +531,7 @@ int main()
                 window.close();
         }
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
             window.close();
         }
     }

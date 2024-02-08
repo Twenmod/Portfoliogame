@@ -1,5 +1,6 @@
 
 #include "globals.hpp"
+#include <SFML/Graphics/Font.hpp>
 #include <vector>
 
 

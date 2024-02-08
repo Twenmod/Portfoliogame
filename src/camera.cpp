@@ -18,6 +18,22 @@ uiElement::uiElement(sf::Text _text, sf::Font _font) {
     text.setFont(font);
 };
 
+uiElement generateUIElement(sf::Font font, int fontSize, sf::Color color, sf::Text::Style style, sf::Vector2<float> position, std::string text) {
+    //Create Text and set values
+    sf::Text textElement;
+    textElement.setCharacterSize(fontSize);
+    textElement.setFillColor(color); //rgb(116 12 12)
+    textElement.setStyle(style);
+    textElement.setPosition(position);
+    
+    textElement.setString(text);
+
+    //Create uiElement and return it
+    uiElement element(textElement, font);
+
+    return element;
+};
+
 Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vector2<unsigned int> _resolution) {
     position = _position;
     scale = _scale;

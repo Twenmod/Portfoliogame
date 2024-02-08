@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include <SFML/Graphics/Color.hpp>
 #include <SFML/System/String.hpp>
 #include <SFML/System/Time.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -16,6 +17,7 @@ class Settings {
         bool vSync;
         sf::Vector2<int> windowSize;
         sf::Vector2<int> cullSize;
+        sf::Color backgroundColor;
 
 //Physics
         float playerPhysicsStepDistance;

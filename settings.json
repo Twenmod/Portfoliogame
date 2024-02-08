@@ -13,8 +13,11 @@
 
 
 /// Base Game Settings ///
+/// [These values change the way the game works and are not meant to be set by the user unless you want to change base game mechanics] ///
+
     //Video settings
         "cullSize": {"width": 2000, "height": 1100}, // Does not draw objects if they are outside this distance
+        "backgroundColor": {"r": 35, "g": 20, "b": 10}, // Background color of the world
     //Physics settings
         "playerPhysicsStepDistance": 8, // Pixels per physics step
         "playerMaxPhysicsIterations" : 10, // Max physics steps per frame
@@ -30,7 +33,7 @@
         "jumpGravity": 700, // Gravity while jumping up and holding jump
         "attackRange": 32, // Attackrange in pixels
         "attackDamage": 3,
-        "attackInterval": 0.5, //Time between attacks in Seconds 
+        "attackInterval": 0.2, //Time between attacks in Seconds 
         "attackDelay": 0.1, //Time between starting attack and hit frame
     //World settings
         "chunkSize": 10, // Tiles per chunk (width and height)
@@ -41,5 +44,5 @@
         "octaves": 3, // Amount of noises to layer above eachother
         "persistence": 0.4, //Persistance of those layers
         "oreNoiseScale": {"width": 0.4, "height": 0.4}, // Scale for the noise used for spawning gold
-        "amountOfEnemies": {"min": 5, "max": 30} // Amount of enemies to spawn in the world random in between min/max
+        "amountOfEnemies": {"min": 5, "max": 30}, // Amount of enemies to spawn in the world random in between min/max
 }
