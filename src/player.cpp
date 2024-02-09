@@ -106,11 +106,13 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
 
     if (_attackDelay <= 0) {
         if (sf::Keyboard::isKeyPressed(globalsettings.attackRight) && attackInterval <= 0) {
+            facing = 1;
             _attackDelay = globalsettings.attackDelay;
             attackDirection = 1;
             attacking = true;
         }
         if (sf::Keyboard::isKeyPressed(globalsettings.attackLeft) && attackInterval <= 0) {
+            facing = 0;
             _attackDelay = globalsettings.attackDelay;
             attackDirection = 0;
             attacking = true;
