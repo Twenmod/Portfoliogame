@@ -222,7 +222,7 @@ int main()
     uiElement exitTextElement = generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-350,0), "Press [Q] To Exit");
     menu.uiElements.push_back(&exitTextElement);
 
-    bool gameRunning = false;
+    gameRunning = false;
 
     mainLevel game(window);
 
@@ -240,6 +240,8 @@ int main()
         {"Goldnugget",{new sf::Texture(addTexture("sprites/goldnugget.png")),new sf::Texture(addTexture("sprites/goldnugget2.png"))}},
         {"exitDoor",{new sf::Texture(addTexture("sprites/exitDoor.png"))}},
     };
+
+    exitState = 0; //State the last game exited with, 0 = nothing, 1 = won, 2 = died
 
     while (window.isOpen()) {
         //Main menu loop

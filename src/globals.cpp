@@ -6,3 +6,5 @@
 
 std::vector<std::vector<chunk*>> globalChunkList;
 int currentSeed;
+int exitState = 0;
+bool gameRunning;

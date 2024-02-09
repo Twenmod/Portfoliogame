@@ -8,5 +8,7 @@ class chunk;
 
 extern std::vector<std::vector<chunk*>> globalChunkList;
 extern int currentSeed;
+extern int exitState;
+extern bool gameRunning;
 
 #endif

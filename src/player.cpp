@@ -183,7 +183,12 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                 sf::Sprite* other = &otherobject->sprite;
                 if (&sprite != other) 
                 {
-
+                    //Check if object is the exit of the level
+                    if (otherobject->objectName == "exit") {
+                        gameRunning = false;
+                        exitState = 1; // Set exitstate to 1 = win
+                        break;
+                    }
 
 
                     //Check if collides with feet
@@ -352,7 +357,8 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
 void Player::TakeDamage(float damage) {
     health -= damage;
     if (health <= 0) {
-        //TODO: Death screen
+        gameRunning = false;
+        exitState = 2; // 2 = death    
     }
 }
 
