@@ -16,5 +16,4 @@ treasureItem::treasureItem(int _value, float _startVelocity, Gameobject itemObje
 void treasureItem::PickUp() {
     //remove itself from the chunk
     Gameobject::~Gameobject();
-    treasureItem::~treasureItem();
 }
