@@ -5,15 +5,18 @@
 
     class Enemy : public Gameobject{
         public:
-            Enemy(float health, float speed, float attackDamage, Gameobject enemyObject);
+            Enemy(Gameobject enemyObject, float health = 10, float speed = 5, float attackDamage = 1, float attackInterval = 1);
             float health;
             float speed;
             float attackDamage;
+            float attackInterval;
 
             void CalculatePhysics(std::vector<chunk*> chunkList);
+            void OnLoop(std::vector<chunk*> chunkList);
 
         private:
             bool moveDirection; // 1 is right 0 is left;
+            float attackTimer = 0;
     };
 
 

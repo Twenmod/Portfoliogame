@@ -9,10 +9,11 @@
 #include "settings.hpp"
 #include "worldgen.hpp"
 
-Enemy::Enemy(float _health, float _speed, float _attackDamage, Gameobject enemyObject) : Gameobject(enemyObject) {
+Enemy::Enemy(Gameobject enemyObject, float _health, float _speed, float _attackDamage, float _attackInterval) : Gameobject(enemyObject) {
     health = _health;
     speed = _speed;
     attackDamage = _attackDamage;
+    attackInterval = _attackInterval;
     moveDirection = 1;
 };
 
@@ -170,3 +171,11 @@ void Enemy::CalculatePhysics(std::vector<chunk*> chunkList)
     colliding = test;
 
 };
+
+void Enemy::OnLoop(std::vector<chunk*> chunkList) {
+    if (health <= 0) {
+        Gameobject::~Gameobject();
+    }
+    
+    Gameobject::OnLoop(chunkList);
+}

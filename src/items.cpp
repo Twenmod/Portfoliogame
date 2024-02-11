@@ -15,8 +15,6 @@ treasureItem::treasureItem(int _value, float _startVelocity, Gameobject itemObje
 }
 void treasureItem::PickUp() {
     //remove itself from the chunk
-    currentChunk->objects.erase(std::remove(currentChunk->objects.begin(), currentChunk->objects.end(), this), currentChunk->objects.end());
-    currentChunk->collisionObjects.erase(std::remove(currentChunk->collisionObjects.begin(), currentChunk->collisionObjects.end(), this), currentChunk->collisionObjects.end());
-
+    Gameobject::~Gameobject();
     treasureItem::~treasureItem();
 }
