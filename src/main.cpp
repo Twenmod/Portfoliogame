@@ -69,13 +69,14 @@ class mainMenu {
 
             //Render UI
             for(uiElement* text : uiElements) {
-
-                // Check if text.text is not null before drawing
-                if (text->text.getFont() != nullptr) {
-                    window.draw(text->text);
-                } else {
-                    std::cout << "Error: Font pointer is null for textElement." << std::endl;
-                }    
+                if (text->enabled) { 
+                    // Check if text.text is not null before drawing
+                    if (text->text.getFont() != nullptr) {
+                        window.draw(text->text);
+                    } else {
+                        std::cout << "Error: Font pointer is null for textElement." << std::endl;
+                    }    
+                }
             }
             window.display();
         };
@@ -221,6 +222,9 @@ int main()
     
     uiElement exitTextElement = generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-350,0), "Press [Q] To Exit");
     menu.uiElements.push_back(&exitTextElement);
+
+    uiElement scoreElement = generateUIElement(font, 70, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>((int)(globalsettings.windowSize.x/2-60),(int)(globalsettings.windowSize.y/2+100)), "Score: UNDEFINED", false);
+    menu.uiElements.push_back(&scoreElement);
 
     gameRunning = false;
 
@@ -523,6 +527,17 @@ int main()
 
             }
 
+            //End game
+            if (exitState != 0) // Leaved
+                menu.uiElements[3]->enabled = true;
+
+            menu.uiElements[3]->text.setString("Score: "+std::to_string(player.gold));
+
+            if (exitState == 1) { // Win
+                menu.uiElements[0]->text.setString("YOU WON!");
+            }else if (exitState == 2) { // Lose
+                menu.uiElements[0]->text.setString("You died.");
+            }
 
         }
 
