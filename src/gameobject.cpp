@@ -53,6 +53,8 @@ Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2
     colliding = false;
     drag = 0;
 
+    currentChunk = nullptr;
+
 };
 
 Gameobject::~Gameobject() {
@@ -60,7 +62,7 @@ Gameobject::~Gameobject() {
     //Remove itself from chunk
     if (currentChunk != nullptr) {
         currentChunk->objects.erase(std::remove(currentChunk->objects.begin(), currentChunk->objects.end(), this), currentChunk->objects.end());
-        
+
         //Also remove from collision if applicable
         if (hasCollision) currentChunk->collisionObjects.erase(std::remove(currentChunk->collisionObjects.begin(), currentChunk->collisionObjects.end(), this), currentChunk->collisionObjects.end());
     }

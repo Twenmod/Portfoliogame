@@ -147,11 +147,17 @@ void Enemy::CalculatePhysics(std::vector<chunk*> chunkList)
                         test = true;
                     }
 
-                    //Check if hit player via sides 
-                    if (side == 1 || side == 3) {
-                        //cast to player
-                        if (Player *player = dynamic_cast<Player*>(otherobject)) {
-                            player->TakeDamage(attackDamage);
+                    //Attacking
+                    if (attackTimer <= 0) {
+                        //Check if hit player via sides 
+                        if (side == 1 || side == 3) {
+                            //cast to player
+                            if (Player *player = dynamic_cast<Player*>(otherobject)) {
+                                //Reset attack timer
+                                attackTimer = attackInterval;
+                                //Damage player
+                                player->TakeDamage(attackDamage);
+                            }
                         }
                     }
 
@@ -176,6 +182,7 @@ void Enemy::OnLoop(std::vector<chunk*> chunkList) {
     if (health <= 0) {
         Gameobject::~Gameobject();
     }
+    attackTimer -= deltaTime.asSeconds();
     
     Gameobject::OnLoop(chunkList);
 }
