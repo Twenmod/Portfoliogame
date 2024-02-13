@@ -15,13 +15,6 @@
 #include "perlinnoise.hpp"
 #include "settings.hpp"
 
-
-
-
-
-
-
-
 //Constructor
 tile::tile(sf::String _tileName, float _tileHealth, Gameobject tileObject, std::vector<sf::Texture*> _topOverrideTexture, std::vector<sf::Texture*> _bottomOverrideTexture, bool _dropsItem, treasureItem _itemToDrop) : Gameobject(tileObject) {
     tileName = _tileName;
@@ -69,8 +62,12 @@ void chunk::OnEvents() {
     }
 }
 void chunk::OnLoop(std::vector<chunk*> chunkList, std::vector<std::vector<chunk*>> fullChunkList) {
+
+    int test = 0;
+
     //Call OnLoop on all objects in chunk
     for (Gameobject* object : objects) {
+
 
         if (object->objectName == "Player") return;
 
@@ -82,8 +79,14 @@ void chunk::OnLoop(std::vector<chunk*> chunkList, std::vector<std::vector<chunk*
             }
         }
 
+        if (object->objectName == "enemy") 
+            std::cout << "Enemy looped " << test << "\n";
+        
+        test++;
+
+
         object->OnLoop(chunkList);
-        //Test if object is still in chunk but
+        //Test if object is still in chunk if it is dynamic
         if (!object->isStatic) {
             object->updateCurrentChunk(fullChunkList);
         }

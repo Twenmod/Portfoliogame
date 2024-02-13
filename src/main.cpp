@@ -411,7 +411,7 @@ int main()
                     //Check if tile position is empty
                     if (world.tiles[x][y].tileName == "Air") {
                         //Spawn enemy
-                        Enemy* enemy = new Enemy(Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0)), 10,50,2,1);
+                        Enemy* enemy = new Enemy(Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0),"enemy"), 10,50,2,1);
                         //Get corresponding chunk
                         sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
                         enemy->currentChunk = chunks[chunkPos.x][chunkPos.y];
@@ -503,6 +503,8 @@ int main()
             //Game Loop
             while (gameRunning) {
                 //Game loop
+                std::cout << "Loop \n";
+
                 game.OnEvents();
                 game.OnLoop(window);
                 game.OnRender(window);
@@ -528,7 +530,10 @@ int main()
             }
 
             //End game
-            if (exitState != 0) // Leaved
+            if (exitState == 0) {
+                menu.uiElements[0]->text.setString("Spelunker");
+                menu.uiElements[3]->enabled = false;
+            }else
                 menu.uiElements[3]->enabled = true;
 
             menu.uiElements[3]->text.setString("Score: "+std::to_string(player.gold));

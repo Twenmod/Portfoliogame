@@ -183,13 +183,6 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                 sf::Sprite* other = &otherobject->sprite;
                 if (&sprite != other) 
                 {
-                    //Check if object is the exit of the level
-                    if (otherobject->objectName == "exit") {
-                        gameRunning = false;
-                        exitState = 1; // Set exitstate to 1 = win
-                        break;
-                    }
-
 
                     //Check if collides with feet
                     if (other->getGlobalBounds().contains(spriteRect.left,spriteRect.top+spriteRect.height) || other->getGlobalBounds().contains(spriteRect.left+spriteRect.width,spriteRect.top+spriteRect.height)) {
@@ -197,6 +190,13 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                     }
 
                     if (spriteRect.intersects(other->getGlobalBounds())) {
+
+                        //Check if object is the exit of the level
+                        if (otherobject->objectName == "exit") {
+                            gameRunning = false;
+                            exitState = 1; // Set exitstate to 1 = win
+                            break;
+                        }
 
                         //Pick up if is a item
                         if (treasureItem* treasure = dynamic_cast<treasureItem*>(otherobject)) {
