@@ -354,8 +354,14 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
                 gameobject->TakeDamage(tileAttackDamage);
 
                 //Play sound
-                std::thread soundThread(playSound, *soundmap["tileHit"][0], 100);
-                soundThread.detach();
+                if (gameobject->destroyed) {
+                    std::thread soundThread(playSound, *soundmap["tileBreak"][0], 100);
+                    soundThread.detach();
+                }
+                else {
+                    std::thread soundThread(playSound, *soundmap["tileHit"][0], 100);
+                    soundThread.detach();
+                }
                 hitSomething = true;
             }
         }

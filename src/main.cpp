@@ -259,7 +259,8 @@ int main()
 
     //Load a map of the games audio files (dont add more than 256 lol)
     soundmap = {
-        {"tileHit",{new sf::SoundBuffer(addSound("audio/stoneHit.wav"))}}
+        {"tileHit",{new sf::SoundBuffer(addSound("audio/stoneHit.wav"))}},
+        {"tileBreak",{new sf::SoundBuffer(addSound("audio/tileBreak.wav"))}},
     };
     sf::Sound titlesound(*soundmap["tileHit"][0]);
     titlesound.play();
