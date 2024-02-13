@@ -204,6 +204,11 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                             treasure->PickUp();
                         }
 
+                        //Ignore if enemy
+                        if (otherobject->objectName == "enemy") {
+                            continue;
+                        }
+
 
                         sf::FloatRect otherRect = other->getGlobalBounds();
 

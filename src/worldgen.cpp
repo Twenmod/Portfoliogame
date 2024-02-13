@@ -64,10 +64,14 @@ void chunk::OnEvents() {
 void chunk::OnLoop(std::vector<chunk*> chunkList, std::vector<std::vector<chunk*>> fullChunkList) {
 
     //Call OnLoop on all objects in chunk
+
+    std::vector<Gameobject*> activeObjects;
+
+    //Add objects to a list to make sure moved objects arent accidentelly called twice
     for (Gameobject* object : objects) {
-
-        if (object->objectName == "Player") return;
-
+        if (object->objectName == "Player") continue;
+        
+        //Clean up objects
         if (object->destroyed) {
             objects.erase(std::remove(objects.begin(), objects.end(), object), objects.end());
             if (object->hasCollision) {
@@ -75,6 +79,14 @@ void chunk::OnLoop(std::vector<chunk*> chunkList, std::vector<std::vector<chunk*
                 collisionObjects.erase(std::remove(collisionObjects.begin(), collisionObjects.end(), object), collisionObjects.end());
             }
         }
+        activeObjects.push_back(object);
+    }
+
+    //Loop through all objects and call loop
+    for (Gameobject* object : activeObjects) {
+
+        if (object->objectName == "enemy")
+            std::cout<<"MEMES";
 
         object->OnLoop(chunkList);
         //Test if object is still in chunk if it is dynamic

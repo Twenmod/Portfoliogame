@@ -43,6 +43,25 @@ void Enemy::CalculatePhysics(std::vector<chunk*> chunkList)
             sf::Sprite* other = &otherobject->sprite;
             if (&sprite != other) {
                 if (sprite.getGlobalBounds().intersects(other->getGlobalBounds())) {
+
+                    //Check if object is the player
+                    if (Player* player = dynamic_cast<Player*>(otherobject)) {                    
+                        //Attacking
+                        if (attackTimer <= 0) {
+                                //Reset attack timer
+                                attackTimer = attackInterval;
+                                //Damage player
+                                player->TakeDamage(attackDamage);
+                        }
+
+                        //Dont collide with it
+                        continue;
+                    }
+
+
+
+
+
                     sf::Sprite _sprite = sprite;
                     _sprite.setPosition(position);
                     sf::FloatRect spriteRect = _sprite.getGlobalBounds();
@@ -147,19 +166,7 @@ void Enemy::CalculatePhysics(std::vector<chunk*> chunkList)
                         test = true;
                     }
 
-                    //Attacking
-                    if (attackTimer <= 0) {
-                        //Check if hit player via sides 
-                        if (side == 1 || side == 3) {
-                            //cast to player
-                            if (Player *player = dynamic_cast<Player*>(otherobject)) {
-                                //Reset attack timer
-                                attackTimer = attackInterval;
-                                //Damage player
-                                player->TakeDamage(attackDamage);
-                            }
-                        }
-                    }
+
 
                     if (side == 1) {
                         moveDirection = 0;
