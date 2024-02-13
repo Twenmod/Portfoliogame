@@ -1,3 +1,5 @@
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
@@ -12,6 +14,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <SFML/Audio.hpp>
 #include "gameobject.hpp"
 #include "camera.hpp"
 #include "globals.hpp"
@@ -196,6 +199,15 @@ sf::Texture addTexture(std::string file) {
     return text;
 }
 
+sf::SoundBuffer addSound(std::string file) {
+    sf::SoundBuffer buffer;
+    if (!buffer.loadFromFile(file)) {
+        std::cout << "Failed to load sound at: " << file << " ABORTING";
+        abort();
+    }
+    return buffer;
+}
+
 int main()
 {
     //Initialize window
@@ -244,6 +256,13 @@ int main()
         {"Goldnugget",{new sf::Texture(addTexture("sprites/goldnugget.png")),new sf::Texture(addTexture("sprites/goldnugget2.png"))}},
         {"exitDoor",{new sf::Texture(addTexture("sprites/exitDoor.png"))}},
     };
+
+    //Load a map of the games audio files (dont add more than 256 lol)
+    soundmap = {
+        {"tileHit",{new sf::SoundBuffer(addSound("audio/stoneHit.wav"))}}
+    };
+    sf::Sound titlesound(*soundmap["tileHit"][0]);
+    titlesound.play();
 
     exitState = 0; //State the last game exited with, 0 = nothing, 1 = won, 2 = died
 
@@ -503,7 +522,6 @@ int main()
             //Game Loop
             while (gameRunning) {
                 //Game loop
-                std::cout << "Loop \n";
 
                 game.OnEvents();
                 game.OnLoop(window);

@@ -7,7 +7,9 @@
 #include <cmath>
 #include <iostream>
 #include <limits>
+#include <thread>
 #include <vector>
+#include "audio.hpp"
 #include "globals.hpp"
 #include "player.hpp"
 #include "gameobject.hpp"
@@ -350,6 +352,10 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
             //Check if object is tile
             if (dynamic_cast<tile*>(gameobject)) {
                 gameobject->TakeDamage(tileAttackDamage);
+
+                //Play sound
+                std::thread soundThread(playSound, *soundmap["tileHit"][0], 100);
+                soundThread.detach();
                 hitSomething = true;
             }
         }

@@ -1,5 +1,6 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Text.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -27,7 +28,7 @@ class Player : public Gameobject {
         sf::Vector2<float> spriteOffset;
 
         //Lower values mean faster animation
-        float animationWalkSpeed = 9;
+        float animationWalkSpeed = 10;
 
         //Constructor
         Player(float walkSpeed, float jumpVelocity, sf::FloatRect playerRect, sf::Vector2<float> _size, sf::Vector2<float> spriteOffset, Gameobject playerObject);

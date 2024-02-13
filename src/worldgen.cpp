@@ -85,9 +85,6 @@ void chunk::OnLoop(std::vector<chunk*> chunkList, std::vector<std::vector<chunk*
     //Loop through all objects and call loop
     for (Gameobject* object : activeObjects) {
 
-        if (object->objectName == "enemy")
-            std::cout<<"MEMES";
-
         object->OnLoop(chunkList);
         //Test if object is still in chunk if it is dynamic
         if (!object->isStatic) {
