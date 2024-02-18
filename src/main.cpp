@@ -248,35 +248,33 @@ int main()
             int y = tileWorldSize.y-2;
 
             while (!spawnedDoor) {
-                    //Try to spawn door as low as possible
-                    //Check for space
-                    bool space = world.tiles[x][y].tileName == "Air" && world.tiles[x][y-1].tileName == "Air" && world.tiles[x+1][y].tileName == "Air" && world.tiles[x+1][y-1].tileName == "Air";
-                    bool grounded = (world.tiles[x][y+1].tileName != "Air" && world.tiles[x][y+1].tileName != "Bedrock") && (world.tiles[x+1][y+1].tileName != "Air" && world.tiles[x+1][y+1].tileName != "Bedrock");
-                    if (space && grounded) {
-                        spawnedDoor = true;
-                        //Spawn door
-                        Gameobject* door = new Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,(y-1)*globalsettings.tileSize),0,sf::Vector2<float>(globalsettings.tileSize*2,globalsettings.tileSize*2),true,texturemap.at("exitDoor"),true,true,0,0,0,sf::Vector2<float>(0,0),"exit");
-                        
-                        //Get corresponding chunk
-                        sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
-                        door->currentChunk = chunks[chunkPos.x][chunkPos.y];
-                        chunks[chunkPos.x][chunkPos.y]->objects.push_back(door);
-                        chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(door);
-                    }else {
-                        x++;
-                        if (x == startX || (startX == 0 && x == 1)) {
-                            x = startX = rand() % tileWorldSize.x;
-                            y--;
-                            if (y <= 0) {
-                                std::cout << "Failed to spawn exitdoor can not continue" << std::endl;
-                                abort();
-                            }
+                //Try to spawn door as low as possible
+                //Check for space
+                bool space = world.tiles[x][y].tileName == "Air" && world.tiles[x][y-1].tileName == "Air" && world.tiles[x+1][y].tileName == "Air" && world.tiles[x+1][y-1].tileName == "Air";
+                bool grounded = (world.tiles[x][y+1].tileName != "Air" && world.tiles[x][y+1].tileName != "Bedrock") && (world.tiles[x+1][y+1].tileName != "Air" && world.tiles[x+1][y+1].tileName != "Bedrock");
+                if (space && grounded) {
+                    spawnedDoor = true;
+                    //Spawn door
+                    Gameobject* door = new Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,(y-1)*globalsettings.tileSize),0,sf::Vector2<float>(globalsettings.tileSize*2,globalsettings.tileSize*2),true,texturemap.at("exitDoor"),true,true,0,0,0,sf::Vector2<float>(0,0),"exit");
+                    
+                    //Get corresponding chunk
+                    sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
+                    door->currentChunk = chunks[chunkPos.x][chunkPos.y];
+                    chunks[chunkPos.x][chunkPos.y]->objects.push_back(door);
+                    chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(door);
+                }else {
+                    x++;
+                    if (x == startX || (startX == 0 && x == 1)) {
+                        x = startX = rand() % tileWorldSize.x;
+                        y--;
+                        if (y <= 0) {
+                            std::cout << "Failed to spawn exitdoor can not continue" << std::endl;
+                            abort();
                         }
-                        if (x >= tileWorldSize.x-1)
-                            x = 0;
                     }
-
-
+                    if (x >= tileWorldSize.x-1)
+                        x = 0;
+                }
             }
 
 

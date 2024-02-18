@@ -10,6 +10,7 @@ class treasureItem : public Gameobject {
         int value;
         float startVelocity;
         void PickUp();
+        void CalculatePhysics(std::vector<chunk*> chunkList);
 };
 
 
