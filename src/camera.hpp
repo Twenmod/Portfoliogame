@@ -50,7 +50,7 @@ class Camera {
         //Damage Overlay
         float overlayLimit;
         float overlaySpeed = 0.2;
-        float maxOverlaySize = 0.3;
+        float maxOverlaySize = 0.4;
 
 };
 

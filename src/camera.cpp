@@ -110,7 +110,8 @@ void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chu
     //Get player object
     Player* playerobj = dynamic_cast<Player*>(player);
     //Get overlay limit (basically how visible it is on screen)
-    overlayLimit = ((playerobj->health-1) / playerobj->maxHealth) * maxOverlaySize;
+    if (playerobj->health == playerobj->maxHealth) overlayLimit = maxOverlaySize;
+    else overlayLimit = ((playerobj->health-1) / playerobj->maxHealth) * maxOverlaySize;
 
     //Slowly fade out overlay by scaling it
     if (currentOverlaySize < overlayLimit) {

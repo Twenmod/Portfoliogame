@@ -15,14 +15,6 @@
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/VideoMode.hpp>
 #include <SFML/Audio.hpp>
-#include "gameobject.hpp"
-#include "camera.hpp"
-#include "globals.hpp"
-#include "items.hpp"
-#include "player.hpp"
-#include "enemy.hpp"
-#include "settings.hpp"
-#include "worldgen.hpp"
 #include <SFML/Window/WindowStyle.hpp>
 #include <algorithm>
 #include <cmath>
@@ -36,155 +28,21 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include "gameobject.hpp"
+#include "camera.hpp"
+#include "globals.hpp"
+#include "items.hpp"
+#include "player.hpp"
+#include "enemy.hpp"
+#include "settings.hpp"
+#include "worldgen.hpp"
+#include "gameScenes.hpp"
+
 
 sf::Vector2<int> resolution(200,200);
 
 Settings globalsettings = Settings();
 sf::Time deltaTime;
-
-
-
-class mainMenu {
-
-    public:
-
-        sf::RenderWindow* gameWindow;
-        std::vector<uiElement*> uiElements;
-
-        bool startGameTrigger = false;
-
-        //Constructer/Init
-        mainMenu(sf::RenderWindow &window) {
-            gameWindow = &window;
-        }
-
-        void OnEvents() {
-
-        };
-        void OnLoop(sf::RenderWindow &window) {
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
-                startGameTrigger = true;
-            }
-        };
-        void OnRender(sf::RenderWindow &window) {
-            //Render background
-            window.clear(globalsettings.backgroundColor);
-
-            //Render UI
-            for(uiElement* text : uiElements) {
-                if (text->enabled) { 
-                    // Check if text.text is not null before drawing
-                    if (text->text.getFont() != nullptr) {
-                        window.draw(text->text);
-                    } else {
-                        std::cout << "Error: Font pointer is null for textElement." << std::endl;
-                    }    
-                }
-            }
-            window.display();
-        };
-};
-
-//The game itself
-class mainLevel {
-    public:
-        Camera mainCamera;
-
-        std::vector<uiElement*> uiElements;
-
-        std::vector<std::vector<chunk*>> chunkList;
-        std::vector<chunk*> activeChunkList;
-        
-        sf::Clock gameClock; 
-
-        sf::RenderWindow* gameWindow;
-
-        //Chunks
-        sf::Vector2<int> playerChunkPosition;
-
-        Gameobject* player;
-
-        //Fps calculator
-        int fpsI = 0;
-        float fpsArray[300];
-
-        //Constructer/Init
-        mainLevel(sf::RenderWindow &window, sf::Texture* damageOverlay) {
-            gameWindow = &window;
-            mainCamera = generateCamera(damageOverlay, sf::Vector2<float>(0,0), sf::Vector2<float>(1,1));
-        }
-
-        Camera generateCamera(sf::Texture* damageOverlay, sf::Vector2<float> startPosition, sf::Vector2<float> scale) {
-            return Camera(damageOverlay, startPosition,scale, gameWindow->getSize());
-        }
-
-        void OnEvents() {
-            for (chunk* _chunk : activeChunkList) {
-                _chunk->OnEvents();
-            }
-        };
-        void OnLoop(sf::RenderWindow &window) {
-            //Get time elapsed since last frame
-            deltaTime = gameClock.restart();
-            deltaTime = sf::Time(sf::seconds(std::clamp(deltaTime.asSeconds(),0.0f,globalsettings.maxDeltaTime)));
-            
-            //Calculate camera
-            mainCamera.OnLoop(window);
-
-            //Get active chunks
-            sf::Vector2<int> _playerchunkPos;
-            _playerchunkPos.x = player->position.x/globalsettings.tileSize/globalsettings.chunkSize;
-            _playerchunkPos.y = player->position.y/globalsettings.tileSize/globalsettings.chunkSize;
-            if (_playerchunkPos != playerChunkPosition) {
-                //Player moved to new chunk so update active chunks
-                playerChunkPosition = _playerchunkPos;
-                activeChunkList.clear();
-                for (int x = -globalsettings.chunkLoadDistance; x < globalsettings.chunkLoadDistance+1; x++) {
-                    for (int y = -globalsettings.chunkLoadDistance; y < globalsettings.chunkLoadDistance+1; y++) {
-                        int chunkposx = _playerchunkPos.x + x;
-                        int chunkposy = _playerchunkPos.y + y;
-                        //Check if not out of bounds
-                        if (!((chunkposx < 0 || chunkposx > globalsettings.worldSize.x-1) || (chunkposy < 0 || chunkposy > globalsettings.worldSize.y-1))) {
-                            activeChunkList.push_back(chunkList[chunkposx][chunkposy]);
-                        }
-                    }
-                }
-            }
-
-            //Calculate Objects
-            for (chunk* _chunk : activeChunkList) {
-                _chunk->OnLoop(activeChunkList, chunkList);
-            }
-
-            //Calculate Player
-            player->OnLoop(activeChunkList);
-
-
-
-            //Set UI
-            fpsArray[fpsI] = 1/deltaTime.asSeconds();
-            fpsI++;
-            int fpsArraySize = std::size(fpsArray);
-            if (fpsI >= fpsArraySize)
-                fpsI = 0;
-            float avarageFps = 0;
-            for (int i = 0; i < fpsArraySize; i++) {
-                avarageFps += fpsArray[i];
-            }
-            avarageFps /= fpsArraySize;
-            uiElements[0]->text.setString("FPS: " + std::to_string((int)avarageFps));
-
-            if (Player *_player = dynamic_cast<Player*>(player)) {
-                uiElements[1]->text.setString("Health: " + std::to_string((int)_player->health) + "/" + std::to_string((int)_player->maxHealth));
-                uiElements[2]->text.setString("Gold: " + std::to_string(_player->gold));
-            }
-
-        };
-        void OnRender(sf::RenderWindow &window) {
-            mainCamera.Render(window, player, activeChunkList, uiElements);
-        };
-};
-
 
 sf::Texture addTexture(std::string file) {
     sf::Texture text;
