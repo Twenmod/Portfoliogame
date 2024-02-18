@@ -18,7 +18,7 @@
 #include "math.hpp"
 #include "worldgen.hpp"
 #include "items.hpp"
-
+#include "gameScenes.hpp"
 
 
 //Constructor
@@ -379,6 +379,8 @@ void Player::TakeDamage(float damage) {
         gameRunning = false;
         exitState = 2; // 2 = death    
     }else {
+        gameScene->mainCamera.currentOverlaySize = 0; // Overlay
+        //Play sound
     }
     
 }
