@@ -105,13 +105,13 @@ class mainLevel {
         float fpsArray[300];
 
         //Constructer/Init
-        mainLevel(sf::RenderWindow &window) {
+        mainLevel(sf::RenderWindow &window, sf::Texture* damageOverlay) {
             gameWindow = &window;
-            mainCamera = generateCamera(sf::Vector2<float>(0,0), sf::Vector2<float>(1,1));
+            mainCamera = generateCamera(damageOverlay, sf::Vector2<float>(0,0), sf::Vector2<float>(1,1));
         }
 
-        Camera generateCamera(sf::Vector2<float> startPosition, sf::Vector2<float> scale) {
-            return Camera(startPosition,scale,gameWindow->getSize());
+        Camera generateCamera(sf::Texture* damageOverlay, sf::Vector2<float> startPosition, sf::Vector2<float> scale) {
+            return Camera(damageOverlay, startPosition,scale, gameWindow->getSize());
         }
 
         void OnEvents() {
@@ -224,7 +224,6 @@ int main()
 
     bool gameRunning = false;
 
-    mainLevel game(window);
 
     //Load map of the games textures
     std::map<std::string, std::vector<sf::Texture*>> texturemap = {
@@ -239,7 +238,13 @@ int main()
         {"Bedrock",{new sf::Texture(addTexture("sprites/tiles/bedrock.png"))}},
         {"Goldnugget",{new sf::Texture(addTexture("sprites/goldnugget.png")),new sf::Texture(addTexture("sprites/goldnugget2.png"))}},
         {"exitDoor",{new sf::Texture(addTexture("sprites/exitDoor.png"))}},
+        {"damageOverlay",{new sf::Texture(addTexture("sprites/damageOverlay.png"))}},
+
     };
+
+    mainLevel game(window, texturemap.at("damageOverlay")[0]);
+
+
 
     while (window.isOpen()) {
         //Main menu loop
@@ -260,7 +265,7 @@ int main()
             gameRunning = true;
             menu.startGameTrigger = false;
             
-            game = mainLevel(window);
+            game = mainLevel(window, texturemap.at("damageOverlay")[0]);
 
 
             //Random seed

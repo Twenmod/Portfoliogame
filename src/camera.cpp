@@ -25,7 +25,6 @@ uiElement generateUIElement(sf::Font font, int fontSize, sf::Color color, sf::Te
     textElement.setFillColor(color); //rgb(116 12 12)
     textElement.setStyle(style);
     textElement.setPosition(position);
-    
     textElement.setString(text);
 
     //Create uiElement and return it
@@ -34,12 +33,16 @@ uiElement generateUIElement(sf::Font font, int fontSize, sf::Color color, sf::Te
     return element;
 };
 
-Camera::Camera(sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vector2<unsigned int> _resolution) {
+Camera::Camera() {
+
+};
+
+Camera::Camera(sf::Texture* damageOverlay, sf::Vector2<float> _position, sf::Vector2<float> _scale,sf::Vector2<unsigned int> _resolution) {
     position = _position;
     scale = _scale;
     resolution = _resolution;
     followTarget = nullptr;
-
+    damageOverlayTexture = damageOverlay;
 };
 
 void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chunk*> chunkList, std::vector<uiElement*> uiElements) {
