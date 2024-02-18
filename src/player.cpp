@@ -5,6 +5,7 @@
 #include <SFML/Window/Mouse.hpp>
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <iostream>
 #include <limits>
 #include <thread>
@@ -434,6 +435,13 @@ void Player::OnRender() {
         if (walkanimationDelay <= 0){
             walkanimationDelay = animationWalkSpeed;;
             walkanimationFrame++;
+
+            //Sound
+            if (walkanimationFrame == 0 || walkanimationFrame == 3) {
+                std::thread soundThread(playSound, *soundmap["footsteps"][rand()%soundmap["footsteps"].size()], 100);
+                soundThread.detach();
+            }
+
             if (walkanimationFrame >= 6) walkanimationFrame = 0;
         }
         if (facing == 1) { // Facing right

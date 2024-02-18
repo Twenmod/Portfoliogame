@@ -120,6 +120,7 @@ int main()
     soundmap = {
         {"tileHit",{new sf::SoundBuffer(addSound("audio/stoneHit.wav"))}},
         {"tileBreak",{new sf::SoundBuffer(addSound("audio/tileBreak.wav"))}},
+        {"footsteps",{new sf::SoundBuffer(addSound("audio/footsteps/footstep1.wav")),new sf::SoundBuffer(addSound("audio/footsteps/footstep2.ogg"))}},
     };
     sf::Sound titlesound(*soundmap["tileHit"][0]);
     titlesound.play();
