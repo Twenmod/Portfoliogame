@@ -105,6 +105,32 @@ void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chu
     playerSprite.setPosition(playerSprite.getPosition() - position); 
     window.draw(playerSprite);
 
+    ////Render Damage Overlay
+
+    //Get player object
+    Player* playerobj = dynamic_cast<Player*>(player);
+    //Get overlay limit (basically how visible it is on screen)
+    overlayLimit = ((playerobj->health-1) / playerobj->maxHealth) * maxOverlaySize;
+
+    //Slowly fade out overlay by scaling it
+    if (currentOverlaySize < overlayLimit) {
+    currentOverlaySize += deltaTime.asSeconds()*overlaySpeed;
+    } else {
+        currentOverlaySize = overlayLimit;
+    }
+    if (currentOverlaySize < maxOverlaySize) {
+
+        //Draw overlay
+        sf ::Sprite overlay = sf::Sprite();
+        overlay.setTexture(*damageOverlayTexture);
+        float minimumScale = (float)resolution.x/(float)damageOverlayTexture->getSize().x;
+        overlay.setScale(currentOverlaySize+minimumScale,currentOverlaySize+minimumScale);
+        //Set center of sprite to center of screen
+        overlay.setPosition(sf::Vector2<float>((float)resolution.x/2,(float)resolution.y/2)-sf::Vector2<float>(overlay.getGlobalBounds().width/2,overlay.getGlobalBounds().height/2));
+        
+        window.draw(overlay);
+    }
+
     //Render UI
     for(uiElement* text : uiElements) {
 

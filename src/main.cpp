@@ -268,9 +268,6 @@ int main()
 
     exitState = 0; //State the last game exited with, 0 = nothing, 1 = won, 2 = died
 
-    mainLevel game(window, texturemap.at("damageOverlay")[0]);
-
-
 
     while (window.isOpen()) {
         //Main menu loop
@@ -291,8 +288,8 @@ int main()
             gameRunning = true;
             menu.startGameTrigger = false;
             
-            game = mainLevel(window, texturemap.at("damageOverlay")[0]);
-
+            mainLevel game(window, texturemap.at("damageOverlay")[0]);
+            gameScene = &game;
 
             //Random seed
             unsigned int seed = globalsettings.worldSeed;

@@ -19,6 +19,8 @@
 #include "worldgen.hpp"
 #include "items.hpp"
 
+
+
 //Constructor
 Player::Player(float _walkSpeed, float _jumpVelocity, sf::FloatRect _playerRect, sf::Vector2<float> _size, sf::Vector2<float> _spriteOffset, Gameobject playerObject) : Gameobject(playerObject) {
     walkSpeed = _walkSpeed;
@@ -376,7 +378,9 @@ void Player::TakeDamage(float damage) {
     if (health <= 0) {
         gameRunning = false;
         exitState = 2; // 2 = death    
+    }else {
     }
+    
 }
 
 void Player::OnRender() {

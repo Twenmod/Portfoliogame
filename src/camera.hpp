@@ -35,6 +35,9 @@ class Camera {
         void SetObjectToFollow(Gameobject* target, float lerpSpeed);
         sf::Texture* tileBreakTexture;
 
+
+        float currentOverlaySize;
+
     private:
         sf::Vector2<unsigned int> resolution;
         sf::Vector2<float> position;
@@ -43,6 +46,12 @@ class Camera {
         sf::Texture* damageOverlayTexture;
         Gameobject* followTarget;
         float lerpSpeed = 1;
+
+        //Damage Overlay
+        float overlayLimit;
+        float overlaySpeed = 0.2;
+        float maxOverlaySize = 0.3;
+
 };
 
 #endif

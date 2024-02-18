@@ -5,6 +5,7 @@
 #include <SFML/Audio.hpp>
 #include <vector>
 
+class mainLevel;
 class chunk;
 
 extern std::vector<std::vector<chunk*>> globalChunkList;
@@ -12,5 +13,6 @@ extern int currentSeed;
 extern int exitState;
 extern bool gameRunning;
 extern std::map<std::string, std::vector<sf::SoundBuffer*>> soundmap;
+extern mainLevel* gameScene;
 
 #endif
