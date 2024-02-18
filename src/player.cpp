@@ -358,6 +358,10 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
 
                 //Play sound
                 if (gameobject->destroyed) {
+                    if (gameobject->objectName == "goldTile") {
+                        std::thread soundThread(playSound, *soundmap["goldBreak"][0], 100);
+                        soundThread.detach();
+                    }
                     std::thread soundThread(playSound, *soundmap["tileBreak"][0], 100);
                     soundThread.detach();
                 }
