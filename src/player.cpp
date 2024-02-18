@@ -7,7 +7,9 @@
 #include <cmath>
 #include <iostream>
 #include <limits>
+#include <thread>
 #include <vector>
+#include "audio.hpp"
 #include "globals.hpp"
 #include "player.hpp"
 #include "gameobject.hpp"
@@ -106,11 +108,13 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
 
     if (_attackDelay <= 0) {
         if (sf::Keyboard::isKeyPressed(globalsettings.attackRight) && attackInterval <= 0) {
+            facing = 1;
             _attackDelay = globalsettings.attackDelay;
             attackDirection = 1;
             attacking = true;
         }
         if (sf::Keyboard::isKeyPressed(globalsettings.attackLeft) && attackInterval <= 0) {
+            facing = 0;
             _attackDelay = globalsettings.attackDelay;
             attackDirection = 0;
             attacking = true;
@@ -182,8 +186,6 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                 if (&sprite != other) 
                 {
 
-
-
                     //Check if collides with feet
                     if (other->getGlobalBounds().contains(spriteRect.left,spriteRect.top+spriteRect.height) || other->getGlobalBounds().contains(spriteRect.left+spriteRect.width,spriteRect.top+spriteRect.height)) {
                         groundedTest = true;
@@ -191,10 +193,22 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
                     if (spriteRect.intersects(other->getGlobalBounds())) {
 
+                        //Check if object is the exit of the level
+                        if (otherobject->objectName == "exit") {
+                            gameRunning = false;
+                            exitState = 1; // Set exitstate to 1 = win
+                            break;
+                        }
+
                         //Pick up if is a item
                         if (treasureItem* treasure = dynamic_cast<treasureItem*>(otherobject)) {
                             gold += treasure->value;
                             treasure->PickUp();
+                        }
+
+                        //Ignore if enemy
+                        if (otherobject->objectName == "enemy") {
+                            continue;
                         }
 
 
@@ -338,6 +352,16 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
             //Check if object is tile
             if (dynamic_cast<tile*>(gameobject)) {
                 gameobject->TakeDamage(tileAttackDamage);
+
+                //Play sound
+                if (gameobject->destroyed) {
+                    std::thread soundThread(playSound, *soundmap["tileBreak"][0], 100);
+                    soundThread.detach();
+                }
+                else {
+                    std::thread soundThread(playSound, *soundmap["tileHit"][0], 100);
+                    soundThread.detach();
+                }
                 hitSomething = true;
             }
         }
@@ -350,7 +374,8 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
 void Player::TakeDamage(float damage) {
     health -= damage;
     if (health <= 0) {
-        //TODO: Death screen
+        gameRunning = false;
+        exitState = 2; // 2 = death    
     }
 }
 

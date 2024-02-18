@@ -1,3 +1,5 @@
+#include <SFML/Audio/Sound.hpp>
+#include <SFML/Audio/SoundBuffer.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
@@ -12,6 +14,7 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Window/Keyboard.hpp>
 #include <SFML/Window/VideoMode.hpp>
+#include <SFML/Audio.hpp>
 #include "gameobject.hpp"
 #include "camera.hpp"
 #include "globals.hpp"
@@ -69,13 +72,14 @@ class mainMenu {
 
             //Render UI
             for(uiElement* text : uiElements) {
-
-                // Check if text.text is not null before drawing
-                if (text->text.getFont() != nullptr) {
-                    window.draw(text->text);
-                } else {
-                    std::cout << "Error: Font pointer is null for textElement." << std::endl;
-                }    
+                if (text->enabled) { 
+                    // Check if text.text is not null before drawing
+                    if (text->text.getFont() != nullptr) {
+                        window.draw(text->text);
+                    } else {
+                        std::cout << "Error: Font pointer is null for textElement." << std::endl;
+                    }    
+                }
             }
             window.display();
         };
@@ -195,6 +199,15 @@ sf::Texture addTexture(std::string file) {
     return text;
 }
 
+sf::SoundBuffer addSound(std::string file) {
+    sf::SoundBuffer buffer;
+    if (!buffer.loadFromFile(file)) {
+        std::cout << "Failed to load sound at: " << file << " ABORTING";
+        abort();
+    }
+    return buffer;
+}
+
 int main()
 {
     //Initialize window
@@ -222,7 +235,10 @@ int main()
     uiElement exitTextElement = generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-350,0), "Press [Q] To Exit");
     menu.uiElements.push_back(&exitTextElement);
 
-    bool gameRunning = false;
+    uiElement scoreElement = generateUIElement(font, 70, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,100), "Score: UNDEFINED", false);
+    menu.uiElements.push_back(&scoreElement);
+
+    gameRunning = false;
 
 
     //Load map of the games textures
@@ -241,6 +257,16 @@ int main()
         {"damageOverlay",{new sf::Texture(addTexture("sprites/damageOverlay.png"))}},
 
     };
+
+    //Load a map of the games audio files (dont add more than 256 lol)
+    soundmap = {
+        {"tileHit",{new sf::SoundBuffer(addSound("audio/stoneHit.wav"))}},
+        {"tileBreak",{new sf::SoundBuffer(addSound("audio/tileBreak.wav"))}},
+    };
+    sf::Sound titlesound(*soundmap["tileHit"][0]);
+    titlesound.play();
+
+    exitState = 0; //State the last game exited with, 0 = nothing, 1 = won, 2 = died
 
     mainLevel game(window, texturemap.at("damageOverlay")[0]);
 
@@ -410,7 +436,7 @@ int main()
                     //Check if tile position is empty
                     if (world.tiles[x][y].tileName == "Air") {
                         //Spawn enemy
-                        Enemy* enemy = new Enemy(10,50,2,Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0)));
+                        Enemy* enemy = new Enemy(Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0),"enemy"), 10,50,2,1);
                         //Get corresponding chunk
                         sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
                         enemy->currentChunk = chunks[chunkPos.x][chunkPos.y];
@@ -502,6 +528,7 @@ int main()
             //Game Loop
             while (gameRunning) {
                 //Game loop
+
                 game.OnEvents();
                 game.OnLoop(window);
                 game.OnRender(window);
@@ -526,6 +553,20 @@ int main()
 
             }
 
+            //End game
+            if (exitState == 0) {
+                menu.uiElements[0]->text.setString("Spelunker");
+                menu.uiElements[3]->enabled = false;
+            }else
+                menu.uiElements[3]->enabled = true;
+
+            menu.uiElements[3]->text.setString("Score: "+std::to_string(player.gold));
+
+            if (exitState == 1) { // Win
+                menu.uiElements[0]->text.setString("YOU WON!");
+            }else if (exitState == 2) { // Lose
+                menu.uiElements[0]->text.setString("You died.");
+            }
 
         }
 

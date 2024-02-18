@@ -9,10 +9,11 @@
 #include "settings.hpp"
 #include "worldgen.hpp"
 
-Enemy::Enemy(float _health, float _speed, float _attackDamage, Gameobject enemyObject) : Gameobject(enemyObject) {
+Enemy::Enemy(Gameobject enemyObject, float _health, float _speed, float _attackDamage, float _attackInterval) : Gameobject(enemyObject) {
     health = _health;
     speed = _speed;
     attackDamage = _attackDamage;
+    attackInterval = _attackInterval;
     moveDirection = 1;
 };
 
@@ -42,6 +43,25 @@ void Enemy::CalculatePhysics(std::vector<chunk*> chunkList)
             sf::Sprite* other = &otherobject->sprite;
             if (&sprite != other) {
                 if (sprite.getGlobalBounds().intersects(other->getGlobalBounds())) {
+
+                    //Check if object is the player
+                    if (Player* player = dynamic_cast<Player*>(otherobject)) {                    
+                        //Attacking
+                        if (attackTimer <= 0) {
+                                //Reset attack timer
+                                attackTimer = attackInterval;
+                                //Damage player
+                                player->TakeDamage(attackDamage);
+                        }
+
+                        //Dont collide with it
+                        continue;
+                    }
+
+
+
+
+
                     sf::Sprite _sprite = sprite;
                     _sprite.setPosition(position);
                     sf::FloatRect spriteRect = _sprite.getGlobalBounds();
@@ -146,13 +166,7 @@ void Enemy::CalculatePhysics(std::vector<chunk*> chunkList)
                         test = true;
                     }
 
-                    //Check if hit player via sides 
-                    if (side == 1 || side == 3) {
-                        //cast to player
-                        if (Player *player = dynamic_cast<Player*>(otherobject)) {
-                            player->TakeDamage(attackDamage);
-                        }
-                    }
+
 
                     if (side == 1) {
                         moveDirection = 0;
@@ -170,3 +184,12 @@ void Enemy::CalculatePhysics(std::vector<chunk*> chunkList)
     colliding = test;
 
 };
+
+void Enemy::OnLoop(std::vector<chunk*> chunkList) {
+    if (health <= 0) {
+        Gameobject::~Gameobject();
+    }
+    attackTimer -= deltaTime.asSeconds();
+    
+    Gameobject::OnLoop(chunkList);
+}

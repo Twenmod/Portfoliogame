@@ -35,9 +35,9 @@ with the theme "collect"
 
 or downloading it from the aur on arch
 
-4. Build the game using ctrl-shift-B
+4. Build the game using `~$` `make all`
 
-5. Run the game from the project directory with `~$` `./game`
+5. Run the game from the project directory with `~$` `./Spelunker.out`
 
 
 # How to play

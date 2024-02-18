@@ -53,7 +53,20 @@ Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2
     colliding = false;
     drag = 0;
 
+    currentChunk = nullptr;
+
 };
+
+Gameobject::~Gameobject() {
+
+    //Remove itself from chunk
+    if (currentChunk != nullptr) {
+        currentChunk->objects.erase(std::remove(currentChunk->objects.begin(), currentChunk->objects.end(), this), currentChunk->objects.end());
+
+        //Also remove from collision if applicable
+        if (hasCollision) currentChunk->collisionObjects.erase(std::remove(currentChunk->collisionObjects.begin(), currentChunk->collisionObjects.end(), this), currentChunk->collisionObjects.end());
+    }
+}
 
 void Gameobject::resetTexture() {
     if (hasSprite) {
@@ -89,15 +102,18 @@ void Gameobject::updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList) 
     chunkPos.y = position.y/globalsettings.tileSize/globalsettings.chunkSize;
 
     if (currentChunk != nullptr) {
-        if (chunkPos != currentChunk->chunkPosition) {
+        if (chunkPos*globalsettings.chunkSize != currentChunk->chunkPosition) { // If isnt in current chunk
+            //Check if still in world
             if (((chunkPos.x < 0 || chunkPos.x >= globalsettings.worldSize.x) || (chunkPos.y <= 0 || chunkPos.y >= globalsettings.worldSize.y))) {
                 return;
             }
 
+            //Remove from current Chunk
             currentChunk->objects.erase(std::remove(currentChunk->objects.begin(), currentChunk->objects.end(), this), currentChunk->objects.end());
             if (hasCollision) {
                 currentChunk->collisionObjects.erase(std::remove(currentChunk->collisionObjects.begin(), currentChunk->collisionObjects.end(), this), currentChunk->collisionObjects.end());
             }
+            //Set to new chunk
             currentChunk = chunkList[chunkPos.x][chunkPos.y];;
             currentChunk->objects.push_back(this);
             if (hasCollision) {
