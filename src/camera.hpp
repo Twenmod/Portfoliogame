@@ -20,7 +20,17 @@ class uiElement {
         uiElement(sf::Text _text, sf::Font _font, bool startEnabled = true);
 };
 
+
 uiElement generateUIElement(sf::Font font, int fontSize = 100, sf::Color color = sf::Color(116, 12, 12), sf::Text::Style style = sf::Text::Bold, sf::Vector2<float> position = sf::Vector2<float>(0,0), std::string text = "Spelunker", bool startEnabled = true);
+
+class uiSprite {
+    public:
+        sf::Sprite sprite;
+        bool enabled;
+        uiSprite(sf::Sprite _sprite, bool startEnabled = true);
+};
+
+uiSprite generateUISprite(sf::Texture* texture, sf::Vector2<float> position = sf::Vector2<float>(0,0), sf::Vector2<float> size = sf::Vector2<float>(64,64), bool startEnabled = true);
 
 class Camera {
     public:
@@ -28,7 +38,7 @@ class Camera {
         Camera();
         Camera(sf::Texture* damageOverlay, sf::Vector2<float> _position = sf::Vector2<float>(0,0), sf::Vector2<float> _scale = sf::Vector2<float>(1,1),sf::Vector2<unsigned int> _resolution = sf::Vector2<unsigned int>(0,0));
 
-        void Render(sf::RenderWindow &window, Gameobject* player, std::vector<chunk*> chunkList, std::vector<uiElement*> uiElements);
+        void Render(sf::RenderWindow &window, Gameobject* player, std::vector<chunk*> chunkList, std::vector<uiElement*> uiElements, std::vector<uiSprite*> uiSprites);
 
         void OnLoop(sf::RenderWindow &window);
 

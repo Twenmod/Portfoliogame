@@ -18,6 +18,8 @@ void mainMenu::OnRender(sf::RenderWindow &window) {
     window.clear(globalsettings.backgroundColor);
 
     //Render UI
+
+    ///Render ui texts
     for(uiElement* text : uiElements) {
         if (text->enabled) { 
             // Check if text.text is not null before drawing

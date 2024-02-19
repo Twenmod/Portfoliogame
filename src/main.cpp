@@ -39,7 +39,6 @@
 #include "gameScenes.hpp"
 
 
-sf::Vector2<int> resolution(200,200);
 
 Settings globalsettings = Settings();
 sf::Time deltaTime;
@@ -83,18 +82,8 @@ int main()
         std::cout << "Failed to load font";
     }
 
-    //Main menu UI
-    uiElement mainmenuTextElement = generateUIElement(font, 100, sf::Color(116, 12, 12), sf::Text::Bold, sf::Vector2<float>(50,0), "Spelunker");
-    menu.uiElements.push_back(&mainmenuTextElement);
-    
-    uiElement playTextElement = generateUIElement(font, 50, sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,300), "Press [Space] To Start");
-    menu.uiElements.push_back(&playTextElement);
-    
-    uiElement exitTextElement = generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-350,0), "Press [Q] To Exit");
-    menu.uiElements.push_back(&exitTextElement);
 
-    uiElement scoreElement = generateUIElement(font, 70, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,100), "Score: UNDEFINED", false);
-    menu.uiElements.push_back(&scoreElement);
+
 
     gameRunning = false;
 
@@ -113,7 +102,10 @@ int main()
         {"Goldnugget",{new sf::Texture(addTexture("sprites/goldnugget.png")),new sf::Texture(addTexture("sprites/goldnugget2.png"))}},
         {"exitDoor",{new sf::Texture(addTexture("sprites/exitDoor.png"))}},
         {"damageOverlay",{new sf::Texture(addTexture("sprites/damageOverlay.png"))}},
-
+        {"itemslot",{new sf::Texture(addTexture("sprites/ui/itemslot.png"))}},
+        {"itemslotselected",{new sf::Texture(addTexture("sprites/ui/itemslotoverlay.png"))}},
+        {"pickaxe",{new sf::Texture(addTexture("sprites/ui/pickaxe.png"))}},
+        {"whip",{new sf::Texture(addTexture("sprites/ui/whip.png"))}},
     };
 
     //Load a map of the games audio files (dont add more than 256 lol)
@@ -123,6 +115,24 @@ int main()
         {"goldBreak",{new sf::SoundBuffer(addSound("audio/goldBreak.wav"))}},
         {"footsteps",{new sf::SoundBuffer(addSound("audio/footsteps/footstep1.wav")),new sf::SoundBuffer(addSound("audio/footsteps/footstep2.ogg"))}},
     };
+
+
+    //Main menu UI
+    
+    ///Text elements
+    uiElement mainmenuTextElement = generateUIElement(font, 100, sf::Color(116, 12, 12), sf::Text::Bold, sf::Vector2<float>(50,0), "Spelunker");
+    menu.uiElements.push_back(&mainmenuTextElement);
+    
+    uiElement playTextElement = generateUIElement(font, 50, sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,300), "Press [Space] To Start");
+    menu.uiElements.push_back(&playTextElement);
+    
+    uiElement exitTextElement = generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-350,0), "Press [Q] To Exit");
+    menu.uiElements.push_back(&exitTextElement);
+
+    uiElement scoreElement = generateUIElement(font, 70, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,100), "Score: UNDEFINED", false);
+    menu.uiElements.push_back(&scoreElement);
+
+
     sf::Sound titlesound(*soundmap["tileHit"][0]);
     titlesound.play();
 
@@ -377,6 +387,23 @@ int main()
                 "GOLD" //Text
             );
             game.uiElements.push_back(&goldTextElement);
+
+            //Kinda a brute force way but we just have a couple slots
+            ///Image elements
+            uiSprite inventoryslot1 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
+            game.uiSprites.push_back(&inventoryslot1);
+            uiSprite pickaxe = generateUISprite(texturemap.at("pickaxe")[0], sf::Vector2<float>(10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
+            game.uiSprites.push_back(&pickaxe);
+
+            uiSprite inventoryslot2 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10+100+10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
+            game.uiSprites.push_back(&inventoryslot2);
+            uiSprite whip = generateUISprite(texturemap.at("whip")[0], sf::Vector2<float>(10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
+            game.uiSprites.push_back(&whip);
+
+            uiSprite inventoryoverlay1 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), false);
+            game.uiSprites.push_back(&inventoryoverlay1); // 5
+            uiSprite inventoryoverlay2 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10+100+10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
+            game.uiSprites.push_back(&inventoryoverlay2); // 6
 
         #pragma endregion
 

@@ -19,6 +19,13 @@ uiElement::uiElement(sf::Text _text, sf::Font _font, bool startEnabled) {
     enabled = startEnabled;
 };
 
+uiSprite::uiSprite(sf::Sprite _sprite, bool startEnabled) {
+    sprite = _sprite;
+    enabled = startEnabled;
+};
+
+
+
 uiElement generateUIElement(sf::Font font, int fontSize, sf::Color color, sf::Text::Style style, sf::Vector2<float> position, std::string text, bool startEnabled) {
     //Create Text and set values
     sf::Text textElement;
@@ -34,6 +41,22 @@ uiElement generateUIElement(sf::Font font, int fontSize, sf::Color color, sf::Te
     return element;
 };
 
+uiSprite generateUISprite(sf::Texture* texture, sf::Vector2<float> position, sf::Vector2<float> size, bool startEnabled) {
+    sf::Sprite _sprite = sf::Sprite();
+    _sprite.setTexture(*texture);
+    _sprite.setPosition(position);
+    size.x = size.x / texture->getSize().x;
+    size.y = size.y / texture->getSize().y;
+
+    _sprite.setScale(size);
+
+    uiSprite element(_sprite, startEnabled);    
+
+    return element;
+};
+
+//Camera
+
 Camera::Camera() {
 
 };
@@ -46,7 +69,7 @@ Camera::Camera(sf::Texture* damageOverlay, sf::Vector2<float> _position, sf::Vec
     damageOverlayTexture = damageOverlay;
 };
 
-void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chunk*> chunkList, std::vector<uiElement*> uiElements) {
+void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chunk*> chunkList, std::vector<uiElement*> uiElements, std::vector<uiSprite*> uiSprites) {
     //Render objects
     for (chunk* chunk : chunkList) {
         for(Gameobject* obj : chunk->objects) {
@@ -133,6 +156,13 @@ void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chu
     }
 
     //Render UI
+    ///Render ui sprites
+    for (uiSprite* sprite : uiSprites) {
+        if (sprite->enabled) {
+            window.draw(sprite->sprite);
+        }
+    }
+
     for(uiElement* text : uiElements) {
 
         // Check if text.text is not null before drawing

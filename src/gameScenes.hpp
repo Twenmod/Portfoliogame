@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
+#include <vector>
 #include "camera.hpp"
 #include "worldgen.hpp"
 
@@ -31,6 +32,8 @@ class mainLevel {
         Camera mainCamera;
 
         std::vector<uiElement*> uiElements;
+        std::vector<uiSprite*> uiSprites;
+
 
         std::vector<std::vector<chunk*>> chunkList;
         std::vector<chunk*> activeChunkList;
@@ -61,7 +64,7 @@ class mainLevel {
         void OnEvents();
         void OnLoop(sf::RenderWindow &window);
         void OnRender(sf::RenderWindow &window) {
-            mainCamera.Render(window, player, activeChunkList, uiElements);
+            mainCamera.Render(window, player, activeChunkList, uiElements, uiSprites);
         };
 };
 
