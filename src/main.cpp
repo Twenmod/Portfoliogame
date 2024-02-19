@@ -397,12 +397,12 @@ int main()
 
             uiSprite inventoryslot2 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10+100+10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
             game.uiSprites.push_back(&inventoryslot2);
-            uiSprite whip = generateUISprite(texturemap.at("whip")[0], sf::Vector2<float>(10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
+            uiSprite whip = generateUISprite(texturemap.at("whip")[0], sf::Vector2<float>(10+100+10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
             game.uiSprites.push_back(&whip);
 
             uiSprite inventoryoverlay1 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), false);
             game.uiSprites.push_back(&inventoryoverlay1); // 5
-            uiSprite inventoryoverlay2 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10+100+10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
+            uiSprite inventoryoverlay2 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10+100+10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), false);
             game.uiSprites.push_back(&inventoryoverlay2); // 6
 
         #pragma endregion
