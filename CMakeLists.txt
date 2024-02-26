@@ -6,6 +6,14 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Define output directory for Windows and Linux
+if(WIN32)
+    set(OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/windows")
+elseif(UNIX)
+    set(OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/linux")
+endif()
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${OUTPUT_DIRECTORY}")
 
 # Fix for Vcpkg on Windows
 if(WIN32)
