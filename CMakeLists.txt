@@ -13,6 +13,9 @@ elseif(UNIX)
     set(OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/linux")
 endif()
 
+# Ensure that the output directory exists
+file(MAKE_DIRECTORY "${OUTPUT_DIRECTORY}")
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${OUTPUT_DIRECTORY}")
 
 # Fix for Vcpkg on Windows
@@ -45,18 +48,18 @@ target_link_libraries(Spelunker PRIVATE sfml-graphics sfml-network sfml-window s
 if(WIN32)
     add_custom_command(TARGET Spelunker POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
-            ${CMAKE_SOURCE_DIR}/lib/SFML/bin
+            ${CMAKE_CURRENT_SOURCE_DIR}/lib/SFML/bin
             $<TARGET_FILE_DIR:Spelunker>)
 endif()
 
 # Copy assets
 add_custom_command(TARGET Spelunker POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/assets/
+        ${CMAKE_CURRENT_SOURCE_DIR}/assets/
         $<TARGET_FILE_DIR:Spelunker>)
 
 # Copy settings
 add_custom_command(TARGET Spelunker POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_SOURCE_DIR}/settings.json
+    COMMAND ${CMAKE_COMMAND} -E copy
+        ${CMAKE_CURRENT_SOURCE_DIR}/settings.json
         $<TARGET_FILE_DIR:Spelunker>)
