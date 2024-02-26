@@ -109,8 +109,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-sqo03w"
-      binary: "C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-sqo03w"
+      source: "C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-zj3k4g"
+      binary: "C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-zj3k4g"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -122,11 +122,11 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-sqo03w'
+        Change Dir: 'C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-zj3k4g'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe" -v cmTC_f16cc
-        [1/2] C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1439~1.335\\bin\\Hostx86\\x86\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_f16cc.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_f16cc.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.28\\Modules\\CMakeCCompilerABI.c"
-        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_f16cc.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x86\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x86\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1439~1.335\\bin\\Hostx86\\x86\\link.exe /nologo CMakeFiles\\cmTC_f16cc.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_f16cc.exe /implib:cmTC_f16cc.lib /pdb:cmTC_f16cc.pdb /version:0.0 /machine:X86  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && C:\\Windows\\system32\\cmd.exe /C "cd /D C:\\Users\\TwenG\\source\\repos\\Twenmod\\Portfoliogame\\out\\build\\x86-Debug\\CMakeFiles\\CMakeScratch\\TryCompile-sqo03w && C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/TwenG/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-sqo03w/cmTC_f16cc.exe -installedDir C:/Users/TwenG/vcpkg/installed/x86-windows/debug/bin -OutVariable out""
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe" -v cmTC_ba196
+        [1/2] C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1439~1.335\\bin\\Hostx86\\x86\\cl.exe  /nologo   /DWIN32 /D_WINDOWS /W3  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_ba196.dir\\CMakeCCompilerABI.c.obj /FdCMakeFiles\\cmTC_ba196.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.28\\Modules\\CMakeCCompilerABI.c"
+        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_ba196.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x86\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x86\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1439~1.335\\bin\\Hostx86\\x86\\link.exe /nologo CMakeFiles\\cmTC_ba196.dir\\CMakeCCompilerABI.c.obj  /out:cmTC_ba196.exe /implib:cmTC_ba196.lib /pdb:cmTC_ba196.pdb /version:0.0 /machine:X86  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && C:\\Windows\\system32\\cmd.exe /C "cd /D C:\\Users\\TwenG\\source\\repos\\Twenmod\\Portfoliogame\\out\\build\\x86-Debug\\CMakeFiles\\CMakeScratch\\TryCompile-zj3k4g && C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/TwenG/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-zj3k4g/cmTC_ba196.exe -installedDir C:/Users/TwenG/vcpkg/installed/x86-windows/debug/bin -OutVariable out""
         
       exitCode: 0
   -
@@ -138,8 +138,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-js4xtw"
-      binary: "C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-js4xtw"
+      source: "C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-t9d9aj"
+      binary: "C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-t9d9aj"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -151,11 +151,11 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-js4xtw'
+        Change Dir: 'C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-t9d9aj'
         
-        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe" -v cmTC_66772
-        [1/2] C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1439~1.335\\bin\\Hostx86\\x86\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /W3 /GR /EHsc  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_66772.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_66772.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.28\\Modules\\CMakeCXXCompilerABI.cpp"
-        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_66772.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x86\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x86\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1439~1.335\\bin\\Hostx86\\x86\\link.exe /nologo CMakeFiles\\cmTC_66772.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_66772.exe /implib:cmTC_66772.lib /pdb:cmTC_66772.pdb /version:0.0 /machine:X86  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && C:\\Windows\\system32\\cmd.exe /C "cd /D C:\\Users\\TwenG\\source\\repos\\Twenmod\\Portfoliogame\\out\\build\\x86-Debug\\CMakeFiles\\CMakeScratch\\TryCompile-js4xtw && C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/TwenG/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-js4xtw/cmTC_66772.exe -installedDir C:/Users/TwenG/vcpkg/installed/x86-windows/debug/bin -OutVariable out""
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja/ninja.exe" -v cmTC_7f7d8
+        [1/2] C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1439~1.335\\bin\\Hostx86\\x86\\cl.exe  /nologo /TP   /DWIN32 /D_WINDOWS /W3 /GR /EHsc  /MDd /Zi /Ob0 /Od /RTC1 /showIncludes /FoCMakeFiles\\cmTC_7f7d8.dir\\CMakeCXXCompilerABI.cpp.obj /FdCMakeFiles\\cmTC_7f7d8.dir\\ /FS -c "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\share\\cmake-3.28\\Modules\\CMakeCXXCompilerABI.cpp"
+        [2/2] C:\\Windows\\system32\\cmd.exe /C "cd . && "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\Common7\\IDE\\CommonExtensions\\Microsoft\\CMake\\CMake\\bin\\cmake.exe" -E vs_link_exe --intdir=CMakeFiles\\cmTC_7f7d8.dir --rc=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x86\\rc.exe --mt=C:\\PROGRA~2\\WI3CF2~1\\10\\bin\\100226~1.0\\x86\\mt.exe --manifests  -- C:\\PROGRA~1\\MICROS~4\\2022\\COMMUN~1\\VC\\Tools\\MSVC\\1439~1.335\\bin\\Hostx86\\x86\\link.exe /nologo CMakeFiles\\cmTC_7f7d8.dir\\CMakeCXXCompilerABI.cpp.obj  /out:cmTC_7f7d8.exe /implib:cmTC_7f7d8.lib /pdb:cmTC_7f7d8.pdb /version:0.0 /machine:X86  /debug /INCREMENTAL /subsystem:console  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib && C:\\Windows\\system32\\cmd.exe /C "cd /D C:\\Users\\TwenG\\source\\repos\\Twenmod\\Portfoliogame\\out\\build\\x86-Debug\\CMakeFiles\\CMakeScratch\\TryCompile-t9d9aj && C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/TwenG/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/CMakeFiles/CMakeScratch/TryCompile-t9d9aj/cmTC_7f7d8.exe -installedDir C:/Users/TwenG/vcpkg/installed/x86-windows/debug/bin -OutVariable out""
         
       exitCode: 0
 ...

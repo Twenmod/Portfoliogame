@@ -55,7 +55,7 @@ build CMakeFiles\Spelunker.dir\src\audio.cpp.obj: CXX_COMPILER__Spelunker_unscan
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 build CMakeFiles\Spelunker.dir\src\camera.cpp.obj: CXX_COMPILER__Spelunker_unscanned_Debug C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\camera.cpp || cmake_object_order_depends_target_Spelunker
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
@@ -63,7 +63,7 @@ build CMakeFiles\Spelunker.dir\src\camera.cpp.obj: CXX_COMPILER__Spelunker_unsca
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 build CMakeFiles\Spelunker.dir\src\enemy.cpp.obj: CXX_COMPILER__Spelunker_unscanned_Debug C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\enemy.cpp || cmake_object_order_depends_target_Spelunker
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
@@ -71,7 +71,7 @@ build CMakeFiles\Spelunker.dir\src\enemy.cpp.obj: CXX_COMPILER__Spelunker_unscan
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 build CMakeFiles\Spelunker.dir\src\gameScenes.cpp.obj: CXX_COMPILER__Spelunker_unscanned_Debug C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\gameScenes.cpp || cmake_object_order_depends_target_Spelunker
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
@@ -79,7 +79,7 @@ build CMakeFiles\Spelunker.dir\src\gameScenes.cpp.obj: CXX_COMPILER__Spelunker_u
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 build CMakeFiles\Spelunker.dir\src\gameobject.cpp.obj: CXX_COMPILER__Spelunker_unscanned_Debug C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\gameobject.cpp || cmake_object_order_depends_target_Spelunker
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
@@ -87,7 +87,7 @@ build CMakeFiles\Spelunker.dir\src\gameobject.cpp.obj: CXX_COMPILER__Spelunker_u
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 build CMakeFiles\Spelunker.dir\src\globals.cpp.obj: CXX_COMPILER__Spelunker_unscanned_Debug C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\globals.cpp || cmake_object_order_depends_target_Spelunker
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
@@ -95,7 +95,7 @@ build CMakeFiles\Spelunker.dir\src\globals.cpp.obj: CXX_COMPILER__Spelunker_unsc
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 build CMakeFiles\Spelunker.dir\src\items.cpp.obj: CXX_COMPILER__Spelunker_unscanned_Debug C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\items.cpp || cmake_object_order_depends_target_Spelunker
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
@@ -103,7 +103,7 @@ build CMakeFiles\Spelunker.dir\src\items.cpp.obj: CXX_COMPILER__Spelunker_unscan
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 build CMakeFiles\Spelunker.dir\src\main.cpp.obj: CXX_COMPILER__Spelunker_unscanned_Debug C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\main.cpp || cmake_object_order_depends_target_Spelunker
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
@@ -111,7 +111,7 @@ build CMakeFiles\Spelunker.dir\src\main.cpp.obj: CXX_COMPILER__Spelunker_unscann
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 build CMakeFiles\Spelunker.dir\src\math.cpp.obj: CXX_COMPILER__Spelunker_unscanned_Debug C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\math.cpp || cmake_object_order_depends_target_Spelunker
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
@@ -119,7 +119,7 @@ build CMakeFiles\Spelunker.dir\src\math.cpp.obj: CXX_COMPILER__Spelunker_unscann
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 build CMakeFiles\Spelunker.dir\src\player.cpp.obj: CXX_COMPILER__Spelunker_unscanned_Debug C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\player.cpp || cmake_object_order_depends_target_Spelunker
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
@@ -127,7 +127,7 @@ build CMakeFiles\Spelunker.dir\src\player.cpp.obj: CXX_COMPILER__Spelunker_unsca
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 build CMakeFiles\Spelunker.dir\src\settings.cpp.obj: CXX_COMPILER__Spelunker_unscanned_Debug C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\settings.cpp || cmake_object_order_depends_target_Spelunker
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
@@ -135,7 +135,7 @@ build CMakeFiles\Spelunker.dir\src\settings.cpp.obj: CXX_COMPILER__Spelunker_uns
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 build CMakeFiles\Spelunker.dir\src\worldgen.cpp.obj: CXX_COMPILER__Spelunker_unscanned_Debug C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\worldgen.cpp || cmake_object_order_depends_target_Spelunker
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
@@ -143,7 +143,7 @@ build CMakeFiles\Spelunker.dir\src\worldgen.cpp.obj: CXX_COMPILER__Spelunker_uns
   OBJECT_DIR = CMakeFiles\Spelunker.dir
   OBJECT_FILE_DIR = CMakeFiles\Spelunker.dir\src
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 
 # =============================================================================
@@ -151,19 +151,19 @@ build CMakeFiles\Spelunker.dir\src\worldgen.cpp.obj: CXX_COMPILER__Spelunker_uns
 
 
 #############################################
-# Link the executable Spelunker.exe
+# Link the executable C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.exe
 
-build Spelunker.exe: CXX_EXECUTABLE_LINKER__Spelunker_Debug CMakeFiles\Spelunker.dir\src\audio.cpp.obj CMakeFiles\Spelunker.dir\src\camera.cpp.obj CMakeFiles\Spelunker.dir\src\enemy.cpp.obj CMakeFiles\Spelunker.dir\src\gameScenes.cpp.obj CMakeFiles\Spelunker.dir\src\gameobject.cpp.obj CMakeFiles\Spelunker.dir\src\globals.cpp.obj CMakeFiles\Spelunker.dir\src\items.cpp.obj CMakeFiles\Spelunker.dir\src\main.cpp.obj CMakeFiles\Spelunker.dir\src\math.cpp.obj CMakeFiles\Spelunker.dir\src\player.cpp.obj CMakeFiles\Spelunker.dir\src\settings.cpp.obj CMakeFiles\Spelunker.dir\src\worldgen.cpp.obj | C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-graphics-d.lib C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-network-d.lib C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-window-d.lib C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-audio-d.lib C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-system-d.lib C$:\Users\TwenG\vcpkg\installed\x86-windows\debug\lib\jsoncpp.lib
+build C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.exe: CXX_EXECUTABLE_LINKER__Spelunker_Debug CMakeFiles\Spelunker.dir\src\audio.cpp.obj CMakeFiles\Spelunker.dir\src\camera.cpp.obj CMakeFiles\Spelunker.dir\src\enemy.cpp.obj CMakeFiles\Spelunker.dir\src\gameScenes.cpp.obj CMakeFiles\Spelunker.dir\src\gameobject.cpp.obj CMakeFiles\Spelunker.dir\src\globals.cpp.obj CMakeFiles\Spelunker.dir\src\items.cpp.obj CMakeFiles\Spelunker.dir\src\main.cpp.obj CMakeFiles\Spelunker.dir\src\math.cpp.obj CMakeFiles\Spelunker.dir\src\player.cpp.obj CMakeFiles\Spelunker.dir\src\settings.cpp.obj CMakeFiles\Spelunker.dir\src\worldgen.cpp.obj | C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-graphics-d.lib C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-network-d.lib C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-window-d.lib C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-audio-d.lib C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-system-d.lib C$:\Users\TwenG\vcpkg\installed\x86-windows\debug\lib\jsoncpp.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:X86 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-graphics-d.lib  C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-network-d.lib  C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-window-d.lib  C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-audio-d.lib  C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\lib\SFML\lib\sfml-system-d.lib  C:\Users\TwenG\vcpkg\installed\x86-windows\debug\lib\jsoncpp.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = CMakeFiles\Spelunker.dir
-  POST_BUILD = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\x86-Debug && C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/TwenG/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug/Spelunker.exe -installedDir C:/Users/TwenG/vcpkg/installed/x86-windows/debug/bin -OutVariable out && cd /D C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\x86-Debug && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/lib/SFML/bin C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug && cd /D C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\x86-Debug && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/assets/ C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug"
+  POST_BUILD = C:\Windows\system32\cmd.exe /C "cd /D C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\x86-Debug && C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -noprofile -executionpolicy Bypass -file C:/Users/TwenG/vcpkg/scripts/buildsystems/msbuild/applocal.ps1 -targetBinary C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows/Spelunker.exe -installedDir C:/Users/TwenG/vcpkg/installed/x86-windows/debug/bin -OutVariable out && cd /D C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\x86-Debug && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/lib/SFML/bin C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows && cd /D C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\x86-Debug && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/assets/ C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows && cd /D C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\x86-Debug && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/settings.json C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows"
   PRE_LINK = cd .
   TARGET_COMPILE_PDB = CMakeFiles\Spelunker.dir\
-  TARGET_FILE = Spelunker.exe
+  TARGET_FILE = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.exe
   TARGET_IMPLIB = Spelunker.lib
-  TARGET_PDB = Spelunker.pdb
+  TARGET_PDB = C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.pdb
 
 
 #############################################
@@ -191,7 +191,9 @@ build rebuild_cache: phony CMakeFiles\rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
-build Spelunker: phony Spelunker.exe
+build Spelunker: phony C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.exe
+
+build Spelunker.exe: phony C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.exe
 
 # =============================================================================
 # Folder targets.
@@ -201,7 +203,7 @@ build Spelunker: phony Spelunker.exe
 #############################################
 # Folder: C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/x86-Debug
 
-build all: phony Spelunker.exe
+build all: phony C$:\Users\TwenG\source\repos\Twenmod\Portfoliogame\out\build\windows\Spelunker.exe
 
 # =============================================================================
 # Built-in targets
