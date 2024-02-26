@@ -16,29 +16,30 @@ with the theme "collect"
 
 1. Clone the repository
 
-### Visual studio | Windows
-2. Open the sln file in visual studio
+### Linux
 
-3. Make sure SFML is on the correct include path
-
-4. Build the game using ctrl-shift-B
-
-5. Make sure the static sfml files are in the executable directory
-
-6. Run the game by clicking the exe
-
-### Visual studio code | Linux
-2. Open the project in vscode
-
-3. Make sure you have the dependencies installed by running
+2. Make sure you have the dependencies installed by running
 `~$` `sudo apt install sfml-dev libjsoncpp-dev`
 
 or downloading it from the aur on arch
 
-4. Build the game using `~$` `make all`
+### Windows
 
-5. Run the game from the project directory with `~$` `./Spelunker.out`
+2. Install jsoncpp using vcpkg
+`
+git clone https://github.com/Microsoft/vcpkg.git
+cd vcpkg
+./bootstrap-vcpkg.sh
+./vcpkg integrate install
+./vcpkg install jsoncpp
+`
+### Then
 
+3. Built the cmake cache using `cmake .`
+Note the project files only include the libraries for 32 bit systems so on windows you would have to do
+`cmake . -A Win32`
+
+4. Built the project using `cmake --build . --config Release`
 
 # How to play
 
@@ -51,7 +52,7 @@ or downloading it from the aur on arch
 ## Gameplay
 - Your objective is to collect as much treasure/gold as possible
 - Collect gold by mining ore or ~~finding treasure~~
-- Get to the exit point alive (Not yet in game)
+- Get to the exit point alive
 
 ## Tips
 - Do not die
