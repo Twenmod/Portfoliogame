@@ -10,7 +10,7 @@ with the theme "collect"
 
 - Download a release build for linux or windows in the [releases](https://github.com/Twenmod/Portfoliogame/releases) tab
 
-- Run the binary or executable file and start playing the game
+- Run the binary/executable file and start playing the game
 
 ## Building
 
