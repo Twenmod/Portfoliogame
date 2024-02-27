@@ -7,7 +7,7 @@
 
     //World generation
     "worldSeed": 0, // Seed for world generation only use numbers (set 0 for random)
-    "worldSize": {"width": 15, "height": 5}, // Size of world in chunks
+    "worldSize": {"width": 5, "height": 5}, // Size of world in chunks
 
 
 

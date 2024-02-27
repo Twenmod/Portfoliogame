@@ -120,17 +120,17 @@ int main()
     //Main menu UI
     
     ///Text elements
-    uiElement mainmenuTextElement = generateUIElement(font, 100, sf::Color(116, 12, 12), sf::Text::Bold, sf::Vector2<float>(50,0), "Spelunker");
-    menu.uiElements.push_back(&mainmenuTextElement);
+    uiElement* mainmenuTextElement = new uiElement(generateUIElement(font, 100, sf::Color(116, 12, 12), sf::Text::Bold, sf::Vector2<float>(50,0), "Spelunker"));
+    menu.uiElements.push_back(mainmenuTextElement);
     
-    uiElement playTextElement = generateUIElement(font, 50, sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,300), "Press [Space] To Start");
-    menu.uiElements.push_back(&playTextElement);
+    uiElement* playTextElement = new uiElement(generateUIElement(font, 50, sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,300), "Press [Space] To Start"));
+    menu.uiElements.push_back(playTextElement);
     
-    uiElement exitTextElement = generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-350,0), "Press [Q] To Exit");
-    menu.uiElements.push_back(&exitTextElement);
+    uiElement* exitTextElement = new uiElement(generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-350,0), "Press [Q] To Exit"));
+    menu.uiElements.push_back(exitTextElement);
 
-    uiElement scoreElement = generateUIElement(font, 70, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,100), "Score: UNDEFINED", false);
-    menu.uiElements.push_back(&scoreElement);
+    uiElement* scoreElement = new uiElement(generateUIElement(font, 70, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,100), "Score: UNDEFINED", false));
+    menu.uiElements.push_back(scoreElement);
 
 
     sf::Sound titlesound(*soundmap["tileHit"][0]);

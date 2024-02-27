@@ -8,7 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Define output directory for Windows and Linux
 if(WIN32)
-    set(OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/windows")
+    set(OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/windows32")
 elseif(UNIX)
     set(OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/linux")
 endif()

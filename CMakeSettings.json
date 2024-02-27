@@ -1,7 +1,7 @@
 ﻿{
   "configurations": [
     {
-      "name": "x86-Debug",
+      "name": "x86-Clang-Debug",
       "generator": "Ninja",
       "configurationType": "Debug",
       "buildRoot": "${projectDir}\\out\\build\\${name}",
@@ -9,7 +9,8 @@
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
-      "inheritEnvironments": [ "msvc_x86" ]
+      "inheritEnvironments": [ "clang_cl_x86" ],
+      "variables": []
     }
   ]
 }

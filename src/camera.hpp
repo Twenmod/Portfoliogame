@@ -15,13 +15,12 @@
 class uiElement {
     public:
         sf::Text text;
-        sf::Font font;
         bool enabled;
-        uiElement(sf::Text _text, sf::Font _font, bool startEnabled = true);
+        uiElement(sf::Text _text, const sf::Font& _font, bool startEnabled = true);
 };
 
 
-uiElement generateUIElement(sf::Font font, int fontSize = 100, sf::Color color = sf::Color(116, 12, 12), sf::Text::Style style = sf::Text::Bold, sf::Vector2<float> position = sf::Vector2<float>(0,0), std::string text = "Spelunker", bool startEnabled = true);
+uiElement generateUIElement(const sf::Font& font, int fontSize = 100, sf::Color color = sf::Color(116, 12, 12), sf::Text::Style style = sf::Text::Bold, sf::Vector2<float> position = sf::Vector2<float>(0,0), std::string text = "Spelunker", bool startEnabled = true);
 
 class uiSprite {
     public:

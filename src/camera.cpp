@@ -12,10 +12,9 @@
 #include "settings.hpp"
 #include "worldgen.hpp"
 
-uiElement::uiElement(sf::Text _text, sf::Font _font, bool startEnabled) {
+uiElement::uiElement(sf::Text _text, const sf::Font& _font, bool startEnabled) {
     text = _text;
-    font = _font;
-    text.setFont(font);
+    text.setFont(_font);
     enabled = startEnabled;
 };
 
@@ -26,7 +25,7 @@ uiSprite::uiSprite(sf::Sprite _sprite, bool startEnabled) {
 
 
 
-uiElement generateUIElement(sf::Font font, int fontSize, sf::Color color, sf::Text::Style style, sf::Vector2<float> position, std::string text, bool startEnabled) {
+uiElement generateUIElement(const sf::Font& font, int fontSize, sf::Color color, sf::Text::Style style, sf::Vector2<float> position, std::string text, bool startEnabled) {
     //Create Text and set values
     sf::Text textElement;
     textElement.setCharacterSize(fontSize);

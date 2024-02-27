@@ -121,12 +121,13 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
                 const double noise = perlin.octave2D_01((x * globalsettings.noiseScale.x), (y * globalsettings.noiseScale.y), globalsettings.octaves, globalsettings.persistence);
                 const double secondNoise = perlin.octave2D_01((x+1000)*globalsettings.oreNoiseScale.x, (y+1000)*globalsettings.oreNoiseScale.y, globalsettings.octaves, globalsettings.persistence);
 
-                for(auto const& mapLocation : noiseTileMap) {
-                    if (noise > mapLocation.second) { // If noise value is falls bellow location
-                        type = mapLocation.first; // Set the type to type of that map location
-                        auto const& replacementMap = secondTileMap.find(mapLocation.first);
-                        if (type == replacementMap->first && replacementMap != secondTileMap.end()) {
-                            if (secondNoise > replacementMap->second.first) {
+                for (const std::pair<int, float>& mapLocation : noiseTileMap) {
+                    if (noise > mapLocation.second) { // If noise value falls below location
+                        type = mapLocation.first; // Set the type to the type of that map location
+                        auto replacementMap = secondTileMap.find(mapLocation.first);
+                        if (replacementMap != secondTileMap.end()) { // Check if the key exists in secondTileMap
+                            // Dereference the iterator to access the value
+                            if (type == replacementMap->first && secondNoise > replacementMap->second.first) {
                                 type = replacementMap->second.second;
                             }
                         }

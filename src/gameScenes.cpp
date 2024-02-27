@@ -21,7 +21,7 @@ void mainMenu::OnRender(sf::RenderWindow &window) {
 
     ///Render ui texts
     for(uiElement* text : uiElements) {
-        if (text->enabled) { 
+        if (text != nullptr && text->enabled) {
             // Check if text.text is not null before drawing
             if (text->text.getFont() != nullptr) {
                 window.draw(text->text);
