@@ -126,7 +126,7 @@ int main()
     uiElement* playTextElement = new uiElement(generateUIElement(font, 50, sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,300), "Press [Space] To Start"));
     menu.uiElements.push_back(playTextElement);
     
-    uiElement* exitTextElement = new uiElement(generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-350,0), "Press [Q] To Exit"));
+    uiElement* exitTextElement = new uiElement(generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>((float)globalsettings.windowSize.x-350,0), "Press [Q] To Exit"));
     menu.uiElements.push_back(exitTextElement);
 
     uiElement* scoreElement = new uiElement(generateUIElement(font, 70, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,100), "Score: UNDEFINED", false));
@@ -176,11 +176,11 @@ int main()
             //Tile types
             std::vector<tile> tileTypes = {
                 tile("Air",10,Gameobject(),{nullptr},{nullptr}, false, treasureItem()),
-                tile("Dirt",5,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),texturemap.at("Grass"),texturemap.at("Dirtbottom"), false, treasureItem()),
-                tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
-                tile("Gold",15,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0),"goldTile"),{nullptr},{nullptr}, true,
+                tile("Dirt",5,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2f,sf::Vector2<float>(0,0)),texturemap.at("Grass"),texturemap.at("Dirtbottom"), false, treasureItem()),
+                tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2f,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
+                tile("Gold",15,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2f,sf::Vector2<float>(0,0),"goldTile"),{nullptr},{nullptr}, true,
                     treasureItem(10,200,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(10,10),true,texturemap.at("Goldnugget"),false,true,globalsettings.gravity,100,0.4f,sf::Vector2<float>(0,0)))),
-                tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
+                tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2f,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
 
             };
 
@@ -198,14 +198,14 @@ int main()
                 {2, std::pair<float, int>(0.75f, 3)},
             };
 
-            level world = level(globalsettings.tileSize,globalsettings.worldSize, tileTypes, 4, worldgenMap,replacementLayerMap);
+            level world = level((int)globalsettings.tileSize,globalsettings.worldSize, tileTypes, 4, worldgenMap,replacementLayerMap);
             
             //Generate chunks
             std::vector<std::vector<chunk*>> chunks;
             for (int x = 0; x < globalsettings.worldSize.x; x++) {
                 std::vector<chunk*> chunkcolomn;
                 for (int y = 0; y < globalsettings.worldSize.y; y++) {
-                    chunkcolomn.push_back(new chunk(sf::Vector2<int>(x*globalsettings.chunkSize*globalsettings.tileSize,y*globalsettings.chunkSize*globalsettings.tileSize)));
+                    chunkcolomn.push_back(new chunk(sf::Vector2<int>((int)(x*globalsettings.chunkSize*globalsettings.tileSize),(int)(y*globalsettings.chunkSize*globalsettings.tileSize))));
                 }
                 chunks.push_back(chunkcolomn);
             }
@@ -219,7 +219,7 @@ int main()
                             //If above tile is air change texture
                             //Make sure not out of bounds
                             if (_tile.position.y/globalsettings.tileSize - 1 > 0) {
-                                if(world.tiles[_tile.position.x/globalsettings.tileSize][_tile.position.y/globalsettings.tileSize - 1].tileName == "Air") {
+                                if(world.tiles[(int)(_tile.position.x/globalsettings.tileSize)][(int)(_tile.position.y/globalsettings.tileSize - 1)].tileName == "Air") {
                                     _tile.sprite.setTexture(*_tile.topOverrideTexture, false);
                                 }
                             }
@@ -229,7 +229,7 @@ int main()
                             //If below tile is air change texture
                             //Make sure not out of bounds
                             if (_tile.position.y/globalsettings.tileSize + 1 < globalsettings.worldSize.y*globalsettings.chunkSize) {
-                                if(world.tiles[_tile.position.x/globalsettings.tileSize][_tile.position.y/globalsettings.tileSize + 1].tileName == "Air") {
+                                if(world.tiles[(int)(_tile.position.x/globalsettings.tileSize)][(int)(_tile.position.y/globalsettings.tileSize + 1)].tileName == "Air") {
                                     _tile.sprite.setTexture(*_tile.bottomOverrideTexture, false);
                                 }
                             }
@@ -240,7 +240,7 @@ int main()
 
 
                     //Get corresponding chunk
-                    sf::Vector2<int> chunkPos(_tile.position.x / (globalsettings.chunkSize * globalsettings.tileSize), _tile.position.y / (globalsettings.chunkSize * globalsettings.tileSize));
+                    sf::Vector2<int> chunkPos((int)(_tile.position.x / (globalsettings.chunkSize * globalsettings.tileSize)), (int)(_tile.position.y / (globalsettings.chunkSize * globalsettings.tileSize)));
                     
                     //Add to chunk
                     chunks[chunkPos.x][chunkPos.y]->objects.push_back(&_tile);
@@ -332,8 +332,8 @@ int main()
             //Check for spot for player
             bool spawned = false;
             while (!spawned) {
-                int x = player.position.x / globalsettings.tileSize;
-                int y = player.position.y / globalsettings.tileSize;
+                int x = (int)(player.position.x / globalsettings.tileSize);
+                int y = (int)(player.position.y / globalsettings.tileSize);
                 std::string currentTile = world.tiles[x][y].tileName;
                 std::string groundTile = world.tiles[x][y+1].tileName;
                 if (currentTile == "Air" && groundTile != "Air") {
@@ -341,7 +341,7 @@ int main()
                 }else {
                     player.position.x += globalsettings.tileSize;
                     if (x >= globalsettings.worldSize.x*globalsettings.chunkSize-1) {
-                        player.position.x = margin.x;
+                        player.position.x = (float)margin.x;
                         player.position.y += globalsettings.tileSize;
                     }
                     if (y >= globalsettings.worldSize.y*globalsettings.chunkSize-1) {
@@ -363,7 +363,7 @@ int main()
                 24, //Size
                 sf::Color::White, //Color 
                 sf::Text::Bold,  //Style
-                sf::Vector2<float>(globalsettings.windowSize.x-150,0), //Position 
+                sf::Vector2<float>((float)(globalsettings.windowSize.x-150), 0), //Position 
                 "FPS" //Text
             );
             game.uiElements.push_back(&fpsTextElement);
@@ -390,19 +390,19 @@ int main()
 
             //Kinda a brute force way but we just have a couple slots
             ///Image elements
-            uiSprite inventoryslot1 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
+            uiSprite inventoryslot1 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
             game.uiSprites.push_back(&inventoryslot1);
-            uiSprite pickaxe = generateUISprite(texturemap.at("pickaxe")[0], sf::Vector2<float>(10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
+            uiSprite pickaxe = generateUISprite(texturemap.at("pickaxe")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
             game.uiSprites.push_back(&pickaxe);
 
-            uiSprite inventoryslot2 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10+100+10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
+            uiSprite inventoryslot2 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10+100+10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
             game.uiSprites.push_back(&inventoryslot2);
-            uiSprite whip = generateUISprite(texturemap.at("whip")[0], sf::Vector2<float>(10+100+10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), true);
+            uiSprite whip = generateUISprite(texturemap.at("whip")[0], sf::Vector2<float>(10+100+10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
             game.uiSprites.push_back(&whip);
 
-            uiSprite inventoryoverlay1 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), false);
+            uiSprite inventoryoverlay1 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), false);
             game.uiSprites.push_back(&inventoryoverlay1); // 5
-            uiSprite inventoryoverlay2 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10+100+10,globalsettings.windowSize.y-100-10), sf::Vector2<float>(100,100), false);
+            uiSprite inventoryoverlay2 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10+100+10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), false);
             game.uiSprites.push_back(&inventoryoverlay2); // 6
 
         #pragma endregion

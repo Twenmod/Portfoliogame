@@ -98,8 +98,8 @@ void Gameobject::OnLoop(std::vector<chunk*> chunkList) {
 void Gameobject::updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList) {
     //check if still in active chunk
     sf::Vector2<int> chunkPos;
-    chunkPos.x = position.x/globalsettings.tileSize/globalsettings.chunkSize;
-    chunkPos.y = position.y/globalsettings.tileSize/globalsettings.chunkSize;
+    chunkPos.x = (int)(position.x/globalsettings.tileSize/globalsettings.chunkSize);
+    chunkPos.y = (int)(position.y/globalsettings.tileSize/globalsettings.chunkSize);
 
     if (currentChunk != nullptr) {
         if (chunkPos*globalsettings.chunkSize != currentChunk->chunkPosition) { // If isnt in current chunk
