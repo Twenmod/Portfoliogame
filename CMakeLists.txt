@@ -57,9 +57,3 @@ add_custom_command(TARGET Spelunker POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_SOURCE_DIR}/assets/
         $<TARGET_FILE_DIR:Spelunker>)
-
-# Copy settings
-add_custom_command(TARGET Spelunker POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-        ${CMAKE_CURRENT_SOURCE_DIR}/settings.json
-        $<TARGET_FILE_DIR:Spelunker>)
