@@ -103,7 +103,7 @@ void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chu
                             //Tile has damage so draw damage sprite
                             int texturesize = tileBreakTexture->getSize().y;
                             int Slices = tileBreakTexture->getSize().x/texturesize;
-                            int slice = std::round((_tile->health/_tile->maxHealth)*Slices);
+                            int slice = (int)std::round((_tile->health/_tile->maxHealth)*Slices);
 
 
                             sf::Sprite damageOverlay;

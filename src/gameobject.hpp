@@ -32,7 +32,7 @@ class Gameobject {
         bool hasCollision;
         float gravity;
         float drag;
-        float bounciness = 0.2;
+        float bounciness = 0.2f;
         float friction = 2;
 
         sf::Vector2<float> velocity;

@@ -53,8 +53,8 @@ void mainLevel::OnLoop(sf::RenderWindow &window) {
 
     //Get active chunks
     sf::Vector2<int> _playerchunkPos;
-    _playerchunkPos.x = player->position.x/globalsettings.tileSize/globalsettings.chunkSize;
-    _playerchunkPos.y = player->position.y/globalsettings.tileSize/globalsettings.chunkSize;
+    _playerchunkPos.x = (int)(player->position.x/globalsettings.tileSize/globalsettings.chunkSize);
+    _playerchunkPos.y = (int)(player->position.y/globalsettings.tileSize/globalsettings.chunkSize);
     if (_playerchunkPos != playerChunkPosition) {
         //Player moved to new chunk so update active chunks
         playerChunkPosition = _playerchunkPos;
