@@ -7,3 +7,8 @@ Makefile
 cmake_install.cmake
 /out
 out
+ALL_BUILD.*
+ZERO_CHECK.*
+Win32
+Spelunker.dir
+Debug
