@@ -193,3 +193,10 @@ void Enemy::OnLoop(std::vector<chunk*> chunkList) {
     
     Gameobject::OnLoop(chunkList);
 }
+
+void Enemy::TakeDamage(float damage) {
+    health -= damage;
+    if (health <= 0) {
+        destroyed = true;
+    }
+}
