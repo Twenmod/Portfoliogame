@@ -49,14 +49,14 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
     jumpKeyHold = sf::Keyboard::isKeyPressed(globalsettings.jump);
 
     if (sf::Keyboard::isKeyPressed(globalsettings.right)) {
-        facing = 1;
+        if (!attacking) facing = 1;
         walking = true;
         velocity.x += acceleration;
         if (velocity.x > walkSpeed)
             velocity.x = walkSpeed;
     }
     else if (sf::Keyboard::isKeyPressed(globalsettings.left)) {
-        facing = 0;
+        if (!attacking) facing = 0;
         walking = true;
         velocity.x -= acceleration;
         if (velocity.x < -walkSpeed)
@@ -148,15 +148,17 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
             attackDirection = 0;
             attacking = true;
         }
-        if (sf::Keyboard::isKeyPressed(globalsettings.attackUp) && attackInterval <= 0) {
-            _attackDelay = globalsettings.attackDelay;
-            attackDirection = 2;
-            attacking = true;
-        }
-        if (sf::Keyboard::isKeyPressed(globalsettings.attackDown) && attackInterval <= 0) {
-            _attackDelay = globalsettings.attackDelay;
-            attackDirection = 3;
-            attacking = true;
+        if (currentItem != 1) { // Cant attack down/up with the whip
+            if (sf::Keyboard::isKeyPressed(globalsettings.attackUp) && attackInterval <= 0) {
+                _attackDelay = globalsettings.attackDelay;
+                attackDirection = 2;
+                attacking = true;
+            }
+            if (sf::Keyboard::isKeyPressed(globalsettings.attackDown) && attackInterval <= 0) {
+                _attackDelay = globalsettings.attackDelay;
+                attackDirection = 3;
+                attacking = true;
+            }
         }
     }
 
@@ -422,23 +424,49 @@ void Player::TakeDamage(float damage) {
 }
 
 void Player::OnRender() {
+    sprite.setOrigin(sf::Vector2f(0, 0));
 
-
+    //Attack
     if (_attackDelay > -globalsettings.attackDelay) {
-        if (_attackDelay > 0) {
-            if (facing == 1) { // Facing right
-                sprite.setTextureRect(sf::IntRect(340,0,34,34));
-            }else { // Facing left
-                sprite.setTextureRect(sf::IntRect(340,34,34,34));
+        if (currentItem == 0) { // Pickaxe
+            if (_attackDelay > 0) {
+                if (facing == 1) { // Facing right
+                    sprite.setTextureRect(sf::IntRect(340, 0, 34, 34));
+                }
+                else { // Facing left
+                    sprite.setTextureRect(sf::IntRect(340, 34, 34, 34));
+                }
             }
-        }else {
-            if (facing == 1) { // Facing right
-                sprite.setTextureRect(sf::IntRect(374,0,34,34));
-            }else { // Facing left
-                sprite.setTextureRect(sf::IntRect(374,34,34,34));
+            else {
+                if (facing == 1) { // Facing right
+                    sprite.setTextureRect(sf::IntRect(374, 0, 34, 34));
+                }
+                else { // Facing left
+                    sprite.setTextureRect(sf::IntRect(374, 34, 34, 34));
+                }
             }
         }
-    } else if (animationDelay >= 0) {
+        else if (currentItem == 1) { // Whip
+            if (_attackDelay > 0) {
+                if (facing == 1) { // Facing right
+                    sprite.setTextureRect(sf::IntRect(408, 0, 34, 34));
+                }
+                else { // Facing left
+                    sprite.setTextureRect(sf::IntRect(408, 34, 34, 34));
+                }
+            }
+            else {
+                if (facing == 1) { // Facing right
+                    sprite.setTextureRect(sf::IntRect(442, 0, 68, 34));
+                }
+                else { // Facing left
+                    sprite.setOrigin(sf::Vector2f(34, 0));
+                    sprite.setTextureRect(sf::IntRect(442, 34, 68, 34));
+                }
+            }
+        }
+    }
+    else if (animationDelay >= 0) {
         animationDelay -= deltaTime.asSeconds();
     }else if (jumpTrigger) {
         jumpTrigger = false;
@@ -449,6 +477,7 @@ void Player::OnRender() {
             sprite.setTextureRect(sf::IntRect(238,34,34,34));
         }
         animationDelay = 0.1f;
+    //Falling
     }else if (!grounded) {
         //Set falling animation
         if (facing == 1) { // Facing right
@@ -464,6 +493,7 @@ void Player::OnRender() {
             sprite.setTextureRect(sf::IntRect(306,34,34,34));
         }
         animationDelay = 0.1f;
+    //Walking
     }else if (walking) {
         //Walk animation
         walkanimationDelay -= deltaTime.asSeconds() * std::abs(velocity.x);
@@ -485,7 +515,7 @@ void Player::OnRender() {
             sprite.setTextureRect(sf::IntRect(34+walkanimationFrame*34,34,34,34)); 
         }
     }else {
-        //Idle
+    //Idle
         if (facing == 1) { // Facing right
             sprite.setTextureRect(sf::IntRect(0,0,34,34));
         }else { // Facing left
