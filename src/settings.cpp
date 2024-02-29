@@ -53,6 +53,12 @@ Settings::Settings() {
     attackInterval = settingsfile["attackInterval"].asFloat();
     attackDelay = settingsfile["attackDelay"].asFloat();
 
+    whipAttackRange = settingsfile["whipAttackRange"].asFloat();
+    whipAttackDamage = settingsfile["whipAttackDamage"].asFloat();
+    whipAttackInterval = settingsfile["whipAttackInterval"].asFloat();
+    whipAttackDelay = settingsfile["whipAttackDelay"].asFloat();
+
+
     //World Generation
 
     worldSeed = settingsfile["worldSeed"].asInt();

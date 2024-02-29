@@ -20,6 +20,7 @@
 #include "worldgen.hpp"
 #include "items.hpp"
 #include "gameScenes.hpp"
+#include "enemy.hpp"
 
 
 //Constructor
@@ -66,7 +67,7 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
         if (!grounded)
             acceleration *= globalsettings.playerAirAccelerationMultiplier;
         
-        acceleration = globalsettings.playerStopAcceleration*deltaTime.asSeconds();
+        acceleration *= deltaTime.asSeconds();
         if (velocity.x > acceleration)
             velocity.x -= acceleration;
         else if (velocity.x < -acceleration)
@@ -83,6 +84,18 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
     }
 
 
+    //Item switching
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
+        currentItem = 0;
+        gameScene->uiSprites[4]->enabled = true;
+        gameScene->uiSprites[5]->enabled = false;
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
+        currentItem = 1;
+        gameScene->uiSprites[4]->enabled = false;
+        gameScene->uiSprites[5]->enabled = true;
+    }
+
 
     //Attacks
     attackInterval -= deltaTime.asSeconds();
@@ -90,23 +103,36 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
 
     if (_attackDelay <= 0 && attacking) {
         attacking = false;
-        attackInterval = globalsettings.attackInterval;
+        float range = 0;
+        float tileAttackDmg = 0;
+        float enemyAttackDmg = 0;
+        if (currentItem == 0) { // Pickaxe
+            attackInterval = globalsettings.attackInterval;
+            range = globalsettings.attackRange;
+            tileAttackDmg = globalsettings.attackDamage;
+        }
+        else if (currentItem == 1) { // Whip
+            attackInterval = globalsettings.whipAttackInterval;
+            range = globalsettings.whipAttackRange;
+            enemyAttackDmg = globalsettings.whipAttackDamage;
+        }
+
         sf::FloatRect attackRect(0,0,0,0);
         switch (attackDirection) {
             case 0:
-                attackRect = sf::FloatRect(-globalsettings.attackRange,8,globalsettings.attackRange,16);
+                attackRect = sf::FloatRect(-range,8,range,16);
                 break;
             case 1:
-                attackRect = sf::FloatRect(globalsettings.tileSize,8,globalsettings.attackRange,16);
+                attackRect = sf::FloatRect(globalsettings.tileSize,8,range,16);
                 break;
             case 2:
-                attackRect = sf::FloatRect(8,-globalsettings.attackRange,16,globalsettings.attackRange);
+                attackRect = sf::FloatRect(8,-range,16,range);
                 break;
             case 3:
-                attackRect = sf::FloatRect(8,globalsettings.tileSize,16,globalsettings.attackRange);
+                attackRect = sf::FloatRect(8,globalsettings.tileSize,16,range);
                 break;
         }
-        Attack(attackRect,chunkList,globalsettings.attackDamage,globalsettings.attackDamage);
+        Attack(attackRect,chunkList,tileAttackDmg,enemyAttackDmg);
     }
 
     if (_attackDelay <= 0) {
@@ -325,7 +351,7 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
 };
 
-bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int tileAttackDamage, int enemyAttackDamage) {
+bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, const int tileAttackDamage, const int enemyAttackDamage) {
     //Construct attackRect
 
     sf::Vector2<float> roundedPosition = position;
@@ -353,7 +379,7 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
 
         for (Gameobject* gameobject : collidingObjects) {
             //Check if object is tile
-            if (dynamic_cast<tile*>(gameobject)) {
+            if (dynamic_cast<tile*>(gameobject) && tileAttackDamage > 0) {
                 gameobject->TakeDamage(tileAttackDamage);
 
                 //Play sound
@@ -370,6 +396,11 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, int
                     soundThread.detach();
                 }
                 hitSomething = true;
+            }
+            else if (dynamic_cast<Enemy*>(gameobject) && enemyAttackDamage > 0) { //Check if object is an enemy
+                gameobject->TakeDamage(enemyAttackDamage);
+
+                //TODO: Play sound
             }
         }
 

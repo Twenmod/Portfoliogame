@@ -179,7 +179,7 @@ int main()
                 tile("Dirt",5,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Dirt"),true,true,globalsettings.gravity,1,0.2f,sf::Vector2<float>(0,0)),texturemap.at("Grass"),texturemap.at("Dirtbottom"), false, treasureItem()),
                 tile("Stone",10,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Stone"),true,true,globalsettings.gravity,1,0.2f,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
                 tile("Gold",15,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2f,sf::Vector2<float>(0,0),"goldTile"),{nullptr},{nullptr}, true,
-                    treasureItem(10,200,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(10,10),true,texturemap.at("Goldnugget"),false,true,globalsettings.gravity,100,0.4f,sf::Vector2<float>(0,0)))),
+                    treasureItem(10,200,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(10,10),true,texturemap.at("Goldnugget"),false,true,globalsettings.gravity,100,0.2f,sf::Vector2<float>(0,0)))),
                 tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2f,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
 
             };
@@ -388,7 +388,7 @@ int main()
             );
             game.uiElements.push_back(&goldTextElement);
 
-            //Kinda a brute force way but we just have a couple slots
+            //Kinda a brute force way but we just have a couple slots so it does not matter as much
             ///Image elements
             uiSprite inventoryslot1 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
             game.uiSprites.push_back(&inventoryslot1);
@@ -400,10 +400,10 @@ int main()
             uiSprite whip = generateUISprite(texturemap.at("whip")[0], sf::Vector2<float>(10+100+10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
             game.uiSprites.push_back(&whip);
 
-            uiSprite inventoryoverlay1 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), false);
-            game.uiSprites.push_back(&inventoryoverlay1); // 5
+            uiSprite inventoryoverlay1 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
+            game.uiSprites.push_back(&inventoryoverlay1); // 4
             uiSprite inventoryoverlay2 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10+100+10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), false);
-            game.uiSprites.push_back(&inventoryoverlay2); // 6
+            game.uiSprites.push_back(&inventoryoverlay2); // 5
 
         #pragma endregion
 

@@ -40,6 +40,11 @@ class Settings {
         float attackInterval;
         float attackDelay;
 
+        float whipAttackRange;
+        float whipAttackDamage;
+        float whipAttackInterval;
+        float whipAttackDelay;
+
 //World generation
         int chunkSize;
         int chunkLoadDistance;

@@ -22,7 +22,7 @@ void treasureItem::PickUp() {
     Gameobject::~Gameobject();
 }
 
-void treasureItem::CalculatePhysics(std::vector<chunk*> chunkList) {
+void treasureItem::CalculatePhysics(std::vector<chunk*> chunkList) { //TODO: Fix collision acting weard on windows specifically
 
     velocity.y += gravity * deltaTime.asSeconds();
 

@@ -65,6 +65,12 @@ class Player : public Gameobject {
         int walkanimationFrame = 0;
 
         float animationDelay;
+
+        //Inventory
+        int currentItem = 0;
+
+
+
 };
 
 
