@@ -56,3 +56,6 @@ Note the project files only include the libraries for 32 bit systems so on windo
 
 ## Tips
 - Do not die
+
+# Known Issues
+- The physics are not accurate enough when <30 fps

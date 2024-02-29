@@ -31,7 +31,7 @@
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
-      "inheritEnvironments": [ "linux_clang_x64" ],
+      "inheritEnvironments": [ "linux_x86" ],
       "remoteMachineName": "${defaultRemoteMachineName}",
       "remoteCMakeListsRoot": "$HOME/.vs/${projectDirName}/${workspaceHash}/src",
       "remoteBuildRoot": "$HOME/.vs/${projectDirName}/${workspaceHash}/out/build/${name}",
@@ -39,8 +39,7 @@
       "remoteCopySources": true,
       "rsyncCommandArgs": "-t --delete",
       "remoteCopyBuildOutput": false,
-      "remoteCopySourcesMethod": "rsync",
-      "variables": []
+      "remoteCopySourcesMethod": "rsync"
     }
   ]
 }
