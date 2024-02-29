@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   /// User settings ///
   //Video
   "frameRateLimit": 999999,
@@ -15,22 +14,10 @@
     "width": 10,
     "height": 5
   }, // Size of world in chunks
-=======
-/// User settings ///
-    //Video
-    "frameRateLimit": 999999,
-    "vSync": false,
-    "windowSize": {"width": 1280, "height": 720},
-
-    //World generation
-    "worldSeed": 0, // Seed for world generation only use numbers (set 0 for random)
-    "worldSize": {"width": 5, "height": 5}, // Size of world in chunks
->>>>>>> aec947f0f1dd0bd390a33c52462e5149a36e50bf
 
 
 
 
-<<<<<<< HEAD
   /// Base Game Settings ///
   /// [These values change the way the game works and are not meant to be set by the user unless you want to change base game mechanics] ///
 
@@ -62,7 +49,7 @@
   "attackInterval": 0.2, //Time between attacks in Seconds 
   "attackDelay": 0.1, //Time between starting attack and hit frame
   "whipAttackRange": 64,
-  "whipAttackDamage": 6,
+  "whipAttackDamage": 3,
   "whipAttackInterval": 0.4,
   "whipAttackDelay": 0.2,
   //World settings
@@ -82,41 +69,6 @@
   }, // Scale for the noise used for spawning gold
   "amountOfEnemies": {
     "min": 1,
-    "max": 5
+    "max": 1
   } // Amount of enemies to spawn in the world random in between min/max
-=======
-/// Base Game Settings ///
-/// [These values change the way the game works and are not meant to be set by the user unless you want to change base game mechanics] ///
-
-    //Video settings
-        "cullSize": {"width": 2000, "height": 1100}, // Does not draw objects if they are outside this distance
-        "backgroundColor": {"r": 35, "g": 20, "b": 10}, // Background color of the world
-    //Physics settings
-        "playerPhysicsStepDistance": 8, // Pixels per physics step
-        "playerMaxPhysicsIterations" : 10, // Max physics steps per frame
-        "maxDeltaTime": 0.1, // Clamps deltatime to this (in seconds)
-    //Player settings
-        "playerMoveSpeed": 100, // Movement speed in pixels per second
-        "playerAcceleration": 600,
-        "playerStopAcceleration": 800, //Acceleration when not holding a direction
-        "playerAirAccelerationMultiplier": 0.8, // Multiply acceleration values 
-        "playerFriction": 0.1,
-        "cayoteTime": 0.12, // How long after going of a platform to update grounded
-        "jumpVelocity": 350,
-        "jumpGravity": 700, // Gravity while jumping up and holding jump
-        "attackRange": 32, // Attackrange in pixels
-        "attackDamage": 3,
-        "attackInterval": 0.2, //Time between attacks in Seconds 
-        "attackDelay": 0.1, //Time between starting attack and hit frame
-    //World settings
-        "chunkSize": 10, // Tiles per chunk (width and height)
-        "chunkLoadDistance" : 3, // Amount of chunks loaded around the player (in a box) so 1 means render 3x3 chunks
-        "tileSize": 32, //Size of tiles in pixels
-        "gravity": 1500,
-        "noiseScale": {"width": 0.03, "height": 0.1}, // Scale for base world generation noise
-        "octaves": 3, // Amount of noises to layer above eachother
-        "persistence": 0.4, //Persistance of those layers
-        "oreNoiseScale": {"width": 0.4, "height": 0.4}, // Scale for the noise used for spawning gold
-        "amountOfEnemies": {"min": 1, "max": 1} // Amount of enemies to spawn in the world random in between min/max
->>>>>>> aec947f0f1dd0bd390a33c52462e5149a36e50bf
 }

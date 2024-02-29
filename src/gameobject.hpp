@@ -37,7 +37,7 @@ class Gameobject {
 
         sf::Vector2<float> velocity;
         bool colliding;
-        
+
         bool destroyed = false;
 
         chunk* currentChunk;
