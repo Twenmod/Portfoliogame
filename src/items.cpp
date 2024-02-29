@@ -19,7 +19,7 @@ treasureItem::treasureItem(int _value, float _startVelocity, Gameobject itemObje
 }
 void treasureItem::PickUp() {
     //remove itself from the chunk
-    Gameobject::~Gameobject();
+    destroyed = true;
 }
 
 void treasureItem::CalculatePhysics(std::vector<chunk*> chunkList) { //TODO: Fix collision acting weard on windows specifically
