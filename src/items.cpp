@@ -143,7 +143,13 @@ void treasureItem::CalculatePhysics(std::vector<chunk*> chunkList) { //TODO: Fix
                         velocity += normal * totalVelocity;
 
                     if (normal != sf::Vector2<float>(0,0)) {
-                        velocity += -relativeVelocity*friction*deltaTime.asSeconds();
+                        sf::Vector2f drag = -relativeVelocity*friction*deltaTime.asSeconds();
+
+                        //Make sure drag only applies tangentally
+                        drag.x *= std::abs(normal.y); 
+                        drag.y *= std::abs(normal.x);
+                        
+                        velocity += drag;
                         test = true;
                     }
                 }
@@ -151,8 +157,6 @@ void treasureItem::CalculatePhysics(std::vector<chunk*> chunkList) { //TODO: Fix
         }
     }
     colliding = test;
-
-
 
     //Scale the velocity to deltaTime to get consistent velocity across framerates
     position += velocity*deltaTime.asSeconds();
