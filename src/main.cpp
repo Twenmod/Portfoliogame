@@ -299,7 +299,7 @@ int main()
                     int x = rand() % tileWorldSize.x;
                     int y = rand() % tileWorldSize.y;
                     //Check if tile position is empty
-                    if (world.tiles[x][y].tileName == "Air") {
+                    if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y+1].tileName != "Air") {
                         //Spawn enemy
                         Enemy* enemy = new Enemy(Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0, sf::Vector2<float>(0,0),"enemy"), 10,50,1,1);
                         //Get corresponding chunk

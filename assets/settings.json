@@ -69,6 +69,6 @@
   }, // Scale for the noise used for spawning gold
   "amountOfEnemies": {
     "min": 1,
-    "max": 1
+    "max": 5
   } // Amount of enemies to spawn in the world random in between min/max
 }
