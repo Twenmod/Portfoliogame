@@ -47,6 +47,7 @@ Note the project files only include the libraries for 32 bit systems so on windo
 - Use [A] and [D] to walk around
 - Use [Space] to jump
 - Use [UP][LEFT][DOWN][RIGHT] to attack around you
+- Press [E] to interact
 - Press [ESC] to return to the main menu (lose progress)
 
 ## Gameplay
