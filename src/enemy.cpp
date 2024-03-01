@@ -199,4 +199,7 @@ void Enemy::TakeDamage(float damage) {
     if (health <= 0) {
         destroyed = true;
     }
+
+    //Reset attack
+    attackTimer = attackInterval;
 }
