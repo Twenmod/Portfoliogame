@@ -194,6 +194,10 @@ void Enemy::OnLoop(std::vector<chunk*> chunkList) {
     Gameobject::OnLoop(chunkList);
 }
 
+void Enemy::OnRender() {
+
+}
+
 void Enemy::TakeDamage(float damage) {
     health -= damage;
     if (health <= 0) {
@@ -202,4 +206,6 @@ void Enemy::TakeDamage(float damage) {
 
     //Reset attack
     attackTimer = attackInterval;
+
+    damageAnimation = 0.2f;
 }

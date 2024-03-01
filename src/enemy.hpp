@@ -13,10 +13,12 @@
 
             void CalculatePhysics(std::vector<chunk*> chunkList);
             void OnLoop(std::vector<chunk*> chunkList);
+            void OnRender();
             void TakeDamage(float damage);
     private:
             bool moveDirection; // 1 is right 0 is left;
             float attackTimer = 0;
+            float damageAnimation = 0;
     };
 
 
