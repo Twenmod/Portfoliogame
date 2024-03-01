@@ -226,9 +226,11 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
                         //Check if object is the exit of the level
                         if (otherobject->objectName == "exit") {
-                            gameRunning = false;
-                            exitState = 1; // Set exitstate to 1 = win
-                            break;
+                            if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+                                gameRunning = false;
+                                exitState = 1; // Set exitstate to 1 = win
+                            }
+                            continue;
                         }
 
                         //Pick up if is a item
