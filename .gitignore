@@ -12,3 +12,4 @@ ZERO_CHECK.*
 Win32
 Spelunker.dir
 Debug
+.vscode/tasks.json

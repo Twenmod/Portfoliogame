@@ -15,6 +15,11 @@ Enemy::Enemy(Gameobject enemyObject, float _health, float _speed, float _attackD
     attackDamage = _attackDamage;
     attackInterval = _attackInterval;
     moveDirection = 1;
+
+    scale.x *= 2; // Fix for spritesheet
+
+    SetScale(scale);
+
 };
 
 void Enemy::CalculatePhysics(std::vector<chunk*> chunkList) 
@@ -195,7 +200,15 @@ void Enemy::OnLoop(std::vector<chunk*> chunkList) {
 }
 
 void Enemy::OnRender() {
+    if (damageAnimation > 0) {
+        damageAnimation -= deltaTime.asSeconds();
+        sprite.setTextureRect(sf::IntRect(16, 0, 16, 16));
+    }else {                    
+        sprite.setTextureRect(sf::IntRect(0, 0, 16, 16));
+    }
 
+
+    Gameobject::OnRender();
 }
 
 void Enemy::TakeDamage(float damage) {
