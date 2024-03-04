@@ -28,11 +28,11 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # Set sfml path
 set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML/lib/cmake/SFML")
+# and jsoncpp
 
 # Find SFML library
 set(SFML_STATIC_LIBRARIES TRUE)
-
-find_package(SFML 2.6 REQUIRED COMPONENTS graphics network window audio system)
+find_package(SFML 2.5 REQUIRED COMPONENTS graphics network window audio system)
 
 # And jsonCPP
 find_package(jsoncpp CONFIG REQUIRED)
