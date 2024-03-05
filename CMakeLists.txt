@@ -35,6 +35,7 @@ set(SFML_STATIC_LIBRARIES TRUE)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics network window audio system)
 
 # And jsonCPP
+set(jsoncpp_DIR "${PROJECT_SOURCE_DIR}/lib/jsoncpp/")
 find_package(jsoncpp CONFIG REQUIRED)
 
 # Add source files

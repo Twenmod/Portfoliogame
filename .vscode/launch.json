@@ -5,7 +5,7 @@
       "type": "lldb",
       "request": "launch",
       "name": "Debug",
-      "program": "${workspaceFolder}/Spelunker.out",
+      "program": "${workspaceFolder}/out/build/gcc/Spelunker",
       "args": [],
       "cwd": "${workspaceFolder}/"
     },

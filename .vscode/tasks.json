@@ -1,32 +1,39 @@
 {
-    "version": "2.0.0",
     "tasks": [
         {
-            "label": "make all",
             "type": "shell",
-            "command": "make all",
-            "group": {
-                "kind": "build",
-                "isDefault": false
+            "label": "C/C++: g++ build the game",
+            "command": "g++",
+            "args": [
+                "-g",
+                "src/*.cpp",
+                "-I",
+                "${workspaceFolder}/src",
+                "-o",
+                "${workspaceFolder}/out/build/gcc/Spelunker",
+                "-L",
+                "/usr/lib",
+                "-I",
+                "/usr/include",
+                "-l", "sfml-graphics",
+                "-l", "sfml-window",
+                "-l", "sfml-system",
+                "-l", "sfml-audio",
+                "-l", "sfml-network",    
+                "-l", "jsoncpp",
+                "-std=c++17"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
             },
-        },
-        {
-            "label": "build and run",
-            "type": "shell",
-            "command": "make clean && make all && make run",
             "group": {
                 "kind": "build",
                 "isDefault": true
             },
-        },
-        {
-            "label": "clean",
-            "type": "shell",
-            "command": "make clean",
-            "group": {
-                "kind": "build",
-                "isDefault": false
-            },
+            "problemMatcher": [
+                "$gcc"
+            ]
         }
-    ]
+    ],
+    "version": "2.0.0"
 }
