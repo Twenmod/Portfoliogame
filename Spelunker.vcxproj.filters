@@ -22,6 +22,9 @@
     <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\items.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\jsoncpp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

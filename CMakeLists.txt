@@ -33,6 +33,7 @@ find_package(SFML 2.5 REQUIRED COMPONENTS graphics network window audio system)
 # Add source files
 file(GLOB SOURCES "src/*.cpp")
 
+
 # Create executable
 add_executable(Spelunker ${SOURCES})
 
