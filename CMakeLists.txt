@@ -23,7 +23,6 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # Set sfml path
 set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML/lib/cmake/SFML")
-# and jsoncpp
 
 # Find SFML library
 set(SFML_STATIC_LIBRARIES TRUE)
@@ -37,7 +36,7 @@ file(GLOB SOURCES "src/*.cpp")
 # Create executable
 add_executable(Spelunker ${SOURCES})
 
-# Link SFML and json libraries
+# Link SFML libraries
 target_link_libraries(Spelunker PRIVATE sfml-graphics sfml-network sfml-window sfml-audio sfml-system)
 
 # Copy SFML DLL files after build on Windows
