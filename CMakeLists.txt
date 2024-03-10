@@ -18,11 +18,6 @@ file(MAKE_DIRECTORY "${OUTPUT_DIRECTORY}")
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${OUTPUT_DIRECTORY}")
 
-# Fix for Vcpkg on Windows
-if(WIN32)
-    include($ENV{USERPROFILE}/vcpkg/scripts/buildsystems/vcpkg.cmake)
-endif()
-
 # Add include directories
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
@@ -34,9 +29,6 @@ set(SFML_DIR "${PROJECT_SOURCE_DIR}/lib/SFML/lib/cmake/SFML")
 set(SFML_STATIC_LIBRARIES TRUE)
 find_package(SFML 2.5 REQUIRED COMPONENTS graphics network window audio system)
 
-# And jsonCPP
-set(jsoncpp_DIR "${PROJECT_SOURCE_DIR}/lib/jsoncpp/")
-find_package(jsoncpp CONFIG REQUIRED)
 
 # Add source files
 file(GLOB SOURCES "src/*.cpp")
@@ -45,7 +37,7 @@ file(GLOB SOURCES "src/*.cpp")
 add_executable(Spelunker ${SOURCES})
 
 # Link SFML and json libraries
-target_link_libraries(Spelunker PRIVATE sfml-graphics sfml-network sfml-window sfml-audio sfml-system JsonCpp::JsonCpp)
+target_link_libraries(Spelunker PRIVATE sfml-graphics sfml-network sfml-window sfml-audio sfml-system)
 
 # Copy SFML DLL files after build on Windows
 if(WIN32)

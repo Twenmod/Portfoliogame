@@ -15,77 +15,85 @@
 
 //Read all configs from settings.json
 Settings::Settings() {
-    std::ifstream file("settings.json");
-    Json::Value settingsfile;
-    Json::Reader reader;
-    reader.parse(file, settingsfile);
 
-    //Video
-    frameRateLimit = settingsfile["frameRateLimit"].asInt();
-    vSync = settingsfile["vSync"].asBool();
-    windowSize = sf::Vector2<int>(settingsfile["windowSize"]["width"].asInt(), settingsfile["windowSize"]["height"].asInt());
-    cullSize = sf::Vector2<int>(settingsfile["cullSize"]["width"].asInt(), settingsfile["cullSize"]["height"].asInt());
-    backgroundColor = sf::Color(settingsfile["backgroundColor"]["r"].asInt(), settingsfile["backgroundColor"]["g"].asInt(), settingsfile["backgroundColor"]["b"].asInt());
+    try {
+        std::ifstream file("settings.json");
+        Json::Value settingsfile;
+        Json::Reader reader;
+        reader.parse(file, settingsfile);
 
-    //physics
-    playerPhysicsStepDistance = settingsfile["playerPhysicsStepDistance"].asFloat();
-    playerMaxPhysicsIterations = settingsfile["playerMaxPhysicsIterations"].asInt();
-    maxDeltaTime = settingsfile["maxDeltaTime"].asFloat();
+        //Video
+        frameRateLimit = settingsfile["frameRateLimit"].asInt();
+        vSync = settingsfile["vSync"].asBool();
+        windowSize = sf::Vector2<int>(settingsfile["windowSize"]["width"].asInt(), settingsfile["windowSize"]["height"].asInt());
+        cullSize = sf::Vector2<int>(settingsfile["cullSize"]["width"].asInt(), settingsfile["cullSize"]["height"].asInt());
+        backgroundColor = sf::Color(settingsfile["backgroundColor"]["r"].asInt(), settingsfile["backgroundColor"]["g"].asInt(), settingsfile["backgroundColor"]["b"].asInt());
 
-    //Player
-    playerMoveSpeed = settingsfile["playerMoveSpeed"].asFloat();
-    playerAcceleration = settingsfile["playerAcceleration"].asFloat();
-    playerStopAcceleration = settingsfile["playerStopAcceleration"].asFloat(); 
-    playerAirAccelerationMultiplier = settingsfile["playerAirAccelerationMultiplier"].asFloat();;
-    // Reduces player speed when moving across ground value between 0-1
-    playerFriction = settingsfile["playerFriction"].asFloat(); 
-    // Moves groundcheck x pixels under players bottom rect
-    jumpVelocity = settingsfile["jumpVelocity"].asFloat();
-    cayoteTime = settingsfile["cayoteTime"].asFloat();
-    
+        //physics
+        playerPhysicsStepDistance = settingsfile["playerPhysicsStepDistance"].asFloat();
+        playerMaxPhysicsIterations = settingsfile["playerMaxPhysicsIterations"].asInt();
+        maxDeltaTime = settingsfile["maxDeltaTime"].asFloat();
 
-    gravity = settingsfile["gravity"].asFloat();
-    // Gravity that is used when holding jump and moving up (to give more jump control)
-    jumpGravity = settingsfile["jumpGravity"].asFloat();
-
-    attackRange = settingsfile["attackRange"].asFloat();
-    attackDamage = settingsfile["attackDamage"].asFloat();
-    attackInterval = settingsfile["attackInterval"].asFloat();
-    attackDelay = settingsfile["attackDelay"].asFloat();
-
-    whipAttackRange = settingsfile["whipAttackRange"].asFloat();
-    whipAttackDamage = settingsfile["whipAttackDamage"].asFloat();
-    whipAttackInterval = settingsfile["whipAttackInterval"].asFloat();
-    whipAttackDelay = settingsfile["whipAttackDelay"].asFloat();
+        //Player
+        playerMoveSpeed = settingsfile["playerMoveSpeed"].asFloat();
+        playerAcceleration = settingsfile["playerAcceleration"].asFloat();
+        playerStopAcceleration = settingsfile["playerStopAcceleration"].asFloat();
+        playerAirAccelerationMultiplier = settingsfile["playerAirAccelerationMultiplier"].asFloat();;
+        // Reduces player speed when moving across ground value between 0-1
+        playerFriction = settingsfile["playerFriction"].asFloat();
+        // Moves groundcheck x pixels under players bottom rect
+        jumpVelocity = settingsfile["jumpVelocity"].asFloat();
+        cayoteTime = settingsfile["cayoteTime"].asFloat();
 
 
-    //World Generation
+        gravity = settingsfile["gravity"].asFloat();
+        // Gravity that is used when holding jump and moving up (to give more jump control)
+        jumpGravity = settingsfile["jumpGravity"].asFloat();
 
-    worldSeed = settingsfile["worldSeed"].asInt();
+        attackRange = settingsfile["attackRange"].asFloat();
+        attackDamage = settingsfile["attackDamage"].asFloat();
+        attackInterval = settingsfile["attackInterval"].asFloat();
+        attackDelay = settingsfile["attackDelay"].asFloat();
 
-
-
-    chunkSize = settingsfile["chunkSize"].asInt();
-    chunkLoadDistance = settingsfile["chunkLoadDistance"].asInt();
-    tileSize = settingsfile["tileSize"].asInt();
-    worldSize = sf::Vector2<int>(settingsfile["worldSize"]["width"].asInt(), settingsfile["worldSize"]["height"].asInt());
-    noiseScale = sf::Vector2<float>(settingsfile["noiseScale"]["width"].asFloat(), settingsfile["noiseScale"]["height"].asFloat());
-    oreNoiseScale = sf::Vector2<float>(settingsfile["oreNoiseScale"]["width"].asFloat(), settingsfile["oreNoiseScale"]["height"].asFloat());
-    octaves = settingsfile["octaves"].asInt();
-    persistence = settingsfile["persistence"].asFloat();
-    amountOfEnemies = sf::Vector2<int>(settingsfile["amountOfEnemies"]["min"].asInt(), settingsfile["amountOfEnemies"]["max"].asInt());
+        whipAttackRange = settingsfile["whipAttackRange"].asFloat();
+        whipAttackDamage = settingsfile["whipAttackDamage"].asFloat();
+        whipAttackInterval = settingsfile["whipAttackInterval"].asFloat();
+        whipAttackDelay = settingsfile["whipAttackDelay"].asFloat();
 
 
-    //Keybinds
-    left =  sf::Keyboard::A;
-    right = sf::Keyboard::D;
-    jump = sf::Keyboard::Space;
+        //World Generation
 
-    attackRight = sf::Keyboard::Right;
-    attackLeft = sf::Keyboard::Left;
-    attackUp = sf::Keyboard::Up;
-    attackDown = sf::Keyboard::Down;
+        worldSeed = settingsfile["worldSeed"].asInt();
+
+
+
+        chunkSize = settingsfile["chunkSize"].asInt();
+        chunkLoadDistance = settingsfile["chunkLoadDistance"].asInt();
+        tileSize = settingsfile["tileSize"].asInt();
+        worldSize = sf::Vector2<int>(settingsfile["worldSize"]["width"].asInt(), settingsfile["worldSize"]["height"].asInt());
+        noiseScale = sf::Vector2<float>(settingsfile["noiseScale"]["width"].asFloat(), settingsfile["noiseScale"]["height"].asFloat());
+        oreNoiseScale = sf::Vector2<float>(settingsfile["oreNoiseScale"]["width"].asFloat(), settingsfile["oreNoiseScale"]["height"].asFloat());
+        octaves = settingsfile["octaves"].asInt();
+        persistence = settingsfile["persistence"].asFloat();
+        amountOfEnemies = sf::Vector2<int>(settingsfile["amountOfEnemies"]["min"].asInt(), settingsfile["amountOfEnemies"]["max"].asInt());
+
+
+        //Keybinds
+        left = sf::Keyboard::A;
+        right = sf::Keyboard::D;
+        jump = sf::Keyboard::Space;
+
+        attackRight = sf::Keyboard::Right;
+        attackLeft = sf::Keyboard::Left;
+        attackUp = sf::Keyboard::Up;
+        attackDown = sf::Keyboard::Down;
+        std::cout << "Made till here 1" << tileSize;
+
+    }
+    catch (const std::exception& e) {
+        std::cerr << "Error occurred during Settings initialization: " << e.what() << std::endl;
+    }
+
+
+    std::cout << "Made till here2 ";
 };
-
-
-

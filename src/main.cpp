@@ -28,20 +28,22 @@
 #include <string>
 #include <utility>
 #include <vector>
+
+#include "settings.hpp"
 #include "gameobject.hpp"
 #include "camera.hpp"
 #include "globals.hpp"
 #include "items.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
-#include "settings.hpp"
 #include "worldgen.hpp"
 #include "gameScenes.hpp"
 
 
-
 Settings globalsettings = Settings();
 sf::Time deltaTime;
+
+
 
 sf::Texture addTexture(std::string file) {
     sf::Texture text;
