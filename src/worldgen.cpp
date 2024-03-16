@@ -68,7 +68,7 @@ void chunk::OnLoop(std::vector<chunk*> chunkList, std::vector<std::vector<chunk*
     std::vector<Gameobject*> activeObjects;
 
     //Add objects to a list to make sure moved objects arent accidentelly called twice
-    ///Using an iterator to traverse to make sure the vector stays valid (apperently an issue in some compilers)
+    ///Using an iterator to traverse to make sure the vector stays valid (apparently an issue in some compilers)
     for (auto it = objects.begin(); it != objects.end();) {
         Gameobject* object = *it;
         if (object->objectName == "Player") {

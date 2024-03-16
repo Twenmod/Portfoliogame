@@ -15,9 +15,6 @@
     "height": 5
   }, // Size of world in chunks
 
-
-
-
   /// Base Game Settings ///
   /// [These values change the way the game works and are not meant to be set by the user unless you want to change base game mechanics] ///
 
@@ -70,5 +67,10 @@
   "amountOfEnemies": {
     "min": 1,
     "max": 5
-  } // Amount of enemies to spawn in the world random in between min/max
+  }, // Amount of enemies to spawn in the world random in between min/max
+  "amountOfObjects": {
+    "min": 2,
+    "max": 10
+  }, // Amount of random objects (like barrels) to spawn in the world random in between min/max
+  "optionalObjectSpawnMaxIterations": 5000 // Max amount of iterations before giving up on spawning an optional object like barrels or enemies
 }

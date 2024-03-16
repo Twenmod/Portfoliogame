@@ -55,6 +55,8 @@ class Settings {
         float octaves;
         float persistence;
         sf::Vector2<int> amountOfEnemies;
+        sf::Vector2<int> amountOfObjects;
+        int optionalObjectSpawnMaxIterations;
         int worldSeed;
 
 

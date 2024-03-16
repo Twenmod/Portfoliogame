@@ -29,6 +29,7 @@
 #include <utility>
 #include <vector>
 
+#include "explosive.hpp"
 #include "settings.hpp"
 #include "gameobject.hpp"
 #include "camera.hpp"
@@ -108,6 +109,8 @@ int main()
         {"itemslotselected",{new sf::Texture(addTexture("sprites/ui/itemslotoverlay.png"))}},
         {"pickaxe",{new sf::Texture(addTexture("sprites/ui/pickaxe.png"))}},
         {"whip",{new sf::Texture(addTexture("sprites/ui/whip.png"))}},
+        {"explosiveBarrel", {new sf::Texture(addTexture("sprites/explosiveBarrel.png"))}},
+        {"explosionSheet", {new sf::Texture(addTexture("sprites/explosionSheet.png"))}},
     };
 
 
@@ -183,7 +186,6 @@ int main()
                 tile("Gold",15,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Gold"),true,true,globalsettings.gravity,1,0.2f,sf::Vector2<float>(0,0),"goldTile"),{nullptr},{nullptr}, true,
                     treasureItem(10,200,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(10,10),true,texturemap.at("Goldnugget"),false,true,globalsettings.gravity,20.f,0.2f,sf::Vector2<float>(0,0)))),
                 tile("Bedrock",1000000,Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(globalsettings.tileSize,globalsettings.tileSize),true,texturemap.at("Bedrock"),true,true,globalsettings.gravity,1,0.2f,sf::Vector2<float>(0,0)),{nullptr},{nullptr}, false, treasureItem()),
-
             };
 
             //This map is used to determine the rough shape of the terain and places dirt and stone there
@@ -297,7 +299,7 @@ int main()
             int amountToSpawn = rand() % globalsettings.amountOfEnemies.y + globalsettings.amountOfEnemies.x;
             for (int i = 0; i < amountToSpawn; i++) {
                 bool spawned = false; 
-                while (!spawned) {
+                for (int j = 0; j < globalsettings.optionalObjectSpawnMaxIterations && !spawned; i++) {
                     int x = rand() % tileWorldSize.x;
                     int y = rand() % tileWorldSize.y;
                     //Check if tile position is empty
@@ -318,6 +320,30 @@ int main()
 
             game.chunkList = chunks;
             globalChunkList = chunks;
+
+            //Spawn random objects
+            //NOTE: Currently only barrels and not random
+            amountToSpawn = rand() % globalsettings.amountOfObjects.y + globalsettings.amountOfObjects.x;
+            for (int i = 0; i < amountToSpawn; i++) {
+                bool spawned = false; 
+                for (int j = 0; j < globalsettings.optionalObjectSpawnMaxIterations && !spawned; i++) {
+                    int x = rand() % tileWorldSize.x;
+                    int y = rand() % tileWorldSize.y;
+                    //Check if tile position is empty
+                    if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y+1].tileName != "Air") {
+                        //Spawn object
+                        Gameobject* object = new explosiveObject(2,128,10,0.1f,13,texturemap.at("explosionSheet")[0], Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("explosiveBarrel"),false,true,globalsettings.gravity,0.f,0.3f, sf::Vector2<float>(0,0),"explosiveBarrel"));
+                        //Get corresponding chunk
+                        sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
+                        object->currentChunk = chunks[chunkPos.x][chunkPos.y];
+                        chunks[chunkPos.x][chunkPos.y]->objects.push_back(object);
+                        if (object->hasCollision)
+                            chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(object);
+
+                        spawned = true;
+                    }
+                }
+            }
 
 
         #pragma endregion

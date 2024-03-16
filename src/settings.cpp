@@ -76,7 +76,9 @@ Settings::Settings() {
         octaves = settingsfile["octaves"].asInt();
         persistence = settingsfile["persistence"].asFloat();
         amountOfEnemies = sf::Vector2<int>(settingsfile["amountOfEnemies"]["min"].asInt(), settingsfile["amountOfEnemies"]["max"].asInt());
-
+        amountOfObjects = sf::Vector2<int>(settingsfile["amountOfObjects"]["min"].asInt(), settingsfile["amountOfObjects"]["max"].asInt());
+        optionalObjectSpawnMaxIterations = settingsfile["optionalObjectSpawnMaxIterations"].asInt();
+        
 
         //Keybinds
         left = sf::Keyboard::A;
@@ -87,13 +89,9 @@ Settings::Settings() {
         attackLeft = sf::Keyboard::Left;
         attackUp = sf::Keyboard::Up;
         attackDown = sf::Keyboard::Down;
-        std::cout << "Made till here 1" << tileSize;
 
     }
     catch (const std::exception& e) {
         std::cerr << "Error occurred during Settings initialization: " << e.what() << std::endl;
     }
-
-
-    std::cout << "Made till here2 ";
 };
