@@ -206,6 +206,7 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
         spriteRect.left = position.x + step.x * i;
         spriteRect.top = position.y + step.y * i;
 
+        bool takenFallDamage = false;
 
         for (chunk* _chunk : chunkList) {
             if (_chunk->collisionObjects.size() == 0) {
@@ -245,6 +246,17 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                         //Ignore if enemy
                         if (otherobject->objectName == "enemy") {
                             continue;
+                        }
+
+
+                        //Take fall damage
+                        if (impactDamage > 0 && !takenFallDamage) {
+                            int damage = int((velocity.y-globalsettings.fallDamageThreshold)*impactDamage*0.005);
+                            if (damage > 0)
+                            {
+                                takenFallDamage = true;
+                                TakeDamage(damage);
+                            }
                         }
 
 
@@ -345,6 +357,8 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
             }
         }
     }
+
+
     colliding = test;
     if (!groundedTest || jumpTrigger) {
         cayote -= deltaTime.asSeconds();

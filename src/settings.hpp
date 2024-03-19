@@ -35,6 +35,9 @@ class Settings {
         float gravity;
         float jumpGravity;
 
+        float fallDamage;
+        float fallDamageThreshold;
+
         float attackRange;
         float attackDamage;
         float attackInterval;

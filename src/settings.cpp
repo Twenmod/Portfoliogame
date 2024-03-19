@@ -45,6 +45,8 @@ Settings::Settings() {
         jumpVelocity = settingsfile["jumpVelocity"].asFloat();
         cayoteTime = settingsfile["cayoteTime"].asFloat();
 
+        fallDamage = settingsfile["fallDamage"].asFloat();
+        fallDamageThreshold = settingsfile["fallDamageThreshold"].asFloat();
 
         gravity = settingsfile["gravity"].asFloat();
         // Gravity that is used when holding jump and moving up (to give more jump control)
