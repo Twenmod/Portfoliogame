@@ -82,5 +82,5 @@ void explosiveObject::Explode() {
     //Use y as x size because explosion texture is square and in a sheet
     sprite.setTextureRect(sf::IntRect(0, 0, explosionTexture->getSize().y, explosionTexture->getSize().y));
 
-    SetScale(sf::Vector2<float>((float(explosionRadius)/2) / explosionTexture->getSize().y, (float(explosionRadius)/2) / explosionTexture->getSize().y));
+    SetScale(sf::Vector2<float>((float(explosionRadius)) / explosionTexture->getSize().y, (float(explosionRadius)) / explosionTexture->getSize().y));
 };

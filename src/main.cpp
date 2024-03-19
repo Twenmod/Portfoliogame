@@ -332,7 +332,7 @@ int main()
                     //Check if tile position is empty
                     if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y+1].tileName != "Air") {
                         //Spawn object
-                        Gameobject* object = new explosiveObject(2,300,20,0.1f,13,texturemap.at("explosionSheet")[0], Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("explosiveBarrel"),false,true,globalsettings.gravity,0.f,0.3f, sf::Vector2<float>(0,0),"explosiveBarrel"));
+                        Gameobject* object = new explosiveObject(2,200,20,0.1f,13,texturemap.at("explosionSheet")[0], Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("explosiveBarrel"),false,true,globalsettings.gravity,0.f,0.3f, sf::Vector2<float>(0,0),"explosiveBarrel"));
                         //Get corresponding chunk
                         sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
                         object->currentChunk = chunks[chunkPos.x][chunkPos.y];
