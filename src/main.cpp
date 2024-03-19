@@ -160,13 +160,28 @@ int main()
         if (menu.startGameTrigger)
         {
 
+            //Draw loading screen
+            window.clear(globalsettings.backgroundColor);
+            uiElement loadingText = generateUIElement(
+                font, //Font
+                50, //Size
+                sf::Color::White, //Color 
+                sf::Text::Bold,  //Style
+                sf::Vector2<float>(0,0), //Position 
+                "Loading..." //Text
+            );
+            window.draw(loadingText.text);
+            window.display();
+
+            //Set values
+
             gameRunning = true;
             menu.startGameTrigger = false;
             
             mainLevel game(window, texturemap.at("damageOverlay")[0]);
             gameScene = &game;
 
-            //Random seed
+            //Set worldseed
             unsigned int seed = globalsettings.worldSeed;
             if (seed == 0) { // If seed is unset in the settings
                 seed = (long)time(0); // Set random worldseed

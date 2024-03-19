@@ -45,7 +45,7 @@ class Camera {
         sf::Texture* tileBreakTexture;
 
 
-        float currentOverlaySize;
+        float currentOverlaySize = 1000;
 
     private:
         sf::Vector2<unsigned int> resolution;
