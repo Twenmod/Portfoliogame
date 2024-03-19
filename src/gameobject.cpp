@@ -158,11 +158,22 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
             {
                 if (sprite.getGlobalBounds().intersects(other->getGlobalBounds())) 
                 {
+
+
                     sf::Sprite _sprite = sprite;
                     _sprite.setPosition(position);
                     sf::FloatRect spriteRect = _sprite.getGlobalBounds();
                     sf::FloatRect otherRect = other->getGlobalBounds();
 
+                    //Use correct rect when colliding with player
+                    if (Player* playerobject = dynamic_cast<Player*>(other)) 
+                    {
+                        otherRect = playerobject->playerRect;
+                        //make sure still collides otherwise continue to next object
+                        if (!spriteRect.intersects(otherRect)) {
+                            continue;
+                        }
+                    }
 
                     sf::Vector2<float> relativeVelocity = velocity;
 
