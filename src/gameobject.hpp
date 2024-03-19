@@ -34,6 +34,7 @@ class Gameobject {
         float drag;
         float bounciness = 0.2f;
         float friction = 2;
+        float impactDamage = 0;
 
         sf::Vector2<float> velocity;
         bool colliding;
@@ -42,7 +43,7 @@ class Gameobject {
 
         chunk* currentChunk;
 
-        Gameobject(sf::Vector2<float> _position = sf::Vector2<float>(0,0), float _rotation = 0,sf::Vector2<float> _size = sf::Vector2<float>(32,32), bool _hasSprite = false, std::vector<sf::Texture*> _texture = {}, bool _isStatic = true, bool  _hasCollision = true, float _gravity = 0, float _friction = 0, float _bounciness = 0, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0), sf::String _objectName = "GenericObject");
+        Gameobject(sf::Vector2<float> _position = sf::Vector2<float>(0,0), float _rotation = 0,sf::Vector2<float> _size = sf::Vector2<float>(32,32), bool _hasSprite = false, std::vector<sf::Texture*> _texture = {}, bool _isStatic = true, bool  _hasCollision = true, float _gravity = 0, float _friction = 0, float _bounciness = 0, float _impactDamage = 0, sf::Vector2<float> _startVelocity = sf::Vector2<float>(0,0), sf::String _objectName = "GenericObject");
         ~Gameobject();
         void resetTexture(); //Resets the texture to a random one in its textures
         void updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList);

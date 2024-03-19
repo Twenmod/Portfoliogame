@@ -3,9 +3,11 @@
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <algorithm>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <iostream>
+#include <math.h>
 #include <vector>
 #include "gameobject.hpp"
 #include "SFMLMath.hpp"
@@ -16,7 +18,7 @@
 sf::Texture emptyimage();
 
 //Constructor
-Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _size, bool _hasSprite, std::vector<sf::Texture*> _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _friction, float _bounciness, sf::Vector2<float> _startVelocity, sf::String _objectName) {
+Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2<float> _size, bool _hasSprite, std::vector<sf::Texture*> _texture, bool _isStatic, bool  _hasCollision, float _gravity, float _friction, float _bounciness, float _impactDamage, sf::Vector2<float> _startVelocity, sf::String _objectName) {
 
     position = _position;
     rotation = _rotation;
@@ -52,6 +54,8 @@ Gameobject::Gameobject(sf::Vector2<float> _position, float _rotation,sf::Vector2
     
     colliding = false;
     drag = 0;
+
+    impactDamage = _impactDamage;
 
     currentChunk = nullptr;
 
@@ -179,6 +183,7 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
                         }
                     }
 
+                    //Not actually relative but good aproximate since in almost all cases only 1 of the objects is moving
                     sf::Vector2<float> relativeVelocity = velocity;
 
                     sf::Vector2<float> normal(0,0);
@@ -262,6 +267,13 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
                         case 3: // Left
                             position.x = otherRight;
                             break;
+                    }
+
+                    //Take impact damage
+                    if (impactDamage > 0) {
+                        int damage = int(velocity.y*impactDamage*0.005);
+                        if (damage > 0)
+                            TakeDamage(damage);
                     }
 
                     //Negate velocity / bounce
