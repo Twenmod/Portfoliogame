@@ -35,6 +35,9 @@ void treasureItem::CalculatePhysics(std::vector<chunk*> chunkList) { //TODO: Fix
         if (_chunk->collisionObjects.size() == 0) continue;
         for (Gameobject* otherobject : _chunk->collisionObjects) 
         {
+            if (!otherobject->hasCollision) {
+                continue;
+            }
             sf::Sprite* other = &otherobject->sprite;
             if (&sprite != other) 
             {

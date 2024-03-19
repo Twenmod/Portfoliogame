@@ -14,13 +14,15 @@ explosiveObject::explosiveObject(float _health, int _explosionRadius, float _dam
 	animationInterval = _animationInterval;
 	animationFrames = _animationFrames;
     explosionTexture = _explosionTexture;
-    _damage = damage;
+    damage = _damage;
 };
 
 void explosiveObject::TakeDamage(float damage) {
-    health -= damage;
-    if (health <= 0) {
-        Explode();
+    if (!exploding && health > 0) {
+        health -= damage;
+        if (health <= 0) {
+            Explode();
+        }
     }
 }
 
@@ -34,7 +36,7 @@ void explosiveObject::OnLoop(std::vector<chunk*> chunkList) {
             for (Gameobject* object : _chunk->objects) {
                 //Get distance to object
                 sf::Vector2f offset = object->position - position;
-                float distance = sf::sqr(offset.x * offset.x + offset.y * offset.y);
+                float distance = std::sqrt(offset.x * offset.x + offset.y * offset.y);
                 if (distance < explosionRadius) {
                     //Deal damage to object
                     //Damage is reduced exponentally by distance
@@ -49,16 +51,21 @@ void explosiveObject::OnLoop(std::vector<chunk*> chunkList) {
 void explosiveObject::OnRender() {
     if (exploding) {
         //Draw explosion animation
+        if (frame > animationFrames) {
+            destroyed = true;
+        }
         timer -= deltaTime.asSeconds();
         if (timer <= 0) {
             timer = animationInterval;
             frame++;
-            sprite.setTextureRect(sf::IntRect(0,0, explosionTexture->getSize().y * frame, explosionTexture->getSize().y));
+            sprite.setTextureRect(sf::IntRect(explosionTexture->getSize().y*frame,0, explosionTexture->getSize().y, explosionTexture->getSize().y));
         }
-
+        sprite.setPosition(position - sf::Vector2<float>(sprite.getLocalBounds().width, sprite.getLocalBounds().height));
+        sprite.setRotation(rotation);
+    }else {
+        Gameobject::OnRender();
     }
 
-    Gameobject::OnRender();
 };
 
 void explosiveObject::Explode() {
@@ -74,4 +81,6 @@ void explosiveObject::Explode() {
     sprite.setTexture(*explosionTexture);
     //Use y as x size because explosion texture is square and in a sheet
     sprite.setTextureRect(sf::IntRect(0, 0, explosionTexture->getSize().y, explosionTexture->getSize().y));
+
+    SetScale(sf::Vector2<float>((float(explosionRadius)/2) / explosionTexture->getSize().y, (float(explosionRadius)/2) / explosionTexture->getSize().y));
 };

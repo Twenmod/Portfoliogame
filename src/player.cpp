@@ -213,6 +213,9 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
             }
             for (Gameobject* otherobject : _chunk->collisionObjects) 
             {
+                if (!otherobject->hasCollision) {
+                    continue;
+                }
                 sf::Sprite* other = &otherobject->sprite;
                 if (&sprite != other) 
                 {
@@ -382,29 +385,44 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, con
         bool hitSomething = false;
 
         for (Gameobject* gameobject : collidingObjects) {
-            //Check if object is tile
-            if (dynamic_cast<tile*>(gameobject) && tileAttackDamage > 0) {
-                gameobject->TakeDamage(tileAttackDamage);
+            //continue if self
+            if (gameobject == this) {
+                continue;
+            }
 
-                //Play sound
-                if (gameobject->destroyed) {
-                    if (gameobject->objectName == "goldTile") {
-                        std::thread soundThread(playSound, *soundmap["goldBreak"][0], 100);
+
+            //Check if object is tile
+            if (dynamic_cast<tile*>(gameobject)) {
+                if (tileAttackDamage > 0) {
+                    gameobject->TakeDamage(tileAttackDamage);
+
+                    //Play sound
+                    if (gameobject->destroyed) {
+                        if (gameobject->objectName == "goldTile") {
+                            std::thread soundThread(playSound, *soundmap["goldBreak"][0], 100);
+                            soundThread.detach();
+                        }
+                        std::thread soundThread(playSound, *soundmap["tileBreak"][0], 100);
                         soundThread.detach();
                     }
-                    std::thread soundThread(playSound, *soundmap["tileBreak"][0], 100);
-                    soundThread.detach();
+                    else {
+                        std::thread soundThread(playSound, *soundmap["tileHit"][0], 100);
+                        soundThread.detach();
+                    }
+                    hitSomething = true;
                 }
-                else {
-                    std::thread soundThread(playSound, *soundmap["tileHit"][0], 100);
-                    soundThread.detach();
-                }
-                hitSomething = true;
             }
-            else if (dynamic_cast<Enemy*>(gameobject) && enemyAttackDamage > 0) { //Check if object is an enemy
-                gameobject->TakeDamage(enemyAttackDamage);
-
-                //TODO: Play sound
+            else if (dynamic_cast<Enemy*>(gameobject)) { //Check if object is an enemy
+                if (enemyAttackDamage > 0) {
+                    gameobject->TakeDamage(enemyAttackDamage);
+                    hitSomething = true;
+                    //TODO: Play sound
+                }
+            }else {
+                //Do generic damage
+                float damage = std::max(tileAttackDamage, enemyAttackDamage);
+                gameobject->TakeDamage(damage);
+                hitSomething = true;
             }
         }
 

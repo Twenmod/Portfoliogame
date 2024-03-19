@@ -10,7 +10,7 @@ class explosiveObject : public Gameobject {
         explosiveObject(float health, int explosionRadius, float damage, float animationInterval, int animationFrames, sf::Texture* explosionTexture, Gameobject gameObject);
         float health;
         int explosionRadius;
-        int animationInterval;
+        float animationInterval;
         int animationFrames;
         float damage;
         sf::Texture* explosionTexture;
