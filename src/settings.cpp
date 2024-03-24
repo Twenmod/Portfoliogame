@@ -45,6 +45,8 @@ Settings::Settings() {
         jumpVelocity = settingsfile["jumpVelocity"].asFloat();
         cayoteTime = settingsfile["cayoteTime"].asFloat();
 
+        climbSpeed = settingsfile["climbSpeed"].asFloat();
+
         fallDamage = settingsfile["fallDamage"].asFloat();
         fallDamageThreshold = settingsfile["fallDamageThreshold"].asFloat();
 

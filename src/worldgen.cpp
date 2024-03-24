@@ -139,6 +139,9 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
                                 type = replacementMap->second.second;
                             }
                         }
+                        if (type == -1) {
+                            std::cout << "that 1 in 1000 chance bug happened " << noise;
+                        }
                     }
                 }
             }

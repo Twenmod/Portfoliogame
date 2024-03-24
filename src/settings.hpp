@@ -32,6 +32,8 @@ class Settings {
         float jumpVelocity;
         float cayoteTime;
 
+        float climbSpeed;
+
         float gravity;
         float jumpGravity;
 

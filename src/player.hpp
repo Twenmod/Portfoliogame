@@ -46,6 +46,8 @@ class Player : public Gameobject {
         bool jumpKeyHold = false;
         bool jumpKeyDown = false;
 
+        bool inRope = false; //Inside of a rope tile
+
         //Animation/Sprites
 
         float cayote;
@@ -56,8 +58,7 @@ class Player : public Gameobject {
         float _attackDelay;
 
 
-        //Direction player is facing 0 is left 1 is right
-        bool facing;
+        bool facing;         //Direction player is facing 0 is left 1 is right
         bool walking;
         bool jumpTrigger;
 

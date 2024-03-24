@@ -83,7 +83,6 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
         cayote = 0;
     }
 
-
     //Item switching
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
         currentItem = 0;
@@ -96,6 +95,18 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
         gameScene->uiSprites[5]->enabled = true;
     }
 
+    //Rope climbing
+    if (inRope) {
+        velocity.y = -gravity * deltaTime.asSeconds(); // Use gravity as a workaround for the gravity that is being aplied at the end of the frame
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            //Climb
+            velocity.y = -globalsettings.climbSpeed;
+        }
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            //Climb
+            velocity.y = globalsettings.climbSpeed;
+        }
+    }
 
     //Attacks
     attackInterval -= deltaTime.asSeconds();
@@ -171,6 +182,7 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
 
     //Calculate physics 
     Gameobject::OnLoop(chunkList);
+
 }
  
 void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
@@ -197,6 +209,9 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
     int requiredIterations = std::clamp((int)std::round(distance / globalsettings.playerPhysicsStepDistance),1,globalsettings.playerMaxPhysicsIterations);
     sf::Vector2<float> step = sf::Vector2<float>(scaledVelocity.x / requiredIterations, scaledVelocity.y / requiredIterations);
 
+    inRope = false;
+
+
     for (int i = 0; i < requiredIterations; i++) {
 
         if (test == true)
@@ -208,150 +223,158 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
         bool takenFallDamage = false;
 
+
         for (chunk* _chunk : chunkList) {
-            if (_chunk->collisionObjects.size() == 0) {
+            if (_chunk->collisionObjects.size() == 0)
                 continue;
-            }
+
             for (Gameobject* otherobject : _chunk->collisionObjects) 
             {
-                if (!otherobject->hasCollision) {
+                if (!otherobject->hasCollision)
                     continue;
-                }
-                sf::Sprite* other = &otherobject->sprite;
-                if (&sprite != other) 
-                {
 
-                    //Check if collides with feet
-                    if (other->getGlobalBounds().contains(spriteRect.left,spriteRect.top+spriteRect.height) || other->getGlobalBounds().contains(spriteRect.left+spriteRect.width,spriteRect.top+spriteRect.height)) {
-                        groundedTest = true;
+                sf::Sprite* other = &otherobject->sprite;
+                if (&sprite == other)
+                    continue;
+
+
+
+                //Check if collides with feet
+                if (other->getGlobalBounds().contains(spriteRect.left,spriteRect.top+spriteRect.height) || other->getGlobalBounds().contains(spriteRect.left+spriteRect.width,spriteRect.top+spriteRect.height)) {
+                    groundedTest = true;
+                }
+
+                if (spriteRect.intersects(other->getGlobalBounds())) {
+
+
+                    if (otherobject->objectName == "Rope") {
+                        inRope = true;
+                        continue;
                     }
 
-                    if (spriteRect.intersects(other->getGlobalBounds())) {
-
-                        //Check if object is the exit of the level
-                        if (otherobject->objectName == "exit") {
-                            if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
-                                gameRunning = false;
-                                exitState = 1; // Set exitstate to 1 = win
-                            }
-                            continue;
+                    //Check if object is the exit of the level
+                    if (otherobject->objectName == "exit") {
+                        if (sf::Keyboard::isKeyPressed(sf::Keyboard::E)) {
+                            gameRunning = false;
+                            exitState = 1; // Set exitstate to 1 = win
                         }
+                        continue;
+                    }
 
-                        //Pick up if is a item
-                        if (treasureItem* treasure = dynamic_cast<treasureItem*>(otherobject)) {
-                            gold += treasure->value;
-                            treasure->PickUp();
+                    //Pick up if is a item
+                    if (treasureItem* treasure = dynamic_cast<treasureItem*>(otherobject)) {
+                        gold += treasure->value;
+                        treasure->PickUp();
+                    }
+
+                    //Ignore if enemy
+                    if (otherobject->objectName == "enemy") {
+                        continue;
+                    }
+
+
+                    //Take fall damage
+                    if (impactDamage > 0 && !takenFallDamage) {
+                        int damage = int((velocity.y-globalsettings.fallDamageThreshold)*impactDamage*0.005);
+                        if (damage > 0)
+                        {
+                            takenFallDamage = true;
+                            TakeDamage(float(damage));
                         }
-
-                        //Ignore if enemy
-                        if (otherobject->objectName == "enemy") {
-                            continue;
-                        }
+                    }
 
 
-                        //Take fall damage
-                        if (impactDamage > 0 && !takenFallDamage) {
-                            int damage = int((velocity.y-globalsettings.fallDamageThreshold)*impactDamage*0.005);
-                            if (damage > 0)
-                            {
-                                takenFallDamage = true;
-                                TakeDamage(float(damage));
-                            }
-                        }
+                    sf::FloatRect otherRect = other->getGlobalBounds();
 
+                    sf::Vector2<float> normal(0,0);
 
-                        sf::FloatRect otherRect = other->getGlobalBounds();
-
-                        sf::Vector2<float> normal(0,0);
-
-                        //Simplify rect sides
-                        float spriteBottom = spriteRect.top + spriteRect.height;
-                        float otherBottom = otherRect.top + otherRect.height;
-                        float spriteRight = spriteRect.left + spriteRect.width;
-                        float otherRight = otherRect.left + otherRect.width;
+                    //Simplify rect sides
+                    float spriteBottom = spriteRect.top + spriteRect.height;
+                    float otherBottom = otherRect.top + otherRect.height;
+                    float spriteRight = spriteRect.left + spriteRect.width;
+                    float otherRight = otherRect.left + otherRect.width;
                         
-                        float groundedMinDistance = 1.f; // Override distance for bottom side to make sure player does not collide with side of tiles when walking on them
+                    float groundedMinDistance = 1.f; // Override distance for bottom side to make sure player does not collide with side of tiles when walking on them
 
-                        //Test all sides
-                        bool bottominsideother = spriteBottom <= otherBottom && spriteBottom >= otherRect.top;
-                        bool topinsideother = spriteRect.top >= otherRect.top && spriteRect.top <= otherBottom;
-                        bool leftinsideother = spriteRect.left >= otherRect.left && spriteRect.left <= otherRight;
-                        bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
+                    //Test all sides
+                    bool bottominsideother = spriteBottom <= otherBottom && spriteBottom >= otherRect.top;
+                    bool topinsideother = spriteRect.top >= otherRect.top && spriteRect.top <= otherBottom;
+                    bool leftinsideother = spriteRect.left >= otherRect.left && spriteRect.left <= otherRight;
+                    bool rightinsideother = spriteRight >= otherRect.left && spriteRight <= otherRight;
 
 
 
-                        //Find side by checking smallest distance between the sides
+                    //Find side by checking smallest distance between the sides
                         
 
-                        float minDistance = INFINITY;
-                        int side = -1;
+                    float minDistance = INFINITY;
+                    int side = -1;
 
 
-                        float topDistance = math::difference(spriteRect.top,otherBottom); // Top
-                        if (topDistance < minDistance) {
-                            minDistance = topDistance;
-                        }
-                        float rightDistance = math::difference(spriteRight,otherRect.left); // Right
-                        if (rightDistance < minDistance) {
-                            minDistance = rightDistance;
-                        }
-                        float bottomDistance = math::difference(spriteBottom,otherRect.top); // Bottom
-                        if (bottomDistance < minDistance) {
-                            minDistance = bottomDistance;              
-                        }
-                        float leftDistance = math::difference(spriteRect.left, otherRight); // Left
-                        if (leftDistance < minDistance) {
-                            minDistance = leftDistance;
-                        }
+                    float topDistance = math::difference(spriteRect.top,otherBottom); // Top
+                    if (topDistance < minDistance) {
+                        minDistance = topDistance;
+                    }
+                    float rightDistance = math::difference(spriteRight,otherRect.left); // Right
+                    if (rightDistance < minDistance) {
+                        minDistance = rightDistance;
+                    }
+                    float bottomDistance = math::difference(spriteBottom,otherRect.top); // Bottom
+                    if (bottomDistance < minDistance) {
+                        minDistance = bottomDistance;              
+                    }
+                    float leftDistance = math::difference(spriteRect.left, otherRight); // Left
+                    if (leftDistance < minDistance) {
+                        minDistance = leftDistance;
+                    }
 
-                        //Top side
-                        bool sideCollision = topinsideother && !bottominsideother && (leftinsideother || rightinsideother);
-                        if (sideCollision && topDistance == minDistance) {
-                            side = 0;
-                            normal = sf::Vector2<float>(0.f,  1.f);
-                        }
-                        //Right side
-                        sideCollision = rightinsideother && !leftinsideother && (topinsideother || bottominsideother);
-                        if (sideCollision && rightDistance == minDistance) {
-                            side = 1;
-                            normal = sf::Vector2<float>(1.f,  0.f);
-                        }
-                        //Left side
-                        sideCollision = leftinsideother && !rightinsideother && (topinsideother || bottominsideother);
-                        if (sideCollision && leftDistance == minDistance) {
-                            side = 3;
-                            normal = sf::Vector2<float>(-1.f,  0.f);
-                        }
-                        //Bottom side
-                        sideCollision = bottominsideother && !topinsideother && (leftinsideother || rightinsideother);
-                        if (sideCollision && (bottomDistance <= groundedMinDistance || bottomDistance == minDistance)) {
-                            side = 2;
-                            normal = sf::Vector2<float>(0,  -1.f);
-                        }
+                    //Top side
+                    bool sideCollision = topinsideother && !bottominsideother && (leftinsideother || rightinsideother);
+                    if (sideCollision && topDistance == minDistance) {
+                        side = 0;
+                        normal = sf::Vector2<float>(0.f,  1.f);
+                    }
+                    //Right side
+                    sideCollision = rightinsideother && !leftinsideother && (topinsideother || bottominsideother);
+                    if (sideCollision && rightDistance == minDistance) {
+                        side = 1;
+                        normal = sf::Vector2<float>(1.f,  0.f);
+                    }
+                    //Left side
+                    sideCollision = leftinsideother && !rightinsideother && (topinsideother || bottominsideother);
+                    if (sideCollision && leftDistance == minDistance) {
+                        side = 3;
+                        normal = sf::Vector2<float>(-1.f,  0.f);
+                    }
+                    //Bottom side
+                    sideCollision = bottominsideother && !topinsideother && (leftinsideother || rightinsideother);
+                    if (sideCollision && (bottomDistance <= groundedMinDistance || bottomDistance == minDistance)) {
+                        side = 2;
+                        normal = sf::Vector2<float>(0,  -1.f);
+                    }
 
-                        //Move to closest side
-                         switch (side) {
-                            case 0: // Top
-                                position.y = otherBottom;
-                                if (velocity.y < 0) velocity.y = 0;
-                                test = true;
-                                break;
-                            case 1: // Right
-                                position.x = otherRect.left - spriteRect.width;
-                                if (velocity.x > 0) velocity.x = 0;
-                                test = true;
-                                break;
-                            case 2: // Bottom
-                                position.y = otherRect.top - spriteRect.height;
-                                if(velocity.y > 0) velocity.y = 0;
-                                test = true;
-                                break;
-                            case 3: // Left
-                                position.x = otherRight;
-                                if (velocity.x < 0) velocity.x = 0;
-                                test = true;
-                                break;
-                        }
+                    //Move to closest side
+                        switch (side) {
+                        case 0: // Top
+                            position.y = otherBottom;
+                            if (velocity.y < 0) velocity.y = 0;
+                            test = true;
+                            break;
+                        case 1: // Right
+                            position.x = otherRect.left - spriteRect.width;
+                            if (velocity.x > 0) velocity.x = 0;
+                            test = true;
+                            break;
+                        case 2: // Bottom
+                            position.y = otherRect.top - spriteRect.height;
+                            if(velocity.y > 0) velocity.y = 0;
+                            test = true;
+                            break;
+                        case 3: // Left
+                            position.x = otherRight;
+                            if (velocity.x < 0) velocity.x = 0;
+                            test = true;
+                            break;
                     }
                 }
             }
