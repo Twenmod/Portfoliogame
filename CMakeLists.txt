@@ -47,8 +47,10 @@ if(WIN32)
             $<TARGET_FILE_DIR:Spelunker>)
 endif()
 
-# Copy assets
+# Remove old assets and Copy new assets
 add_custom_command(TARGET Spelunker POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E remove_directory
+        $<TARGET_FILE_DIR:Spelunker>/assets
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-        ${CMAKE_CURRENT_SOURCE_DIR}/assets/
-        $<TARGET_FILE_DIR:Spelunker>)
+        ${CMAKE_CURRENT_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:Spelunker>/assets)

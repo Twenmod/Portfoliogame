@@ -17,7 +17,7 @@
 Settings::Settings() {
 
     try {
-        std::ifstream file("settings.json");
+        std::ifstream file("assets/settings.json");
         Json::Value settingsfile;
         Json::Reader reader;
         reader.parse(file, settingsfile);

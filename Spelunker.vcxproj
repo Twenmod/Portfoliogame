@@ -128,7 +128,9 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/assets/ C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/Debug
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E remove_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/Debug/assets
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/assets C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/Debug/assets
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -195,7 +197,9 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/assets/ C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/Release
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E remove_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/Release/assets
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/assets C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/Release/assets
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -262,7 +266,9 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/assets/ C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/MinSizeRel
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E remove_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/MinSizeRel/assets
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/assets C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/MinSizeRel/assets
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -328,7 +334,9 @@ exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd
 setlocal
-"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/assets/ C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/RelWithDebInfo
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E remove_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/RelWithDebInfo/assets
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_directory C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/assets C:/Users/TwenG/source/repos/Twenmod/Portfoliogame/out/build/windows32/RelWithDebInfo/assets
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -412,6 +420,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\audio.cpp" />
     <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\camera.cpp" />
     <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\enemy.cpp" />
+    <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\explosive.cpp" />
     <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\gameScenes.cpp" />
     <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\gameobject.cpp" />
     <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\globals.cpp" />

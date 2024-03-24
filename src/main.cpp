@@ -1,5 +1,5 @@
-#include <SFML/Audio/Sound.hpp>
-#include <SFML/Audio/SoundBuffer.hpp>
+#include <SFML/audio/Sound.hpp>
+#include <SFML/audio/SoundBuffer.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Graphics/Color.hpp>
 #include <SFML/Graphics/Font.hpp>
@@ -51,7 +51,7 @@ sf::Texture addTexture(std::string file) {
     if (!text.loadFromFile(file)) {
         std::cout << "Failed to load texture at: " << file;
         //Load default texture
-        if (!text.loadFromFile("sprites/nobitches.png")) {
+        if (!text.loadFromFile("assets/sprites/nobitches.png")) {
             std::cout << "Failed to load default texture aborting\n";
             abort();
         }
@@ -81,7 +81,7 @@ int main()
     mainMenu menu = mainMenu(window);
 
     sf::Font font;
-    if (!font.loadFromFile("Fonts/RubikScribble-Regular.ttf")) {
+    if (!font.loadFromFile("assets/Fonts/RubikScribble-Regular.ttf")) {
         std::cout << "Failed to load font";
     }
 
@@ -93,33 +93,33 @@ int main()
 
     //Load map of the games textures
     std::map<std::string, std::vector<sf::Texture*>> texturemap = {
-        {"Player", {new sf::Texture(addTexture("sprites/player/playerSheet.png"))}},
-        {"Square", { new sf::Texture(addTexture("sprites/square.jpg")) }},
-        {"Dirt", {new sf::Texture(addTexture("sprites/tiles/dirt/dirt.png")),new sf::Texture(addTexture("sprites/tiles/dirt/dirt2.png")),new sf::Texture(addTexture("sprites/tiles/dirt/dirt3.png"))}},
-        {"Grass", {new sf::Texture(addTexture("sprites/tiles/grass.png"))}},
-        {"Dirtbottom", {new sf::Texture(addTexture("sprites/tiles/dirtBottom.png"))}},
-        {"Stone",{new sf::Texture(addTexture("sprites/tiles/stone/stone.png")),new sf::Texture(addTexture("sprites/tiles/stone/stone2.png"))}},
-        {"Gold",{new sf::Texture(addTexture("sprites/tiles/gold/gold.png")),new sf::Texture(addTexture("sprites/tiles/gold/gold2.png"))}},
-        {"Noomba",{new sf::Texture(addTexture("sprites/noomba.png"))}},
-        {"Bedrock",{new sf::Texture(addTexture("sprites/tiles/bedrock.png"))}},
-        {"Goldnugget",{new sf::Texture(addTexture("sprites/goldnugget.png")),new sf::Texture(addTexture("sprites/goldnugget2.png"))}},
-        {"exitDoor",{new sf::Texture(addTexture("sprites/exitDoor.png"))}},
-        {"damageOverlay",{new sf::Texture(addTexture("sprites/damageOverlay.png"))}},
-        {"itemslot",{new sf::Texture(addTexture("sprites/ui/itemslot.png"))}},
-        {"itemslotselected",{new sf::Texture(addTexture("sprites/ui/itemslotoverlay.png"))}},
-        {"pickaxe",{new sf::Texture(addTexture("sprites/ui/pickaxe.png"))}},
-        {"whip",{new sf::Texture(addTexture("sprites/ui/whip.png"))}},
-        {"explosiveBarrel", {new sf::Texture(addTexture("sprites/explosiveBarrel.png"))}},
-        {"explosionSheet", {new sf::Texture(addTexture("sprites/explosionSheet.png"))}},
+        {"Player", {new sf::Texture(addTexture("assets/sprites/player/playerSheet.png"))}},
+        {"Square", { new sf::Texture(addTexture("assets/sprites/square.jpg")) }},
+        {"Dirt", {new sf::Texture(addTexture("assets/sprites/tiles/dirt/dirt.png")),new sf::Texture(addTexture("assets/sprites/tiles/dirt/dirt2.png")),new sf::Texture(addTexture("assets/sprites/tiles/dirt/dirt3.png"))}},
+        {"Grass", {new sf::Texture(addTexture("assets/sprites/tiles/grass.png"))}},
+        {"Dirtbottom", {new sf::Texture(addTexture("assets/sprites/tiles/dirtBottom.png"))}},
+        {"Stone",{new sf::Texture(addTexture("assets/sprites/tiles/stone/stone.png")),new sf::Texture(addTexture("assets/sprites/tiles/stone/stone2.png"))}},
+        {"Gold",{new sf::Texture(addTexture("assets/sprites/tiles/gold/gold.png")),new sf::Texture(addTexture("assets/sprites/tiles/gold/gold2.png"))}},
+        {"Noomba",{new sf::Texture(addTexture("assets/sprites/noomba.png"))}},
+        {"Bedrock",{new sf::Texture(addTexture("assets/sprites/tiles/bedrock.png"))}},
+        {"Goldnugget",{new sf::Texture(addTexture("assets/sprites/goldnugget.png")),new sf::Texture(addTexture("assets/sprites/goldnugget2.png"))}},
+        {"exitDoor",{new sf::Texture(addTexture("assets/sprites/exitDoor.png"))}},
+        {"damageOverlay",{new sf::Texture(addTexture("assets/sprites/damageOverlay.png"))}},
+        {"itemslot",{new sf::Texture(addTexture("assets/sprites/ui/itemslot.png"))}},
+        {"itemslotselected",{new sf::Texture(addTexture("assets/sprites/ui/itemslotoverlay.png"))}},
+        {"pickaxe",{new sf::Texture(addTexture("assets/sprites/ui/pickaxe.png"))}},
+        {"whip",{new sf::Texture(addTexture("assets/sprites/ui/whip.png"))}},
+        {"explosiveBarrel", {new sf::Texture(addTexture("assets/sprites/explosiveBarrel.png"))}},
+        {"explosionSheet", {new sf::Texture(addTexture("assets/sprites/explosionSheet.png"))}},
     };
 
 
     //Load a map of the games audio files (dont add more than 256 lol)
     soundmap = {
-        {"tileHit",{new sf::SoundBuffer(addSound("audio/stoneHit.wav"))}},
-        {"tileBreak",{new sf::SoundBuffer(addSound("audio/tileBreak.wav"))}},
-        {"goldBreak",{new sf::SoundBuffer(addSound("audio/goldBreak.wav"))}},
-        {"footsteps",{new sf::SoundBuffer(addSound("audio/footsteps/footstep1.wav")),new sf::SoundBuffer(addSound("audio/footsteps/footstep2.ogg"))}},
+        {"tileHit",{new sf::SoundBuffer(addSound("assets/audio/stoneHit.wav"))}},
+        {"tileBreak",{new sf::SoundBuffer(addSound("assets/audio/tileBreak.wav"))}},
+        {"goldBreak",{new sf::SoundBuffer(addSound("assets/audio/goldBreak.wav"))}},
+        {"footsteps",{new sf::SoundBuffer(addSound("assets/audio/footsteps/footstep1.wav")),new sf::SoundBuffer(addSound("assets/audio/footsteps/footstep2.ogg"))}},
     };
 
 
@@ -396,7 +396,7 @@ int main()
             }
             game.player = &player;
             game.mainCamera.SetObjectToFollow(&player, 2);
-            sf::Texture tileBreakTexture = addTexture("sprites/tileBreakSheet.png");
+            sf::Texture tileBreakTexture = addTexture("assets/sprites/tileBreakSheet.png");
             game.mainCamera.tileBreakTexture = &tileBreakTexture;
 
         #pragma region UI
