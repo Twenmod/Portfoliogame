@@ -132,7 +132,7 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
                 attackRect = sf::FloatRect(8,globalsettings.tileSize,16,range);
                 break;
         }
-        Attack(attackRect,chunkList,tileAttackDmg,enemyAttackDmg);
+        Attack(attackRect,chunkList,int(tileAttackDmg),int(enemyAttackDmg));
     }
 
     if (_attackDelay <= 0) {
@@ -255,7 +255,7 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                             if (damage > 0)
                             {
                                 takenFallDamage = true;
-                                TakeDamage(damage);
+                                TakeDamage(float(damage));
                             }
                         }
 
@@ -408,7 +408,7 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, con
             //Check if object is tile
             if (dynamic_cast<tile*>(gameobject)) {
                 if (tileAttackDamage > 0) {
-                    gameobject->TakeDamage(tileAttackDamage);
+                    gameobject->TakeDamage(float(tileAttackDamage));
 
                     //Play sound
                     if (gameobject->destroyed) {
@@ -428,13 +428,13 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, con
             }
             else if (dynamic_cast<Enemy*>(gameobject)) { //Check if object is an enemy
                 if (enemyAttackDamage > 0) {
-                    gameobject->TakeDamage(enemyAttackDamage);
+                    gameobject->TakeDamage(float(enemyAttackDamage));
                     hitSomething = true;
                     //TODO: Play sound
                 }
             }else {
                 //Do generic damage
-                float damage = std::max(tileAttackDamage, enemyAttackDamage);
+                float damage = float(std::max(tileAttackDamage, enemyAttackDamage));
                 gameobject->TakeDamage(damage);
                 hitSomething = true;
             }

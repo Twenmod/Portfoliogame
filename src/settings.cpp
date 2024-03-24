@@ -71,7 +71,7 @@ Settings::Settings() {
 
         chunkSize = settingsfile["chunkSize"].asInt();
         chunkLoadDistance = settingsfile["chunkLoadDistance"].asInt();
-        tileSize = settingsfile["tileSize"].asInt();
+        tileSize = settingsfile["tileSize"].asFloat();
         worldSize = sf::Vector2<int>(settingsfile["worldSize"]["width"].asInt(), settingsfile["worldSize"]["height"].asInt());
         noiseScale = sf::Vector2<float>(settingsfile["noiseScale"]["width"].asFloat(), settingsfile["noiseScale"]["height"].asFloat());
         oreNoiseScale = sf::Vector2<float>(settingsfile["oreNoiseScale"]["width"].asFloat(), settingsfile["oreNoiseScale"]["height"].asFloat());

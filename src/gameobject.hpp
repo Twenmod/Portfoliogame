@@ -49,7 +49,7 @@ class Gameobject {
         void updateCurrentChunk(std::vector<std::vector<chunk*>> chunkList);
         void SetScale(sf::Vector2<float> setscale);
         void SetVelocity(sf::Vector2<float> newVelocity);
-        sf::Vector2<float> GetVelocity();
+        const sf::Vector2<float> GetVelocity();
         void OnEvent();
         virtual void OnLoop(std::vector<chunk*> chunkList);
         virtual void OnRender();

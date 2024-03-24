@@ -50,7 +50,7 @@
   "whipAttackInterval": 0.4,
   "whipAttackDelay": 0.2,
   "fallDamage": 0.8,
-  "fallDamageTreshold": 500,
+  "fallDamageThreshold": 500,
   //World settings
   "chunkSize": 10, // Tiles per chunk (width and height)
   "chunkLoadDistance": 3, // Amount of chunks loaded around the player (in a box) so 1 means render 3x3 chunks

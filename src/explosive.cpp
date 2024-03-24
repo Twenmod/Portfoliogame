@@ -40,7 +40,7 @@ void explosiveObject::OnLoop(std::vector<chunk*> chunkList) {
                 if (distance < explosionRadius) {
                     //Deal damage to object
                     //Damage is reduced exponentally by distance
-                    float dmg = std::round(damage * std::pow(1 - distance / explosionRadius, 2));
+                    float dmg = float(std::round(damage * std::pow(1 - distance / explosionRadius, 2)));
                     object->TakeDamage(dmg);
                 }
             }

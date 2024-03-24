@@ -39,8 +39,8 @@ void tile::TakeDamage(float damage) {
             dropped->position.x = position.x+globalsettings.tileSize/2-dropped->sprite.getGlobalBounds().width/2;
             dropped->position.y = position.y+globalsettings.tileSize/2-dropped->sprite.getGlobalBounds().height/2;
             sf::Vector2<int> chunkPos;
-            chunkPos.x = dropped->position.x/globalsettings.tileSize/globalsettings.chunkSize;
-            chunkPos.y = dropped->position.y/globalsettings.tileSize/globalsettings.chunkSize;
+            chunkPos.x = int(dropped->position.x/globalsettings.tileSize/globalsettings.chunkSize);
+            chunkPos.y = int(dropped->position.y/globalsettings.tileSize/globalsettings.chunkSize);
 
             chunk* _chunk = globalChunkList[chunkPos.x][chunkPos.y];
             _chunk->objects.push_back(dropped);
@@ -145,8 +145,8 @@ level::level(int tileGridSize ,sf::Vector2<int> worldsize, std::vector<tile> til
             //Spawn corresponding tile
             if (type != -1) {
                 tile currTile = tileTypes[type];
-                currTile.position.x = x*tileGridSize;
-                currTile.position.y = y*tileGridSize;
+                currTile.position.x = float(x*tileGridSize);
+                currTile.position.y = float(y*tileGridSize);
                 currTile.resetTexture();
                 column.push_back(currTile);
             }

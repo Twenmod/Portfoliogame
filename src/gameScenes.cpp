@@ -84,7 +84,7 @@ void mainLevel::OnLoop(sf::RenderWindow &window) {
     //Set UI
     fpsArray[fpsI] = 1/deltaTime.asSeconds();
     fpsI++;
-    int fpsArraySize = std::size(fpsArray);
+    int fpsArraySize = int(std::size(fpsArray));
     if (fpsI >= fpsArraySize)
         fpsI = 0;
     float avarageFps = 0;

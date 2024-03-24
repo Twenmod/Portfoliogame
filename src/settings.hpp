@@ -55,7 +55,7 @@ class Settings {
         sf::Vector2<int> worldSize;
         sf::Vector2<float> noiseScale;
         sf::Vector2<float> oreNoiseScale;
-        float octaves;
+        int octaves;
         float persistence;
         sf::Vector2<int> amountOfEnemies;
         sf::Vector2<int> amountOfObjects;

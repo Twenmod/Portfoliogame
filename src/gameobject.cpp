@@ -273,7 +273,7 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
                     if (impactDamage > 0) {
                         int damage = int(velocity.y*impactDamage*0.005);
                         if (damage > 0)
-                            TakeDamage(damage);
+                            TakeDamage(float(damage));
                     }
 
                     //Negate velocity / bounce
@@ -306,7 +306,7 @@ void Gameobject::SetVelocity(sf::Vector2<float> newVelocity) {
     velocity = newVelocity;
 };
 
-sf::Vector2<float> Gameobject::GetVelocity() {
+const sf::Vector2<float> Gameobject::GetVelocity() {
     return velocity;
 };
 
