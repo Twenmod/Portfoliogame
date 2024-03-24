@@ -8,6 +8,7 @@
 #include "player.hpp"
 #include "settings.hpp"
 #include "worldgen.hpp"
+#include "globals.hpp"
 
 Enemy::Enemy(Gameobject enemyObject, float _health, float _speed, float _attackDamage, float _attackInterval) : Gameobject(enemyObject) {
     health = _health;

@@ -78,4 +78,3 @@ class Settings {
 };
 
 extern Settings globalsettings;
-extern sf::Time deltaTime;

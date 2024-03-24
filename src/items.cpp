@@ -3,6 +3,7 @@
 #include "worldgen.hpp"
 #include "math.hpp"
 #include "settings.hpp"
+#include "globals.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <cmath>
 #include <cstdlib>
@@ -22,7 +23,7 @@ void treasureItem::PickUp() {
     destroyed = true;
 }
 
-void treasureItem::CalculatePhysics(std::vector<chunk*> chunkList) { //TODO: Fix collision acting weard on windows specifically
+void treasureItem::CalculatePhysics(std::vector<chunk*> chunkList) {
 
     velocity.y += gravity * deltaTime.asSeconds();
 
