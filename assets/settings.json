@@ -71,8 +71,8 @@
     "max": 5
   }, // Amount of enemies to spawn in the world random in between min/max
   "amountOfObjects": {
-    "min": 2,
-    "max": 10
+    "min": 10,
+    "max": 20
   }, // Amount of random objects (like barrels) to spawn in the world random in between min/max
-  "optionalObjectSpawnMaxIterations": 5000 // Max amount of iterations before giving up on spawning an optional object like barrels or enemies
+  "optionalObjectSpawnMaxIterations": 500 // Max amount of iterations before giving up on spawning an optional object like barrels or enemies
 }

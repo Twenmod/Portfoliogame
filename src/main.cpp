@@ -39,6 +39,7 @@
 #include "enemy.hpp"
 #include "worldgen.hpp"
 #include "gameScenes.hpp"
+#include "rope.hpp"
 
 
 Settings globalsettings = Settings();
@@ -111,6 +112,9 @@ int main()
         {"whip",{new sf::Texture(addTexture("assets/sprites/ui/whip.png"))}},
         {"explosiveBarrel", {new sf::Texture(addTexture("assets/sprites/explosiveBarrel.png"))}},
         {"explosionSheet", {new sf::Texture(addTexture("assets/sprites/explosionSheet.png"))}},
+        {"middleRope", {new sf::Texture(addTexture("assets/sprites/rope/middleRope.png")), new sf::Texture(addTexture("assets/sprites/rope/middleRope2.png")), new sf::Texture(addTexture("assets/sprites/rope/middleRope3.png"))}},
+        {"endRope", {new sf::Texture(addTexture("assets/sprites/rope/ropeEnd.png"))}},
+
     };
 
 
@@ -276,6 +280,8 @@ int main()
             
             int startX;
             int x = startX = rand() % tileWorldSize.x;
+
+            //I had a bug occur TWICE wherein tileworldSize was 48 instead of the 50 that it was supposed to be causing a assertion failure in this part, however after changing nothing i could not reproduce this So either tileworldsize has a REALLY small chance to not be set correctly or i am going insane
             int y = tileWorldSize.y-2;
 
             while (!spawnedDoor) {
@@ -337,26 +343,51 @@ int main()
             globalChunkList = chunks;
 
             //Spawn random objects
-            //NOTE: Currently only barrels and not random
             amountToSpawn = rand() % globalsettings.amountOfObjects.y + globalsettings.amountOfObjects.x;
             for (int i = 0; i < amountToSpawn; i++) {
-                bool spawned = false; 
-                for (int j = 0; j < globalsettings.optionalObjectSpawnMaxIterations && !spawned; i++) {
-                    int x = rand() % tileWorldSize.x;
-                    int y = rand() % tileWorldSize.y;
-                    //Check if tile position is empty
-                    if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y+1].tileName != "Air") {
-                        //Spawn object
-                        Gameobject* object = new explosiveObject(3,200,20,0.1f,13,texturemap.at("explosionSheet")[0], Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("explosiveBarrel"),false,true,globalsettings.gravity,0.f,0.3f, 1, sf::Vector2<float>(0,0),"explosiveBarrel"));
-                        //Get corresponding chunk
-                        sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
-                        object->currentChunk = chunks[chunkPos.x][chunkPos.y];
-                        chunks[chunkPos.x][chunkPos.y]->objects.push_back(object);
-                        if (object->hasCollision)
-                            chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(object);
+                Gameobject* object = nullptr;
 
-                        spawned = true;
+                int rng = rand() % 2;
+
+                int x = rand() % tileWorldSize.x;
+                int y = rand() % tileWorldSize.y;
+
+                bool spawned = false; 
+                for (int j = 0; j < globalsettings.optionalObjectSpawnMaxIterations && !spawned; j++) {
+
+                    //Check if tile position is empty
+                    if (rng == 0) {
+                        if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y + 1].tileName != "Air") {
+                            //Spawn object
+                            object = new explosiveObject(3, 200, 20, 0.1f, 13, texturemap.at("explosionSheet")[0], Gameobject(sf::Vector2<float>(x * globalsettings.tileSize, y * globalsettings.tileSize), 0, sf::Vector2<float>(32, 32), true, texturemap.at("explosiveBarrel"), false, true, globalsettings.gravity, 0.f, 0.3f, 1, sf::Vector2<float>(0, 0), "explosiveBarrel"));
+
+                            spawned = true;
+                        }
                     }
+                    else if (rng == 1) {
+                        if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y - 1].tileName != "Air") {
+                            object = new Rope(rand() % 10, 0.1f, texturemap.at("middleRope"), Gameobject(sf::Vector2<float>(x * globalsettings.tileSize, y * globalsettings.tileSize), 0, sf::Vector2<float>(32, 32), true, texturemap.at("endRope"), true, true, 0, 0, 0, 0, sf::Vector2f(0, 0), "Rope"));
+
+                            spawned = true;
+                        }
+                    }
+
+                    x++;
+                    if (x >= tileWorldSize.x) {
+                        y++;
+                        x = 0;
+                        if (y >= tileWorldSize.y)
+                            y = 0;
+                    }
+
+                }
+                if (spawned) {
+                    //Get corresponding chunk
+                    sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
+                    object->currentChunk = chunks[chunkPos.x][chunkPos.y];
+                    chunks[chunkPos.x][chunkPos.y]->objects.push_back(object);
+                    if (object->hasCollision)
+                        chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(object);
                 }
             }
 

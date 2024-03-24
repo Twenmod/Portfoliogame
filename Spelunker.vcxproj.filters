@@ -37,6 +37,9 @@
     <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\rope.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\TwenG\source\repos\Twenmod\Portfoliogame\src\settings.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
