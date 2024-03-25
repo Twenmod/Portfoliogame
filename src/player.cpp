@@ -97,15 +97,18 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
 
     //Rope climbing
     if (inRope) {
-        velocity.y = -gravity * deltaTime.asSeconds(); // Use gravity as a workaround for the gravity that is being aplied at the end of the frame
+        const float ropeSmoothing = 10; // Value to control how much the rope movement is being smoothed
+        float targetSpeed = 0; // Use gravity as target for a workaround for the gravity that is being aplied at the end of the frame
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            //Climb
-            velocity.y = -globalsettings.climbSpeed;
+            //Climb up
+            targetSpeed = -globalsettings.climbSpeed;
         }
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            //Climb
-            velocity.y = globalsettings.climbSpeed;
+            //Climb down
+            targetSpeed = globalsettings.climbSpeed;
         }
+        //Apply velocity smoothly
+        velocity.y = velocity.y + (targetSpeed - velocity.y) * (ropeSmoothing * deltaTime.asSeconds());
     }
 
     //Attacks
@@ -190,8 +193,12 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
     //Scale the velocity to deltaTime to get consistent velocity across framerates
 
     float currentGravity = gravity;
+
     if(sf::Keyboard::isKeyPressed(globalsettings.jump) && velocity.y < 0)
         currentGravity = globalsettings.jumpGravity;
+
+    if (inRope)
+        currentGravity = 0;
 
     velocity.y += currentGravity * deltaTime.asSeconds();
 

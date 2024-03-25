@@ -6,11 +6,13 @@
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Texture.hpp>
 
-Rope::Rope(int _length, float _growDelay, std::vector<sf::Texture*> _middleTexture, Gameobject _baseObject) : Gameobject(_baseObject) {
+Rope::Rope(int _length, float _growDelay, std::vector<sf::Texture*> _middleTexture, Gameobject _baseObject, bool _isStart, std::vector<sf::Texture*> _startTexture) : Gameobject(_baseObject) {
 	length = _length;
 	delay = _growDelay;
 	growDelay = _growDelay;
 	middleTexture = _middleTexture;
+	isStart = _isStart;
+	startTexture = _startTexture;
 };
 void Rope::OnLoop(std::vector<chunk*> chunkList) {
 	if (length <= 0) return;
@@ -59,8 +61,14 @@ void Rope::OnLoop(std::vector<chunk*> chunkList) {
 			if (newRope->hasCollision)
 				globalChunkList[chunkPos.x][chunkPos.y]->collisionObjects.push_back(newRope);
 			
-			//Change own texture to middle texture
-			sprite.setTexture(*middleTexture[rand()%middleTexture.size()]);
+			//Change own texture
+			if (isStart) {
+				sprite.setOrigin(sf::Vector2f(0, 32));
+				sprite.setTexture(*startTexture[0], true);
+			}
+			else {
+				sprite.setTexture(*middleTexture[rand() % middleTexture.size()]);
+			}
 		}
 		else {
 			//Otherwise cleanup

@@ -6,7 +6,7 @@
 class Rope : public Gameobject {
 	public:
 		Rope();
-		Rope(int length, float growDelay, std::vector<sf::Texture*> middleTexture, Gameobject baseObject);
+		Rope(int length, float growDelay, std::vector<sf::Texture*> middleTexture, Gameobject baseObject, bool isStart = false, std::vector<sf::Texture*> startTexture = {nullptr});
 		int length; // Amount of length of rope underneath it
 		float growDelay; // Delay before trying to grow the rope
 		bool hasGrown = false; // Has already tried to grow
@@ -14,7 +14,9 @@ class Rope : public Gameobject {
 
 	private:
 		float delay;
+		bool isStart;
 		std::vector<sf::Texture*> middleTexture; // Texture for a middle piece
+		std::vector<sf::Texture*> startTexture;
 };
 
 #endif

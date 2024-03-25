@@ -114,7 +114,7 @@ int main()
         {"explosionSheet", {new sf::Texture(addTexture("assets/sprites/explosionSheet.png"))}},
         {"middleRope", {new sf::Texture(addTexture("assets/sprites/rope/middleRope.png")), new sf::Texture(addTexture("assets/sprites/rope/middleRope2.png")), new sf::Texture(addTexture("assets/sprites/rope/middleRope3.png"))}},
         {"endRope", {new sf::Texture(addTexture("assets/sprites/rope/ropeEnd.png"))}},
-
+        {"startRope", {new sf::Texture(addTexture("assets/sprites/rope/ropeStart.png"))}},
     };
 
 
@@ -366,7 +366,7 @@ int main()
                     }
                     else if (rng == 1) {
                         if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y - 1].tileName != "Air") {
-                            object = new Rope(rand() % 10, 0.1f, texturemap.at("middleRope"), Gameobject(sf::Vector2<float>(x * globalsettings.tileSize, y * globalsettings.tileSize), 0, sf::Vector2<float>(32, 32), true, texturemap.at("endRope"), true, true, 0, 0, 0, 0, sf::Vector2f(0, 0), "Rope"));
+                            object = new Rope(rand() % 10, 0.1f, texturemap.at("middleRope"), Gameobject(sf::Vector2<float>(x * globalsettings.tileSize, y * globalsettings.tileSize), 0, sf::Vector2<float>(32, 32), true, texturemap.at("endRope"), true, true, 0, 0, 0, 0, sf::Vector2f(0, 0), "Rope"), true, texturemap.at("startRope"));
 
                             spawned = true;
                         }
