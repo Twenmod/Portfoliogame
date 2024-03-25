@@ -11,14 +11,14 @@
       "inheritEnvironments": [ "clang_cl_x64" ]
     },
     {
-      "name": "x86-Clang-Release",
+      "name": "x64-Clang-Release",
       "generator": "Ninja",
       "configurationType": "Release",
       "buildRoot": "${projectDir}\\out\\build\\${name}",
       "installRoot": "${projectDir}\\out\\install\\${name}",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
-      "inheritEnvironments": [ "clang_cl_x86" ]
+      "inheritEnvironments": [ "clang_cl_x64" ]
     },
     {
       "name": "Linux-Clang-Release",
