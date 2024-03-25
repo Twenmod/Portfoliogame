@@ -19,35 +19,29 @@ with the theme "collect"
 ### Linux
 
 2. Make sure you have the dependencies installed by running
-`~$` `sudo apt install sfml-dev libjsoncpp-dev`
+`~$` `sudo apt install sfml-dev libjsoncpp-dev gcc`
 
 or downloading it from the aur on arch
 
+3. Build the game by running the "C/C++: g++ build the game" task from vscode or running 
+`~$` `g++ -g src/*.cpp -I ./src -o ./out/build/gcc/Spelunker -L /usr/lib -I /usr/include -l sfml-graphics -l sfml-window -l sfml-system -l sfml-audio -l sfml-network -l jsoncpp -std=c++17`
+from within the source folder
+
 ### Windows
 
-2. Install jsoncpp using vcpkg
-`
-git clone https://github.com/Microsoft/vcpkg.git
-cd vcpkg
-./bootstrap-vcpkg.sh
-./vcpkg integrate install
-./vcpkg install jsoncpp
-`
-### Then
+2. Built the cmake cache using `cmake .` or the popup from within visual studio
+Note the project files only include the libraries for 64 bit systems so on windows you would have to do
 
-3. Built the cmake cache using `cmake .`
-Note the project files only include the libraries for 32 bit systems so on windows you would have to do
-`cmake . -A Win32`
-
-4. Built the project using `cmake --build . --config Release`
+4. Built the project using `cmake --build . --config Release` or the build button (ctrl+b) from within visual studio
 
 # How to play
 
 ## controls
 - Use [A] and [D] to walk around
 - Use [Space] to jump
+- Use [1][2] To select your weapon
 - Use [UP][LEFT][DOWN][RIGHT] to attack around you
-- Press [E] to interact
+- Press [E] to interact (with doors)
 - Press [ESC] to return to the main menu (lose progress)
 
 ## Gameplay
