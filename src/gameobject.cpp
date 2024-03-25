@@ -175,7 +175,7 @@ void Gameobject::CalculatePhysics(std::vector<chunk*> chunkList) {
                 sf::FloatRect otherRect = other->getGlobalBounds();
 
                 //Use correct rect when colliding with player
-                if (Player* playerobject = dynamic_cast<Player*>(other)) 
+                if (Player* playerobject = dynamic_cast<Player*>(otherobject)) 
                 {
                     otherRect = playerobject->playerRect;
                     //make sure still collides otherwise continue to next object
