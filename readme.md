@@ -30,7 +30,7 @@ from within the source folder
 ### Windows
 
 2. Built the cmake cache using `cmake .` or the popup from within visual studio
-Note the project files only include the libraries for 64 bit systems so on windows you would have to do
+Note the project files only include the libraries for 64 bit install
 
 4. Built the project using `cmake --build . --config Release` or the build button (ctrl+b) from within visual studio
 
