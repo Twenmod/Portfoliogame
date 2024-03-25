@@ -19,12 +19,12 @@ with the theme "collect"
 ### Linux
 
 2. Make sure you have the dependencies installed by running
-`~$` `sudo apt install sfml-dev libjsoncpp-dev gcc`
+`sudo apt install sfml-dev libjsoncpp-dev gcc`
 
 or downloading it from the aur on arch
 
 3. Build the game by running the "C/C++: g++ build the game" task from vscode or running 
-`~$` `g++ -g src/*.cpp -I ./src -o ./out/build/gcc/Spelunker -L /usr/lib -I /usr/include -l sfml-graphics -l sfml-window -l sfml-system -l sfml-audio -l sfml-network -l jsoncpp -std=c++17`
+`g++ -g src/*.cpp -I ./src -o ./out/build/gcc/Spelunker -L /usr/lib -I /usr/include -l sfml-graphics -l sfml-window -l sfml-system -l sfml-audio -l sfml-network -l jsoncpp -std=c++17`
 from within the source folder
 
 ### Windows
