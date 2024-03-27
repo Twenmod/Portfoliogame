@@ -33,6 +33,7 @@ from within the source folder
 Note the project files only include the libraries for 64 bit install
 
 4. Built the project using `cmake --build . --config Release` or the build button (ctrl+b) from within visual studio
+Note in Visual studio make sure you select the "Spelunker.vcxproj" file and not the ""ALL_BUILD.vcxproj"" file
 
 # How to play
 
