@@ -71,7 +71,7 @@ void chunk::OnLoop(std::vector<chunk*> chunkList, std::vector<std::vector<chunk*
     ///Using an iterator to traverse to make sure the vector stays valid (apparently an issue in some compilers)
     for (auto it = objects.begin(); it != objects.end();) {
         Gameobject* object = *it;
-        if (object->objectName == "Player") {
+        if (dynamic_cast<Player*>(object)) {
             ++it; // Move to the next object
             continue;
         }

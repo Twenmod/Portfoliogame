@@ -9,10 +9,10 @@
   },
 
   //World generation
-  "worldSeed": 0, // Seed for world generation only use numbers (set 0 for random)
+  "worldSeed": 1711569733, // Seed for world generation only use numbers (set 0 for random)
   "worldSize": {
-    "width": 10,
-    "height": 5
+    "width": 20,
+    "height": 10
   }, // Size of world in chunks
 
   /// Base Game Settings ///
@@ -54,8 +54,8 @@
   "fallDamage": 0.8,
   "fallDamageThreshold": 500,
   //World settings
-  "chunkSize": 10, // Tiles per chunk (width and height)
-  "chunkLoadDistance": 3, // Amount of chunks loaded around the player (in a box) so 1 means render 3x3 chunks
+  "chunkSize": 8, // Tiles per chunk (width and height)
+  "chunkLoadDistance": 5, // Amount of chunks loaded around the player (in a box) so 1 means render 3x3 chunks
   "tileSize": 32, //Size of tiles in pixels
   "gravity": 1500,
   "noiseScale": {

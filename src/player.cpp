@@ -289,7 +289,7 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                 if (spriteRect.intersects(other->getGlobalBounds())) {
 
 
-                    if (otherobject->objectName == "Rope") {
+                    if (dynamic_cast<Rope*>(otherobject)) {
                         inRope = true;
                         continue;
                     }
@@ -310,7 +310,7 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                     }
 
                     //Ignore if enemy or ropeprojectile
-                    if (otherobject->objectName == "enemy" || otherobject->objectName == "ropeProjectile") {
+                    if (dynamic_cast<Enemy*>(otherobject) || dynamic_cast<RopeProjectile*>(otherobject)) {
                         continue;
                     }
 

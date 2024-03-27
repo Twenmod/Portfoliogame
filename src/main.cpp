@@ -227,7 +227,11 @@ int main()
             for (int x = 0; x < globalsettings.worldSize.x; x++) {
                 std::vector<chunk*> chunkcolomn;
                 for (int y = 0; y < globalsettings.worldSize.y; y++) {
-                    chunkcolomn.push_back(new chunk(sf::Vector2<int>((int)(x*globalsettings.chunkSize*globalsettings.tileSize),(int)(y*globalsettings.chunkSize*globalsettings.tileSize))));
+                    chunk* newchunk = new chunk(sf::Vector2<int>((int)(x * globalsettings.chunkSize * globalsettings.tileSize), (int)(y * globalsettings.chunkSize * globalsettings.tileSize)));
+                    int expectedObjects = std::pow(globalsettings.chunkSize, 2) * 1.5;
+                    newchunk->objects.reserve(expectedObjects);
+                    newchunk->collisionObjects.reserve(expectedObjects);
+                    chunkcolomn.push_back(newchunk);
                 }
                 chunks.push_back(chunkcolomn);
             }
@@ -403,7 +407,7 @@ int main()
                 sf::Vector2<float>(40,40),
                 sf::Vector2<float>(-12.5,-10),
                 RopeProjectile(
-                    Rope(globalsettings.playerRopeSize, 0.1f, texturemap.at("middleRope"), Gameobject(sf::Vector2<float>(0,0), 0, sf::Vector2<float>(32, 32), true, texturemap.at("endRope"), true, true, 0, 0, 0, 0, sf::Vector2f(0, 0), "Rope"), true, texturemap.at("startRope")),
+                    Rope(globalsettings.playerRopeSize, 0.5f, texturemap.at("middleRope"), Gameobject(sf::Vector2<float>(0,0), 0, sf::Vector2<float>(32, 32), true, texturemap.at("endRope"), true, true, 0, 0, 0, 0, sf::Vector2f(0, 0), "Rope"), true, texturemap.at("startRope")),
                     Gameobject(sf::Vector2f(0,0),0,sf::Vector2f(16,16),true,texturemap.at("ropeProjectile"),false,true,0,0,0,0,sf::Vector2f(0,0),"ropeProjectile")
                 ),
                 Gameobject
