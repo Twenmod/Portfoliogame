@@ -64,6 +64,7 @@ Settings::Settings() {
         whipAttackInterval = settingsfile["whipAttackInterval"].asFloat();
         whipAttackDelay = settingsfile["whipAttackDelay"].asFloat();
 
+        playerRopeSize = settingsfile["playerRopeSize"].asInt();
 
         //World Generation
 

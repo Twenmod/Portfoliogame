@@ -19,4 +19,15 @@ class Rope : public Gameobject {
 		std::vector<sf::Texture*> startTexture;
 };
 
+class RopeProjectile : public Gameobject {
+	public:
+		RopeProjectile();
+		RopeProjectile(Rope ropeObject, Gameobject projectileObject);
+
+	private:
+		Rope ropeObject;
+		void CalculatePhysics(std::vector<chunk*> chunkList);
+		void spawnRope(std::vector<chunk*> chunkList);
+};
+
 #endif

@@ -21,13 +21,14 @@
 #include "items.hpp"
 #include "gameScenes.hpp"
 #include "enemy.hpp"
-
+#include "rope.hpp"
 
 //Constructor
-Player::Player(float _walkSpeed, float _jumpVelocity, sf::FloatRect _playerRect, sf::Vector2<float> _size, sf::Vector2<float> _spriteOffset, Gameobject playerObject) : Gameobject(playerObject) {
+Player::Player(float _walkSpeed, float _jumpVelocity, sf::FloatRect _playerRect, sf::Vector2<float> _size, sf::Vector2<float> _spriteOffset, RopeProjectile ropeLauncherProjectile, Gameobject playerObject) : Gameobject(playerObject) {
     walkSpeed = _walkSpeed;
     jumpVelocity = _jumpVelocity;
     playerRect = _playerRect;
+    ropeProjectile = ropeLauncherProjectile;
     scale.x = 1.f / 34 * _size.x;
     scale.y = 1.f / 34 * _size.y;
     SetScale(scale);
@@ -86,13 +87,21 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
     //Item switching
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
         currentItem = 0;
-        gameScene->uiSprites[4]->enabled = true;
-        gameScene->uiSprites[5]->enabled = false;
+        gameScene->uiSprites[6]->enabled = true;
+        gameScene->uiSprites[7]->enabled = false;
+        gameScene->uiSprites[8]->enabled = false;
     }
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
         currentItem = 1;
-        gameScene->uiSprites[4]->enabled = false;
-        gameScene->uiSprites[5]->enabled = true;
+        gameScene->uiSprites[6]->enabled = false;
+        gameScene->uiSprites[7]->enabled = true;
+        gameScene->uiSprites[8]->enabled = false;
+    }
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
+        currentItem = 2;
+        gameScene->uiSprites[6]->enabled = false;
+        gameScene->uiSprites[7]->enabled = false;
+        gameScene->uiSprites[8]->enabled = true;
     }
 
     //Rope climbing
@@ -120,6 +129,30 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
         float range = 0;
         float tileAttackDmg = 0;
         float enemyAttackDmg = 0;
+        if (currentItem == 2) { // Rope launcher
+            //Shoot a rope upwards
+            RopeProjectile* projectile = new RopeProjectile(ropeProjectile);
+            //Get rounded position so the projectile spawns in the grid
+            sf::Vector2f roundedPosition = position;
+            roundedPosition.x = std::floor(roundedPosition.x / globalsettings.tileSize) * globalsettings.tileSize;
+            roundedPosition.y = std::floor(roundedPosition.y / globalsettings.tileSize) * globalsettings.tileSize;
+
+            //Set values
+            projectile->position = roundedPosition+sf::Vector2f(projectile->sprite.getTextureRect().width/4, projectile->sprite.getTextureRect().height / 4);
+            projectile->SetVelocity(sf::Vector2f(0, -300));
+
+            //Add projectile to chunk
+            //We can asume the chunk because the player shot this
+            if (currentChunk != nullptr) {
+                projectile->currentChunk = currentChunk;
+                currentChunk->objects.push_back(projectile);
+                if (projectile->hasCollision)
+                    currentChunk->collisionObjects.push_back(projectile);
+            }
+            attackInterval = 2;
+
+            return; // Dont do the rest of the attack (so no attackrect)
+        }
         if (currentItem == 0) { // Pickaxe
             attackInterval = globalsettings.attackInterval;
             range = globalsettings.attackRange;
@@ -150,30 +183,32 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
     }
 
     if (_attackDelay <= 0) {
-        if (sf::Keyboard::isKeyPressed(globalsettings.attackRight) && attackInterval <= 0) {
-            facing = 1;
-            _attackDelay = globalsettings.attackDelay;
-            attackDirection = 1;
-            attacking = true;
-        }
-        if (sf::Keyboard::isKeyPressed(globalsettings.attackLeft) && attackInterval <= 0) {
-            facing = 0;
-            _attackDelay = globalsettings.attackDelay;
-            attackDirection = 0;
-            attacking = true;
-        }
-        if (currentItem != 1) { // Cant attack down/up with the whip
+        if (currentItem == 0 || currentItem == 1)
+            if (sf::Keyboard::isKeyPressed(globalsettings.attackRight) && attackInterval <= 0) {
+                facing = 1;
+                _attackDelay = globalsettings.attackDelay;
+                attackDirection = 1;
+                attacking = true;
+            }
+        if (currentItem == 0 || currentItem == 1)
+            if (sf::Keyboard::isKeyPressed(globalsettings.attackLeft) && attackInterval <= 0) {
+                facing = 0;
+                _attackDelay = globalsettings.attackDelay;
+                attackDirection = 0;
+                attacking = true;
+            }
+        if (currentItem == 0 || currentItem == 2) 
             if (sf::Keyboard::isKeyPressed(globalsettings.attackUp) && attackInterval <= 0) {
                 _attackDelay = globalsettings.attackDelay;
                 attackDirection = 2;
                 attacking = true;
             }
+        if (currentItem == 0)
             if (sf::Keyboard::isKeyPressed(globalsettings.attackDown) && attackInterval <= 0) {
                 _attackDelay = globalsettings.attackDelay;
                 attackDirection = 3;
                 attacking = true;
             }
-        }
     }
 
 
@@ -274,8 +309,8 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                         treasure->PickUp();
                     }
 
-                    //Ignore if enemy
-                    if (otherobject->objectName == "enemy") {
+                    //Ignore if enemy or ropeprojectile
+                    if (otherobject->objectName == "enemy" || otherobject->objectName == "ropeProjectile") {
                         continue;
                     }
 

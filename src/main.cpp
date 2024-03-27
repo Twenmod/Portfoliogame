@@ -113,6 +113,7 @@ int main()
         {"middleRope", {new sf::Texture(addTexture("assets/sprites/rope/middleRope.png")), new sf::Texture(addTexture("assets/sprites/rope/middleRope2.png")), new sf::Texture(addTexture("assets/sprites/rope/middleRope3.png"))}},
         {"endRope", {new sf::Texture(addTexture("assets/sprites/rope/ropeEnd.png"))}},
         {"startRope", {new sf::Texture(addTexture("assets/sprites/rope/ropeStart.png"))}},
+        {"ropeProjectile", {new sf::Texture(addTexture("assets/sprites/rope/ropeProjectile.png"))}},
     };
 
 
@@ -341,7 +342,8 @@ int main()
             globalChunkList = chunks;
 
             //Spawn random objects
-            amountToSpawn = rand() % globalsettings.amountOfObjects.y + globalsettings.amountOfObjects.x;
+            if (globalsettings.amountOfObjects.x <= 0) amountToSpawn = 0;
+            else amountToSpawn = rand() % globalsettings.amountOfObjects.y + globalsettings.amountOfObjects.x;
             for (int i = 0; i < amountToSpawn; i++) {
                 Gameobject* object = nullptr;
 
@@ -394,7 +396,32 @@ int main()
 
             //Spawn player
 
-            Player player = Player(globalsettings.playerMoveSpeed,globalsettings.jumpVelocity,sf::FloatRect(0,0,15,30), sf::Vector2<float>(40,40),sf::Vector2<float>(-12.5,-10),Gameobject(sf::Vector2<float>(0,0),0,sf::Vector2<float>(30,30),true,texturemap.at("Player"),false,true,globalsettings.gravity,globalsettings.playerFriction,0,globalsettings.fallDamage, sf::Vector2<float>(50,0),"Player"));
+            Player player = Player(
+                globalsettings.playerMoveSpeed,
+                globalsettings.jumpVelocity,
+                sf::FloatRect(0,0,15,30), 
+                sf::Vector2<float>(40,40),
+                sf::Vector2<float>(-12.5,-10),
+                RopeProjectile(
+                    Rope(globalsettings.playerRopeSize, 0.1f, texturemap.at("middleRope"), Gameobject(sf::Vector2<float>(0,0), 0, sf::Vector2<float>(32, 32), true, texturemap.at("endRope"), true, true, 0, 0, 0, 0, sf::Vector2f(0, 0), "Rope"), true, texturemap.at("startRope")),
+                    Gameobject(sf::Vector2f(0,0),0,sf::Vector2f(16,16),true,texturemap.at("ropeProjectile"),false,true,0,0,0,0,sf::Vector2f(0,0),"ropeProjectile")
+                ),
+                Gameobject
+                (
+                    sf::Vector2<float>(0,0),
+                    0,
+                    sf::Vector2<float>(30,30),
+                    true,texturemap.at("Player"),
+                    false,
+                    true,
+                    globalsettings.gravity,
+                    globalsettings.playerFriction,
+                    0,
+                    globalsettings.fallDamage, 
+                    sf::Vector2<float>(50,0),
+                    "Player"
+                )
+            );
 
             sf::Vector2<int> margin(30,5);
 
@@ -462,6 +489,9 @@ int main()
 
             //Kinda a brute force way but we just have a couple slots so it does not matter as much
             ///Image elements
+
+        //INVENTORY
+
             uiSprite inventoryslot1 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
             game.uiSprites.push_back(&inventoryslot1);
             uiSprite pickaxe = generateUISprite(texturemap.at("pickaxe")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
@@ -472,10 +502,17 @@ int main()
             uiSprite whip = generateUISprite(texturemap.at("whip")[0], sf::Vector2<float>(10+100+10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
             game.uiSprites.push_back(&whip);
 
+            uiSprite inventoryslot3 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10 + 200 + 20, (float)(globalsettings.windowSize.y - 100 - 10)), sf::Vector2<float>(100, 100), true);
+            game.uiSprites.push_back(&inventoryslot3);
+            uiSprite rope = generateUISprite(texturemap.at("ropeProjectile")[0], sf::Vector2<float>(10 + 200 + 20, (float)(globalsettings.windowSize.y - 100 - 10)), sf::Vector2<float>(100, 100), true);
+            game.uiSprites.push_back(&rope);
+
             uiSprite inventoryoverlay1 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
-            game.uiSprites.push_back(&inventoryoverlay1); // 4
+            game.uiSprites.push_back(&inventoryoverlay1); // 6
             uiSprite inventoryoverlay2 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10+100+10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), false);
-            game.uiSprites.push_back(&inventoryoverlay2); // 5
+            game.uiSprites.push_back(&inventoryoverlay2); // 7
+            uiSprite inventoryoverlay3 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10 + 200 + 20, (float)(globalsettings.windowSize.y - 100 - 10)), sf::Vector2<float>(100, 100), false);
+            game.uiSprites.push_back(&inventoryoverlay3); // 8
 
         #pragma endregion
 

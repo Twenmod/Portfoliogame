@@ -50,6 +50,8 @@ class Settings {
         float whipAttackInterval;
         float whipAttackDelay;
 
+        int playerRopeSize;
+
 //World generation
         int chunkSize;
         int chunkLoadDistance;

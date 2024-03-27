@@ -50,6 +50,7 @@
   "whipAttackDamage": 3,
   "whipAttackInterval": 0.4,
   "whipAttackDelay": 0.2,
+  "playerRopeSize": 20,
   "fallDamage": 0.8,
   "fallDamageThreshold": 500,
   //World settings

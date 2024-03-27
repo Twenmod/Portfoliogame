@@ -9,6 +9,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include "gameobject.hpp"
+#include "rope.hpp"
 
 class Player : public Gameobject {
 
@@ -31,7 +32,7 @@ class Player : public Gameobject {
         float animationWalkSpeed = 10;
 
         //Constructor
-        Player(float walkSpeed, float jumpVelocity, sf::FloatRect playerRect, sf::Vector2<float> _size, sf::Vector2<float> spriteOffset, Gameobject playerObject);
+        Player(float walkSpeed, float jumpVelocity, sf::FloatRect playerRect, sf::Vector2<float> _size, sf::Vector2<float> spriteOffset, RopeProjectile ropeLauncherProjectile, Gameobject playerObject);
         void OnLoop(std::vector<chunk*> chunkList);
         void CalculatePhysics(std::vector<chunk*> chunkList);
         void OnRender();
@@ -47,6 +48,8 @@ class Player : public Gameobject {
         bool jumpKeyDown = false;
 
         bool inRope = false; //Inside of a rope tile
+
+        RopeProjectile ropeProjectile; // Projectile to use for rope launcher
 
         //Animation/Sprites
 

@@ -176,7 +176,9 @@ void Enemy::CalculatePhysics(std::vector<chunk*> chunkList)
 
                     if (side == 1) {
                         moveDirection = 0;
-                    }else if (side == 3) {
+                    }else if (side 
+                        
+                        ) {
                         moveDirection = 1;
                     }
 
