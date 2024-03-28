@@ -55,7 +55,7 @@ void explosiveObject::OnRender() {
         if (frame > animationFrames) {
             destroyed = true;
         }
-        timer -= deltaTime.asSeconds();
+        timer -= renderDeltaTime.asSeconds();
         if (timer <= 0) {
             timer = animationInterval;
             frame++;

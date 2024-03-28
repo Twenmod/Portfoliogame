@@ -7,6 +7,7 @@
 #include "camera.hpp"
 #include "worldgen.hpp"
 
+
 class mainMenu {
 
     public:
@@ -39,6 +40,7 @@ class mainLevel {
         std::vector<chunk*> activeChunkList;
         
         sf::Clock gameClock; 
+        sf::Clock renderClock;
 
         sf::RenderWindow* gameWindow;
 
@@ -63,9 +65,7 @@ class mainLevel {
 
         void OnEvents();
         void OnLoop(sf::RenderWindow &window);
-        void OnRender(sf::RenderWindow &window) {
-            mainCamera.Render(window, player, activeChunkList, uiElements, uiSprites);
-        };
+        void OnRender(sf::RenderWindow &window);
 };
 
 

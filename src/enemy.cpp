@@ -204,7 +204,7 @@ void Enemy::OnLoop(std::vector<chunk*> chunkList) {
 
 void Enemy::OnRender() {
     if (damageAnimation > 0) {
-        damageAnimation -= deltaTime.asSeconds();
+        damageAnimation -= renderDeltaTime.asSeconds();
         sprite.setTextureRect(sf::IntRect(16, 0, 16, 16));
     }else {                    
         sprite.setTextureRect(sf::IntRect(0, 0, 16, 16));

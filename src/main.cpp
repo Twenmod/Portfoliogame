@@ -26,6 +26,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <thread>
 
 #include "explosive.hpp"
 #include "settings.hpp"
@@ -40,8 +41,10 @@
 #include "rope.hpp"
 
 
+
 Settings globalsettings = Settings();
 sf::Time deltaTime;
+sf::Time renderDeltaTime;
 
 
 
@@ -521,18 +524,31 @@ int main()
         #pragma endregion
 
             //Game Loop
-            while (gameRunning) {
-                //Game loop
+            std::thread gameLoopThread = std::thread([&]() {
+                while (gameRunning) {
+                    game.OnEvents();
+                    game.OnLoop(window);
+                }
+            });
 
-                game.OnEvents();
-                game.OnLoop(window);
+            //Rendering and window events
+            float test = 0;
+
+            while (gameRunning) {
+                window.clear(globalsettings.backgroundColor);
                 game.OnRender(window);
+                window.display();
 
                 sf::Event event;
                 while (window.pollEvent(event))
                 {
-                    if (event.type == sf::Event::Closed)
+
+                    if (event.type == sf::Event::Closed) {
+                        if (gameRunning) {
+                            gameRunning = false;
+                        }
                         window.close();
+                    }
                 }
 
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
@@ -542,11 +558,9 @@ int main()
                         window.close();
                     }
                 }
-
-                window.display();
-                window.clear(globalsettings.backgroundColor);
-
             }
+            //Wait for thread
+            gameLoopThread.join();
 
             //End game
             if (exitState == 0) {

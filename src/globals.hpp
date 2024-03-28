@@ -16,5 +16,6 @@ extern std::map<std::string, std::vector<sf::SoundBuffer*>> soundmap;
 extern mainLevel* gameScene;
 
 extern sf::Time deltaTime;
+extern sf::Time renderDeltaTime;
 
 #endif

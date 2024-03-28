@@ -566,7 +566,7 @@ void Player::OnRender() {
         }
     }
     else if (animationDelay >= 0) {
-        animationDelay -= deltaTime.asSeconds();
+        animationDelay -= renderDeltaTime.asSeconds();
     }else if (jumpTrigger) {
         jumpTrigger = false;
         //Start a jumpanimation
@@ -595,7 +595,7 @@ void Player::OnRender() {
     //Walking
     }else if (walking) {
         //Walk animation
-        walkanimationDelay -= deltaTime.asSeconds() * std::abs(velocity.x);
+        walkanimationDelay -= renderDeltaTime.asSeconds() * std::abs(velocity.x);
         if (walkanimationDelay <= 0){
             walkanimationDelay = animationWalkSpeed;;
             walkanimationFrame++;

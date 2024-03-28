@@ -14,7 +14,8 @@ void mainMenu::OnLoop(sf::RenderWindow &window) {
     }
 };
 void mainMenu::OnRender(sf::RenderWindow &window) {
-    //Render background
+    
+    window.display();
     window.clear(globalsettings.backgroundColor);
 
     //Render UI
@@ -30,7 +31,6 @@ void mainMenu::OnRender(sf::RenderWindow &window) {
             }    
         }
     }
-    window.display();
 };
 
 #pragma endregion
@@ -100,5 +100,12 @@ void mainLevel::OnLoop(sf::RenderWindow &window) {
     }
 
 };
+
+void mainLevel::OnRender(sf::RenderWindow& window) {
+    renderDeltaTime = renderClock.restart();
+    renderDeltaTime = sf::Time(sf::seconds(std::clamp(renderDeltaTime.asSeconds(), 0.0f, globalsettings.maxDeltaTime)));
+
+    mainCamera.Render(window, player, activeChunkList, uiElements, uiSprites);
+}
 
 #pragma endregion
