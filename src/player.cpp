@@ -138,7 +138,7 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
             roundedPosition.y = std::floor(roundedPosition.y / globalsettings.tileSize) * globalsettings.tileSize;
 
             //Set values
-            projectile->position = roundedPosition+sf::Vector2f(projectile->sprite.getTextureRect().width/4, projectile->sprite.getTextureRect().height / 4);
+            projectile->position = roundedPosition+sf::Vector2f(float(projectile->sprite.getTextureRect().width/4), float(projectile->sprite.getTextureRect().height / 4));
             projectile->SetVelocity(sf::Vector2f(0, -300));
 
             //Add projectile to chunk
@@ -478,14 +478,14 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, con
                     //Play sound
                     if (gameobject->destroyed) {
                         if (gameobject->objectName == "goldTile") {
-                            std::thread soundThread(playSound, *soundmap["goldBreak"][0], 100);
+                            std::thread soundThread(playSound, *soundmap["goldBreak"][0], 100.f);
                             soundThread.detach();
                         }
-                        std::thread soundThread(playSound, *soundmap["tileBreak"][0], 100);
+                        std::thread soundThread(playSound, *soundmap["tileBreak"][0], 100.f);
                         soundThread.detach();
                     }
                     else {
-                        std::thread soundThread(playSound, *soundmap["tileHit"][0], 100);
+                        std::thread soundThread(playSound, *soundmap["tileHit"][0], 100.f);
                         soundThread.detach();
                     }
                     hitSomething = true;
@@ -602,7 +602,7 @@ void Player::OnRender() {
 
             //Sound
             if (walkanimationFrame == 0 || walkanimationFrame == 3) {
-                std::thread soundThread(playSound, *soundmap["footsteps"][rand()%soundmap["footsteps"].size()], 100);
+                std::thread soundThread(playSound, *soundmap["footsteps"][rand()%soundmap["footsteps"].size()], 100.f);
                 soundThread.detach();
             }
 

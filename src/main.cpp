@@ -231,7 +231,7 @@ int main()
                 std::vector<chunk*> chunkcolomn;
                 for (int y = 0; y < globalsettings.worldSize.y; y++) {
                     chunk* newchunk = new chunk(sf::Vector2<int>((int)(x * globalsettings.chunkSize * globalsettings.tileSize), (int)(y * globalsettings.chunkSize * globalsettings.tileSize)));
-                    int expectedObjects = std::pow(globalsettings.chunkSize, 2) * 1.5;
+                    int expectedObjects = int(std::pow(globalsettings.chunkSize, 2) * 1.5);
                     newchunk->objects.reserve(expectedObjects);
                     newchunk->collisionObjects.reserve(expectedObjects);
                     chunkcolomn.push_back(newchunk);
