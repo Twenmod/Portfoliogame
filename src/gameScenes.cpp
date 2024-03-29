@@ -48,8 +48,7 @@ void mainLevel::OnLoop(sf::RenderWindow &window) {
     deltaTime = gameClock.restart();
     deltaTime = sf::Time(sf::seconds(std::clamp(deltaTime.asSeconds(),0.0f,globalsettings.maxDeltaTime)));
     
-    //Calculate camera
-    mainCamera.OnLoop(window);
+
 
     //Get active chunks
     sf::Vector2<int> _playerchunkPos;

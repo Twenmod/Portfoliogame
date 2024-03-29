@@ -1,7 +1,7 @@
 {
   /// User settings ///
   //Video
-  "frameRateLimit": 999999,
+  "frameRateLimit": 60,
   "vSync": false,
   "windowSize": {
     "width": 1280,

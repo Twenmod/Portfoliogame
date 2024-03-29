@@ -532,9 +532,10 @@ int main()
             });
 
             //Rendering and window events
-            float test = 0;
-
             while (gameRunning) {
+                //Calculate camera
+                game.mainCamera.OnLoop(window);
+
                 window.clear(globalsettings.backgroundColor);
                 game.OnRender(window);
                 window.display();

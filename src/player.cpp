@@ -235,7 +235,9 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
     if (inRope)
         currentGravity = 0;
 
-    velocity.y += currentGravity * deltaTime.asSeconds();
+    if (!grounded) {
+        velocity.y += currentGravity * deltaTime.asSeconds();
+    }
 
     position += velocity*deltaTime.asSeconds();
 
