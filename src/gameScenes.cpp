@@ -6,7 +6,31 @@
 
 
 void mainMenu::OnEvents() {
-
+    sf::Vector2i localMousePosition = sf::Mouse::getPosition(*gameWindow);
+    bool isPressed = sf::Mouse::isButtonPressed(sf::Mouse::Left);
+    //Check collision with uiElements
+    for (uiElement* textElement : uiElements) {
+        if (!textElement->hasInput) continue;
+        sf::Rect textRect = textElement->text.getGlobalBounds();
+        bool insideHorizontal = (localMousePosition.x > textRect.left) && (localMousePosition.x < textRect.left + textRect.width);
+        bool insideVertical = (localMousePosition.y > textRect.top) && (localMousePosition.y < textRect.top + textRect.height);
+        if (insideHorizontal && insideVertical) {
+            textElement->hovering = true;
+            if (isPressed) textElement->holding = true;
+            else {
+                if (textElement->holding) {
+                    //Click
+                    textElement->onClickFunction();
+                    
+                }
+                textElement->holding = false;
+            }
+        }
+        else {
+            textElement->holding = false;
+            textElement->hovering = false;
+        }
+    }
 };
 void mainMenu::OnLoop(sf::RenderWindow &window) {
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
@@ -19,12 +43,13 @@ void mainMenu::OnRender(sf::RenderWindow &window) {
     window.clear(globalsettings.backgroundColor);
 
     //Render UI
-
     ///Render ui texts
     for(uiElement* text : uiElements) {
         if (text != nullptr && text->enabled) {
             // Check if text.text is not null before drawing
             if (text->text.getFont() != nullptr) {
+                if (text->hovering) text->text.setFillColor(text->hoverColor);
+                else text->text.setFillColor(text->startColor);
                 window.draw(text->text);
             } else {
                 std::cout << "Error: Font pointer is null for textElement." << std::endl;

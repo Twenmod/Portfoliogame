@@ -135,15 +135,27 @@ int main()
     uiElement* mainmenuTextElement = new uiElement(generateUIElement(font, 100, sf::Color(116, 12, 12), sf::Text::Bold, sf::Vector2<float>(50,0), "Spelunker"));
     menu.uiElements.push_back(mainmenuTextElement);
 
-    uiElement* playTextElement = new uiElement(generateUIElement(font, 50, sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,300), "Press [Space] To Start"));
+    uiElement* playTextElement = new uiElement(generateUIElement(font, 50, sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,300), "Start", true, true, sf::Color::White));
+    playTextElement->onClickFunction = [&menu]() {
+        menu.startGameTrigger = true;
+    };
     menu.uiElements.push_back(playTextElement);
 
-    uiElement* exitTextElement = new uiElement(generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>((float)globalsettings.windowSize.x-350,0), "Press [Q] To Exit"));
+    uiElement* exitTextElement = new uiElement(generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,400), "Exit", true, true, sf::Color::Red));
+    exitTextElement->onClickFunction = [&window]() {
+        window.close();
+    };
     menu.uiElements.push_back(exitTextElement);
 
     uiElement* scoreElement = new uiElement(generateUIElement(font, 70, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,100), "Score: UNDEFINED", false));
     menu.uiElements.push_back(scoreElement);
 
+    //Settings
+    uiElement* soundTextElement = new uiElement(generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Regular, sf::Vector2<float>(globalsettings.windowSize.x-50, 400), "[X] Sound", true, true, sf::Color::Red));
+    exitTextElement->onClickFunction = [&window]() {
+        window.close();
+    };
+    menu.uiElements.push_back(soundTextElement);
 
     sf::Sound titlesound(*soundmap["tileHit"][0]);
     titlesound.play();
@@ -585,10 +597,6 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-        }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
-            window.close();
         }
     }
 

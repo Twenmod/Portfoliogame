@@ -12,10 +12,13 @@
 #include "settings.hpp"
 #include "worldgen.hpp"
 
-uiElement::uiElement(sf::Text _text, const sf::Font& _font, bool startEnabled) {
+uiElement::uiElement(sf::Text _text, const sf::Font& _font, bool startEnabled, bool _hasInput, sf::Color _hoverColor) {
     text = _text;
     text.setFont(_font);
     enabled = startEnabled;
+    startColor = _text.getFillColor();
+    hoverColor = _hoverColor;
+    hasInput = _hasInput;
 };
 
 uiSprite::uiSprite(sf::Sprite _sprite, bool startEnabled) {
@@ -25,7 +28,7 @@ uiSprite::uiSprite(sf::Sprite _sprite, bool startEnabled) {
 
 
 
-uiElement generateUIElement(const sf::Font& font, int fontSize, sf::Color color, sf::Text::Style style, sf::Vector2<float> position, std::string text, bool startEnabled) {
+uiElement generateUIElement(const sf::Font& font, int fontSize, sf::Color color, sf::Text::Style style, sf::Vector2<float> position, std::string text, bool startEnabled, bool hasInput, sf::Color hoverColor) {
     //Create Text and set values
     sf::Text textElement;
     textElement.setCharacterSize(fontSize);
@@ -35,7 +38,7 @@ uiElement generateUIElement(const sf::Font& font, int fontSize, sf::Color color,
     textElement.setString(text);
 
     //Create uiElement and return it
-    uiElement element(textElement, font, startEnabled);
+    uiElement element(textElement, font, startEnabled, hasInput, hoverColor);
 
     return element;
 };

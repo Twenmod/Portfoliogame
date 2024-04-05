@@ -8,6 +8,7 @@
 #include <SFML/System/String.hpp>
 #include <SFML/System/Vector2.hpp>
 #include <vector>
+#include <functional>
 #include "gameobject.hpp"
 #include "globals.hpp"
 
@@ -16,11 +17,19 @@ class uiElement {
     public:
         sf::Text text;
         bool enabled;
-        uiElement(sf::Text _text, const sf::Font& _font, bool startEnabled = true);
+        bool hasInput;
+        uiElement(sf::Text _text, const sf::Font& _font, bool startEnabled = true, bool hasInput = false, sf::Color hoverColor = sf::Color::White);
+        std::function<void()> onClickFunction;
+        sf::Color hoverColor;
+        bool hovering = false;
+        bool holding = false;
+        sf::Color startColor;
+    private:
+        
 };
 
 
-uiElement generateUIElement(const sf::Font& font, int fontSize = 100, sf::Color color = sf::Color(116, 12, 12), sf::Text::Style style = sf::Text::Bold, sf::Vector2<float> position = sf::Vector2<float>(0,0), std::string text = "Spelunker", bool startEnabled = true);
+uiElement generateUIElement(const sf::Font& font, int fontSize = 100, sf::Color color = sf::Color(116, 12, 12), sf::Text::Style style = sf::Text::Bold, sf::Vector2<float> position = sf::Vector2<float>(0,0), std::string text = "Spelunker", bool startEnabled = true, bool hasInput = false, sf::Color hoverColor = sf::Color::White);
 
 class uiSprite {
     public:
