@@ -14,7 +14,7 @@ extern int exitState;
 extern bool gameRunning;
 extern std::map<std::string, std::vector<sf::SoundBuffer*>> soundmap;
 extern mainLevel* gameScene;
-
+extern bool soundEnabled;
 
 extern sf::Time deltaTime;
 extern sf::Time renderDeltaTime;

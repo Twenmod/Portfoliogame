@@ -1,8 +1,10 @@
 #include <thread>
 #include "audio.hpp"
-
+#include "globals.hpp"
 
 void playSound(sf::SoundBuffer audioBuffer, float volume) {
+    if (!soundEnabled) return;
+
     sf::Sound* sound = new sf::Sound;
     sound->setBuffer(audioBuffer);
     sound->setVolume(volume);

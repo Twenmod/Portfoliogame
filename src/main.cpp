@@ -45,7 +45,7 @@
 Settings globalsettings = Settings();
 sf::Time deltaTime;
 sf::Time renderDeltaTime;
-
+bool soundEnabled;
 
 
 sf::Texture addTexture(std::string file) {
@@ -132,16 +132,16 @@ int main()
     //Main menu UI
 
     ///Text elements
-    uiElement* mainmenuTextElement = new uiElement(generateUIElement(font, 100, sf::Color(116, 12, 12), sf::Text::Bold, sf::Vector2<float>(50,0), "Spelunker"));
+    uiElement* mainmenuTextElement = new uiElement(generateUIElement(font, 150, sf::Color(116, 12, 12), sf::Text::Bold, sf::Vector2<float>(50,-20), "Spelunker"));
     menu.uiElements.push_back(mainmenuTextElement);
 
-    uiElement* playTextElement = new uiElement(generateUIElement(font, 50, sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,300), "Start", true, true, sf::Color::White));
+    uiElement* playTextElement = new uiElement(generateUIElement(font, 75, sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,200), "Start", true, true, sf::Color::White));
     playTextElement->onClickFunction = [&menu]() {
         menu.startGameTrigger = true;
     };
     menu.uiElements.push_back(playTextElement);
 
-    uiElement* exitTextElement = new uiElement(generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,400), "Exit", true, true, sf::Color::Red));
+    uiElement* exitTextElement = new uiElement(generateUIElement(font, 50, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,300), "Exit", true, true, sf::Color::Red));
     exitTextElement->onClickFunction = [&window]() {
         window.close();
     };
@@ -151,9 +151,17 @@ int main()
     menu.uiElements.push_back(scoreElement);
 
     //Settings
-    uiElement* soundTextElement = new uiElement(generateUIElement(font, 30, sf::Color(126, 10, 10), sf::Text::Regular, sf::Vector2<float>(globalsettings.windowSize.x-50, 400), "[X] Sound", true, true, sf::Color::Red));
-    exitTextElement->onClickFunction = [&window]() {
-        window.close();
+    soundEnabled = true;
+    uiElement* soundTextElement = new uiElement(generateUIElement(font, 30, sf::Color(146, 30, 30), sf::Text::Regular, sf::Vector2<float>(globalsettings.windowSize.x-200, 100), "[X] Sound", true, true, sf::Color::Red));
+    soundTextElement->onClickFunction = [&]() {
+        if (soundEnabled) {
+            soundEnabled = false;
+            soundTextElement->text.setString("[    ] Sound");
+        }
+        else {
+            soundEnabled = true;
+            soundTextElement->text.setString("[X] Sound");
+        }
     };
     menu.uiElements.push_back(soundTextElement);
 
