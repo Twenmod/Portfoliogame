@@ -28,6 +28,7 @@ Settings::Settings() {
         windowSize = sf::Vector2<int>(settingsfile["windowSize"]["width"].asInt(), settingsfile["windowSize"]["height"].asInt());
         cullSize = sf::Vector2<int>(settingsfile["cullSize"]["width"].asInt(), settingsfile["cullSize"]["height"].asInt());
         backgroundColor = sf::Color(settingsfile["backgroundColor"]["r"].asInt(), settingsfile["backgroundColor"]["g"].asInt(), settingsfile["backgroundColor"]["b"].asInt());
+        fullscreen = settingsfile["fullscreen"].asBool();
 
         //physics
         playerPhysicsStepDistance = settingsfile["playerPhysicsStepDistance"].asFloat();

@@ -27,6 +27,10 @@
 #include <utility>
 #include <vector>
 #include <thread>
+#include <fstream>
+
+#include <json/reader.h>
+#include <json/writer.h>
 
 #include "explosive.hpp"
 #include "settings.hpp"
@@ -46,7 +50,7 @@ Settings globalsettings = Settings();
 sf::Time deltaTime;
 sf::Time renderDeltaTime;
 bool soundEnabled;
-
+float fontScale = 1;
 
 sf::Texture addTexture(std::string file) {
     sf::Texture text;
@@ -70,10 +74,42 @@ sf::SoundBuffer addSound(std::string file) {
     return buffer;
 }
 
+void setWindowFullScreen(bool fullscreen, sf::RenderWindow* window) {
+    if (globalsettings.fullscreen)
+        window->create(sf::VideoMode::getFullscreenModes()[0], "Spelunker", sf::Style::Fullscreen);
+    else
+        window->create(sf::VideoMode(sf::VideoMode::getDesktopMode().width/2, sf::VideoMode::getDesktopMode().height / 2), "Spelunker", sf::Style::Close);
+
+    //Set resolution value in json and settings
+    globalsettings.windowSize.x = window->getSize().x;
+    globalsettings.windowSize.y = window->getSize().y;
+
+    fontScale = float(globalsettings.windowSize.x / 1280.f);
+
+    std::ifstream file("assets/settings.json");
+    Json::Value settingsfile;
+    Json::Reader reader;
+    reader.parse(file, settingsfile);
+
+    Json::Value& valueToEdit = settingsfile["windowSize"]["width"];
+    valueToEdit = globalsettings.windowSize.x;
+    valueToEdit = settingsfile["windowSize"]["height"];
+    valueToEdit = globalsettings.windowSize.y;
+
+    // Write back to the JSON file
+    std::ofstream fileout("assets/settings.json");
+    Json::StreamWriterBuilder builder;
+    std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
+    writer->write(settingsfile, &fileout);
+
+};
+
 int main()
 {
     //Initialize window
-    sf::RenderWindow window(sf::VideoMode((int)globalsettings.windowSize.x,(int)globalsettings.windowSize.y), "Minergame", sf::Style::Close);
+    sf::RenderWindow window(sf::VideoMode((int)globalsettings.windowSize.x,(int)globalsettings.windowSize.y), "Spelunker", sf::Style::Close);
+
+    setWindowFullScreen(globalsettings.fullscreen, &window);
 
     window.setVerticalSyncEnabled(globalsettings.vSync);
     window.setActive(true);
@@ -132,31 +168,31 @@ int main()
     //Main menu UI
 
     ///Text elements
-    uiElement* mainmenuTextElement = new uiElement(generateUIElement(font, 150, sf::Color(116, 12, 12), sf::Text::Bold, sf::Vector2<float>(50,-20), "Spelunker"));
+    uiElement* mainmenuTextElement = new uiElement(generateUIElement(font, int(150*fontScale), sf::Color(116, 12, 12), sf::Text::Bold, sf::Vector2<float>(50,-20), "Spelunker"));
     menu.uiElements.push_back(mainmenuTextElement);
 
-    uiElement* playTextElement = new uiElement(generateUIElement(font, 75, sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,200), "Start", true, true, sf::Color::White));
+    uiElement* playTextElement = new uiElement(generateUIElement(font, int(75 * fontScale), sf::Color(156, 51, 51), sf::Text::Bold, sf::Vector2<float>(50,200), "Start", true, true, sf::Color::White));
     playTextElement->onClickFunction = [&menu]() {
         menu.startGameTrigger = true;
     };
     menu.uiElements.push_back(playTextElement);
 
-    uiElement* exitTextElement = new uiElement(generateUIElement(font, 50, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,300), "Exit", true, true, sf::Color::Red));
+    uiElement* exitTextElement = new uiElement(generateUIElement(font, int(50 * fontScale), sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,300), "Exit", true, true, sf::Color::Red));
     exitTextElement->onClickFunction = [&window]() {
         window.close();
     };
     menu.uiElements.push_back(exitTextElement);
 
-    uiElement* scoreElement = new uiElement(generateUIElement(font, 70, sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,100), "Score: UNDEFINED", false));
+    uiElement* scoreElement = new uiElement(generateUIElement(font, int(70 * fontScale), sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,100), "Score: UNDEFINED", false));
     menu.uiElements.push_back(scoreElement);
 
     //Settings
     soundEnabled = true;
-    uiElement* soundTextElement = new uiElement(generateUIElement(font, 30, sf::Color(146, 30, 30), sf::Text::Regular, sf::Vector2<float>(globalsettings.windowSize.x-200, 100), "[X] Sound", true, true, sf::Color::Red));
+    uiElement* soundTextElement = new uiElement(generateUIElement(font, int(30 * fontScale), sf::Color(146, 30, 30), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-250.f, 50), "[X] Sound", true, true, sf::Color::Red));
     soundTextElement->onClickFunction = [&]() {
         if (soundEnabled) {
             soundEnabled = false;
-            soundTextElement->text.setString("[    ] Sound");
+            soundTextElement->text.setString("[   ] Sound");
         }
         else {
             soundEnabled = true;
@@ -164,6 +200,47 @@ int main()
         }
     };
     menu.uiElements.push_back(soundTextElement);
+
+    //fullscreenbutton
+    uiElement* fullscreenTextElement = new uiElement(generateUIElement(font, int(30 * fontScale), sf::Color(146, 30, 30), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x - 250.f, 100), "[X] Fullscreen", true, true, sf::Color::Red));
+    //Start in correct state
+    if (!globalsettings.fullscreen) {
+        fullscreenTextElement->text.setString("[   ] Fullscreen");
+    }
+    else {
+        fullscreenTextElement->text.setString("[X] Fullscreen");
+    }
+    //OnClick
+    fullscreenTextElement->onClickFunction = [&]() {
+        if (globalsettings.fullscreen) {
+            globalsettings.fullscreen = false;
+            fullscreenTextElement->text.setString("[   ] Fullscreen");
+        }
+        else {
+            globalsettings.fullscreen = true;
+            fullscreenTextElement->text.setString("[X] Fullscreen");
+        }
+        //Set fullscreen value in json
+        std::ifstream file("assets/settings.json");
+        Json::Value settingsfile;
+        Json::Reader reader;
+        reader.parse(file, settingsfile);
+
+        Json::Value& valueToEdit = settingsfile["fullscreen"];
+        valueToEdit = globalsettings.fullscreen;
+
+        // Write back to the JSON file
+        std::ofstream fileout("assets/settings.json");
+        Json::StreamWriterBuilder builder;
+        std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
+        writer->write(settingsfile, &fileout);
+
+        setWindowFullScreen(globalsettings.fullscreen, &window);
+
+
+    };
+    menu.uiElements.push_back(fullscreenTextElement);
+
 
     sf::Sound titlesound(*soundmap["tileHit"][0]);
     titlesound.play();
@@ -486,7 +563,7 @@ int main()
 
             uiElement fpsTextElement = generateUIElement(
                 font, //Font
-                24, //Size
+                int(24 * fontScale), //Size
                 sf::Color::White, //Color 
                 sf::Text::Bold,  //Style
                 sf::Vector2<float>((float)(globalsettings.windowSize.x-150), 0), //Position 
@@ -496,7 +573,7 @@ int main()
 
             uiElement healthTextElement = generateUIElement(
                 font, //Font
-                24, //Size
+                int(34 * fontScale), //Size
                 sf::Color::Red, //Color 
                 sf::Text::Bold,  //Style
                 sf::Vector2<float>(0,0), //Position 
@@ -506,10 +583,10 @@ int main()
 
             uiElement goldTextElement = generateUIElement(
                 font, //Font
-                24, //Size
+                int(30 * fontScale), //Size
                 sf::Color::Yellow, //Color 
                 sf::Text::Bold,  //Style
-                sf::Vector2<float>(0,24), //Position 
+                sf::Vector2<float>(0,30*fontScale), //Position 
                 "GOLD" //Text
             );
             game.uiElements.push_back(&goldTextElement);
@@ -519,26 +596,26 @@ int main()
 
         //INVENTORY
 
-            uiSprite inventoryslot1 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
+            uiSprite inventoryslot1 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-(100*fontScale)-10)), sf::Vector2<float>(100,100)*fontScale, true);
             game.uiSprites.push_back(&inventoryslot1);
-            uiSprite pickaxe = generateUISprite(texturemap.at("pickaxe")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
+            uiSprite pickaxe = generateUISprite(texturemap.at("pickaxe")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y- (100 * fontScale) -10)), sf::Vector2<float>(100,100) * fontScale, true);
             game.uiSprites.push_back(&pickaxe);
 
-            uiSprite inventoryslot2 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10+100+10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
+            uiSprite inventoryslot2 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10+ (100 * fontScale) +10, (float)(globalsettings.windowSize.y- (100 * fontScale) -10)), sf::Vector2<float>(100,100) * fontScale, true);
             game.uiSprites.push_back(&inventoryslot2);
-            uiSprite whip = generateUISprite(texturemap.at("whip")[0], sf::Vector2<float>(10+100+10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
+            uiSprite whip = generateUISprite(texturemap.at("whip")[0], sf::Vector2<float>(10+ (100 * fontScale) +10, (float)(globalsettings.windowSize.y- (100 * fontScale) -10)), sf::Vector2<float>(100,100) * fontScale, true);
             game.uiSprites.push_back(&whip);
 
-            uiSprite inventoryslot3 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10 + 200 + 20, (float)(globalsettings.windowSize.y - 100 - 10)), sf::Vector2<float>(100, 100), true);
+            uiSprite inventoryslot3 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10 + 2 * (100 * fontScale) + 20, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, true);
             game.uiSprites.push_back(&inventoryslot3);
-            uiSprite rope = generateUISprite(texturemap.at("ropeProjectile")[0], sf::Vector2<float>(10 + 200 + 20, (float)(globalsettings.windowSize.y - 100 - 10)), sf::Vector2<float>(100, 100), true);
+            uiSprite rope = generateUISprite(texturemap.at("ropeProjectile")[0], sf::Vector2<float>(10 + 2 * (100 * fontScale) + 20, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, true);
             game.uiSprites.push_back(&rope);
 
-            uiSprite inventoryoverlay1 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), true);
+            uiSprite inventoryoverlay1 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y- (100 * fontScale) -10)), sf::Vector2<float>(100,100) * fontScale, true);
             game.uiSprites.push_back(&inventoryoverlay1); // 6
-            uiSprite inventoryoverlay2 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10+100+10, (float)(globalsettings.windowSize.y-100-10)), sf::Vector2<float>(100,100), false);
+            uiSprite inventoryoverlay2 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10+ (100 * fontScale) +10, (float)(globalsettings.windowSize.y- (100 * fontScale) -10)), sf::Vector2<float>(100,100) * fontScale, false);
             game.uiSprites.push_back(&inventoryoverlay2); // 7
-            uiSprite inventoryoverlay3 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10 + 200 + 20, (float)(globalsettings.windowSize.y - 100 - 10)), sf::Vector2<float>(100, 100), false);
+            uiSprite inventoryoverlay3 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10 + 2 * (100 * fontScale) + 20, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, false);
             game.uiSprites.push_back(&inventoryoverlay3); // 8
 
         #pragma endregion

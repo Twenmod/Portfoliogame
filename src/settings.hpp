@@ -18,6 +18,7 @@ class Settings {
         sf::Vector2<int> windowSize;
         sf::Vector2<int> cullSize;
         sf::Color backgroundColor;
+        bool fullscreen;
 
 //Physics
         float playerPhysicsStepDistance;

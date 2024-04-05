@@ -18,5 +18,6 @@ extern bool soundEnabled;
 
 extern sf::Time deltaTime;
 extern sf::Time renderDeltaTime;
+extern float fontScale;
 
 #endif
