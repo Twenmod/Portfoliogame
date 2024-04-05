@@ -107,8 +107,7 @@ void setWindowFullScreen(bool fullscreen, sf::RenderWindow* window) {
 int main()
 {
     //Initialize window
-    sf::RenderWindow window(sf::VideoMode((int)globalsettings.windowSize.x,(int)globalsettings.windowSize.y), "Spelunker", sf::Style::Close);
-
+    sf::RenderWindow window;
     setWindowFullScreen(globalsettings.fullscreen, &window);
 
     window.setVerticalSyncEnabled(globalsettings.vSync);
