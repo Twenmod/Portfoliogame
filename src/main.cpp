@@ -104,6 +104,7 @@ void setWindowFullScreen(bool fullscreen, sf::RenderWindow* window) {
 
 };
 
+
 int main()
 {
     //Initialize window
@@ -691,4 +692,10 @@ int main()
 
     return 0;
 }
+
+//For windows application
+int WinMain() {
+    main();
+}
+
 
