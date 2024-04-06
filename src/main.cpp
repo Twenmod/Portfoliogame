@@ -162,6 +162,7 @@ int main()
         {"tileBreak",{new sf::SoundBuffer(addSound("assets/audio/tileBreak.wav"))}},
         {"goldBreak",{new sf::SoundBuffer(addSound("assets/audio/goldBreak.wav"))}},
         {"footsteps",{new sf::SoundBuffer(addSound("assets/audio/footsteps/footstep1.wav")),new sf::SoundBuffer(addSound("assets/audio/footsteps/footstep2.ogg"))}},
+        {"explosion",{new sf::SoundBuffer(addSound("assets/audio/explosion.wav"))}},
     };
 
 

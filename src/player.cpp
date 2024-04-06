@@ -480,15 +480,12 @@ bool Player::Attack(sf::FloatRect attackRect, std::vector<chunk*> chunkList, con
                     //Play sound
                     if (gameobject->destroyed) {
                         if (gameobject->objectName == "goldTile") {
-                            std::thread soundThread(playSound, *soundmap["goldBreak"][0], 100.f);
-                            soundThread.detach();
+                            playSound(*soundmap["goldBreak"][0], 100.f);
                         }
-                        std::thread soundThread(playSound, *soundmap["tileBreak"][0], 100.f);
-                        soundThread.detach();
+                        playSound(*soundmap["tileBreak"][0], 100.f);
                     }
                     else {
-                        std::thread soundThread(playSound, *soundmap["tileHit"][0], 100.f);
-                        soundThread.detach();
+                        playSound(*soundmap["tileHit"][0], 100.f);
                     }
                     hitSomething = true;
                 }
@@ -604,8 +601,7 @@ void Player::OnRender() {
 
             //Sound
             if (walkanimationFrame == 0 || walkanimationFrame == 3) {
-                std::thread soundThread(playSound, *soundmap["footsteps"][rand()%soundmap["footsteps"].size()], 100.f);
-                soundThread.detach();
+                playSound(*soundmap["footsteps"][rand() % soundmap["footsteps"].size()], 100.f);
             }
 
             if (walkanimationFrame >= 6) walkanimationFrame = 0;

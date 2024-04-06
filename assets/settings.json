@@ -7,7 +7,7 @@
     "width": 1280,
     "height": 720
   },
-  "fullscreen": true,
+  "fullscreen": false,
   //World generation
   "worldSeed": 1711569733, // Seed for world generation only use numbers (set 0 for random)
   "worldSize": {
