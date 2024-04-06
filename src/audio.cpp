@@ -15,7 +15,7 @@ void playSound(sf::SoundBuffer audioBuffer, float volume, sf::Vector2f position,
         else {
             sf::Vector2f diff = position - listenerposition;
             float distance = diff.x * diff.x + diff.y * diff.y; //Normally take the sqrt from this value however we do not to make it drop off exponentially
-            volumeMultiplier = 1 / (distance * globalsettings.audioFalloff);
+            volumeMultiplier = 1 / (std::abs(distance) * globalsettings.audioFalloff);
         }
 
         sf::Sound* sound = new sf::Sound;

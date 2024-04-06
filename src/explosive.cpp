@@ -4,6 +4,8 @@
 #include "settings.hpp"
 #include "worldgen.hpp"
 #include "globals.hpp"
+#include "audio.hpp"
+#include "gameScenes.hpp"
 #include <SFML/Graphics/Rect.hpp>
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/System/Vector2.hpp>
@@ -76,6 +78,7 @@ void explosiveObject::Explode() {
     //Disable all dynamics
     isStatic = true;
     hasCollision = false;
+    playSound(*soundmap.at("explosion")[0], 100.f, position, gameScene->player->position);
 
     //Set up explosion animation
     timer = animationInterval;

@@ -9,7 +9,7 @@
   },
   "fullscreen": false,
   //World generation
-  "worldSeed": 1711569733, // Seed for world generation only use numbers (set 0 for random)
+  "worldSeed": 0, // Seed for world generation only use numbers (set 0 for random)
   "worldSize": {
     "width": 20,
     "height": 10
@@ -19,7 +19,7 @@
   /// [These values change the way the game works and are not meant to be set by the user unless you want to change base game mechanics] ///
 
   //Audio
-  "audioFalloff": 0.01,
+  "audioFalloff": 0.001,
 
   //Video settings
   "cullSize": {
