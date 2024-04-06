@@ -18,6 +18,9 @@
   /// Base Game Settings ///
   /// [These values change the way the game works and are not meant to be set by the user unless you want to change base game mechanics] ///
 
+  //Audio
+  "audioFalloff": 0.01,
+
   //Video settings
   "cullSize": {
     "width": 2000,

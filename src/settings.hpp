@@ -12,6 +12,10 @@
 class Settings {
         public:
         Settings();
+
+//Audio
+        float audioFalloff;
+
 //Video
         int frameRateLimit;
         bool vSync;

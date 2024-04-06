@@ -22,6 +22,9 @@ Settings::Settings() {
         Json::Reader reader;
         reader.parse(file, settingsfile);
 
+        //Audio
+        audioFalloff = settingsfile["audioFalloff"].asFloat();
+
         //Video
         frameRateLimit = settingsfile["frameRateLimit"].asInt();
         vSync = settingsfile["vSync"].asBool();
