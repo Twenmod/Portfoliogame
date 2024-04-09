@@ -34,7 +34,7 @@ file(GLOB SOURCES "src/*.cpp")
 
 
 # Create executable
-add_executable(Spelunker ${SOURCES})
+add_executable(Spelunker WIN32 ${SOURCES})
 
 # Link SFML libraries
 target_link_libraries(Spelunker PRIVATE sfml-graphics sfml-network sfml-window sfml-audio sfml-system -mwindows)

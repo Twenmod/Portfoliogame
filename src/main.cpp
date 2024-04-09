@@ -189,7 +189,7 @@ int main()
 
     //Settings
     soundEnabled = true;
-    uiElement* soundTextElement = new uiElement(generateUIElement(font, int(30 * fontScale), sf::Color(146, 30, 30), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-250.f, 50), "[X] Sound", true, true, sf::Color::Red));
+    uiElement* soundTextElement = new uiElement(generateUIElement(font, int(30 * fontScale), sf::Color(146, 30, 30), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x-(250.f*fontScale), 50), "[X] Sound", true, true, sf::Color::Red));
     soundTextElement->onClickFunction = [&]() {
         if (soundEnabled) {
             soundEnabled = false;
@@ -203,7 +203,7 @@ int main()
     menu.uiElements.push_back(soundTextElement);
 
     //fullscreenbutton
-    uiElement* fullscreenTextElement = new uiElement(generateUIElement(font, int(30 * fontScale), sf::Color(146, 30, 30), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x - 250.f, 100), "[X] Fullscreen", true, true, sf::Color::Red));
+    uiElement* fullscreenTextElement = new uiElement(generateUIElement(font, int(30 * fontScale), sf::Color(146, 30, 30), sf::Text::Bold, sf::Vector2<float>(globalsettings.windowSize.x - (250.f*fontScale), 100), "[X] Fullscreen", true, true, sf::Color::Red));
     //Start in correct state
     if (!globalsettings.fullscreen) {
         fullscreenTextElement->text.setString("[   ] Fullscreen");
@@ -355,7 +355,7 @@ int main()
                         if (_tile.bottomOverrideTexture != nullptr) {
                             //If below tile is air change texture
                             //Make sure not out of bounds
-                            if (_tile.position.y / globalsettings.tileSize + 2 < world.tiles[_tile.position.x / globalsettings.tileSize].size() * globalsettings.chunkSize) {
+                            if (_tile.position.y / globalsettings.tileSize + 2 < world.tiles[(int)(_tile.position.x / globalsettings.tileSize)].size() * globalsettings.chunkSize) {
                                 if (world.tiles[(int)(_tile.position.x / globalsettings.tileSize)][(int)(_tile.position.y / globalsettings.tileSize + 1)].tileName == "Air") {
                                     _tile.sprite.setTexture(*_tile.bottomOverrideTexture, false);
                                 }
@@ -575,7 +575,7 @@ int main()
                 int(24 * fontScale), //Size
                 sf::Color::White, //Color 
                 sf::Text::Bold,  //Style
-                sf::Vector2<float>((float)(globalsettings.windowSize.x - 150), 0), //Position 
+                sf::Vector2<float>((float)(globalsettings.windowSize.x - (150*fontScale)), 0), //Position 
                 "FPS" //Text
             );
             game.uiElements.push_back(&fpsTextElement);

@@ -86,8 +86,8 @@ void Camera::Render(sf::RenderWindow &window,Gameobject* player, std::vector<chu
                 cameraWorldPosition.y += (float)resolution.y/2;
 
                 //Round to full pixel to avoid jittering
-                cameraWorldPosition.x = int(cameraWorldPosition.x); 
-                cameraWorldPosition.y = int(cameraWorldPosition.y);
+                cameraWorldPosition.x = round(cameraWorldPosition.x); 
+                cameraWorldPosition.y = round(cameraWorldPosition.y);
 
 
                 bool outSideCullDistance = 

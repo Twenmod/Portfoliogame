@@ -1,41 +1,51 @@
 {
-  /// User settings ///
+  //--[User settings feel free to change these]--//
+
   //Video
-  "frameRateLimit": 144,
-  "vSync": false,
-  "windowSize": {
+  "frameRateLimit": 0, // Limit fps to improve frame stability, set to 0 to leave uncapped
+  "vSync": true,
+  "windowSize": { // resolution for windowed mode 
     "width": 1280,
     "height": 720
   },
-  "fullscreen": false,
+  "fullscreen": true,
   //World generation
   "worldSeed": 0, // Seed for world generation only use numbers (set 0 for random)
-  "worldSize": {
+
+  "worldSize": { // Size of world in chunks
     "width": 20,
     "height": 10
-  }, // Size of world in chunks
+  },
 
-  /// Base Game Settings ///
+  //-----------------------------------------------//
+
+
+
+  //--[Base Game Settings]--///
+
   /// [These values change the way the game works and are not meant to be set by the user unless you want to change base game mechanics] ///
 
-  //Audio
-  "audioFalloff": 0.001,
+  //--Audio--//
+  "audioFalloff": 0.001, // Higher values cause further audio sources to sound more quieter (exponentially)
 
-  //Video settings
-  "cullSize": {
+  //--Video settings--//
+  "cullSize": { // Does not draw objects if they are outside this region
     "width": 2000,
     "height": 1100
-  }, // Does not draw objects if they are outside this distance
-  "backgroundColor": {
+  },
+  "backgroundColor": { // Background color of the world
     "r": 35,
     "g": 20,
     "b": 10
-  }, // Background color of the world
-  //Physics settings
-  "playerPhysicsStepDistance": 8, // Pixels per physics step
-  "playerMaxPhysicsIterations": 10, // Max physics steps per frame
+  },
+
+  //--Physics settings--//
+  "playerPhysicsStepDistance": 5, // Pixels per physics step
+  "playerMaxPhysicsIterations": 3, // Max physics steps per frame
   "maxDeltaTime": 0.1, // Clamps deltatime to this (in seconds)
-  //Player settings
+
+  //--Player settings--//
+  //Movement
   "playerMoveSpeed": 100, // Movement speed in pixels per second
   "playerAcceleration": 600,
   "playerStopAcceleration": 800, //Acceleration when not holding a direction
@@ -45,6 +55,8 @@
   "climbSpeed": 75,
   "jumpVelocity": 350,
   "jumpGravity": 700, // Gravity while jumping up and holding jump
+
+  //Attacks
   "attackRange": 32, // Attackrange in pixels
   "attackDamage": 3,
   "attackInterval": 0.2, //Time between attacks in Seconds 
@@ -54,30 +66,33 @@
   "whipAttackInterval": 0.4,
   "whipAttackDelay": 0.2,
   "playerRopeSize": 20,
+
+  //Damage
   "fallDamage": 0.8,
   "fallDamageThreshold": 500,
-  //World settings
-  "chunkSize": 8, // Tiles per chunk (width and height)
+
+  //--World settings--//
+  "chunkSize": 8, // Tiles per chunk (width and height) 8 is most performant
   "chunkLoadDistance": 5, // Amount of chunks loaded around the player (in a box) so 1 means render 3x3 chunks
   "tileSize": 32, //Size of tiles in pixels
-  "gravity": 1500,
-  "noiseScale": {
+  "gravity": 1500, // Gravity in pixels per second^2
+  "noiseScale": { // Scale for base world generation noise
     "width": 0.03,
     "height": 0.1
-  }, // Scale for base world generation noise
+  },
   "octaves": 3, // Amount of noises to layer above eachother
   "persistence": 0.4, //Persistance of those layers
-  "oreNoiseScale": {
+  "oreNoiseScale": { // Scale for the noise used for spawning gold
     "width": 0.4,
     "height": 0.4
-  }, // Scale for the noise used for spawning gold
-  "amountOfEnemies": {
+  },
+  "amountOfEnemies": { // Amount of enemies to spawn in the world random in between min/max
     "min": 1,
     "max": 5
-  }, // Amount of enemies to spawn in the world random in between min/max
-  "amountOfObjects": {
+  },
+  "amountOfObjects": { // Amount of random objects (like barrels) to spawn in the world random in between min/max
     "min": 10,
     "max": 20
-  }, // Amount of random objects (like barrels) to spawn in the world random in between min/max
+  }, 
   "optionalObjectSpawnMaxIterations": 500 // Max amount of iterations before giving up on spawning an optional object like barrels or enemies
 }
