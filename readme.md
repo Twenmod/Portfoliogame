@@ -62,6 +62,7 @@ Note in Visual studio make sure you select the "Spelunker.vcxproj" file and not 
 - Perlinnoise generator by Ryo Suzuki
 - Footsteps sound from GboxMikeFozzy on opengameart.opengameart
 - Explosion sound from opengameart
+- Player sprite made from a template
 - Font from google fonts
 
 All other scripts and assets are made by me
