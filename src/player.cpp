@@ -285,10 +285,9 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                 if (&sprite == other)
                     continue;
 
-
-
+                int feetSizePadding = 2; // Slight padding to where the feetcheck checks to avoid detecting walls.
                 //Check if collides with feet
-                if (other->getGlobalBounds().contains(spriteRect.left,spriteRect.top+spriteRect.height) || other->getGlobalBounds().contains(spriteRect.left+spriteRect.width,spriteRect.top+spriteRect.height)) {
+                if (other->getGlobalBounds().contains(spriteRect.left+feetSizePadding,spriteRect.top+spriteRect.height) || other->getGlobalBounds().contains(spriteRect.left+spriteRect.width,spriteRect.top+spriteRect.height)) {
                     groundedTest = true;
                 }
 
