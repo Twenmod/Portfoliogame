@@ -239,9 +239,9 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
     if (inRope)
         currentGravity = 0;
 
-    if (!grounded) {
+    //if (!grounded) {
         velocity.y += currentGravity * deltaTime.asSeconds();
-    }
+    //}
 
     position += velocity*deltaTime.asSeconds();
 
@@ -285,11 +285,6 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                 if (&sprite == other)
                     continue;
 
-                int feetSizePadding = 2; // Slight padding to where the feetcheck checks to avoid detecting walls.
-                //Check if collides with feet
-                if (other->getGlobalBounds().contains(spriteRect.left+feetSizePadding,spriteRect.top+spriteRect.height) || other->getGlobalBounds().contains(spriteRect.left+spriteRect.width,spriteRect.top+spriteRect.height)) {
-                    groundedTest = true;
-                }
 
                 if (spriteRect.intersects(other->getGlobalBounds())) {
 
@@ -400,6 +395,8 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                         normal = sf::Vector2<float>(0,  -1.f);
                     }
 
+                    int feetSizePadding = 3; // Slight padding to where the feetcheck checks to avoid detecting walls.
+
                     //Move to closest side
                         switch (side) {
                         case 0: // Top
@@ -413,9 +410,13 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
                             test = true;
                             break;
                         case 2: // Bottom
-                            position.y = otherRect.top - spriteRect.height;
-                            if(velocity.y > 0) velocity.y = 0;
-                            test = true;
+                            //Check if collides with feet
+                            if (other->getGlobalBounds().contains(spriteRect.left + feetSizePadding, spriteRect.top + spriteRect.height) || other->getGlobalBounds().contains(spriteRect.left + spriteRect.width, spriteRect.top + spriteRect.height)) {
+                                groundedTest = true;
+                                position.y = otherRect.top - spriteRect.height;
+                                if (velocity.y > 0) velocity.y = 0;
+                                test = true;
+                            }
                             break;
                         case 3: // Left
                             position.x = otherRight;
