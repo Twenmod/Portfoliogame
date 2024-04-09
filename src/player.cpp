@@ -46,12 +46,12 @@ void Player::OnLoop(std::vector<chunk*> chunkList) {
     if (!grounded) acceleration *= globalsettings.playerAirAccelerationMultiplier; 
 
 
-    if (!jumpKeyHold && sf::Keyboard::isKeyPressed(globalsettings.jump)) {
+    if (!jumpKeyHold && (sf::Keyboard::isKeyPressed(globalsettings.jump)|| sf::Keyboard::isKeyPressed(sf::Keyboard::W))) {
         jumpKeyDown = true;
     }else {
         jumpKeyDown = false;
     }
-    jumpKeyHold = sf::Keyboard::isKeyPressed(globalsettings.jump);
+    jumpKeyHold = (sf::Keyboard::isKeyPressed(globalsettings.jump) || sf::Keyboard::isKeyPressed(sf::Keyboard::W));
 
     if (sf::Keyboard::isKeyPressed(globalsettings.right)) {
         if (!attacking) facing = 1;
@@ -233,7 +233,7 @@ void Player::CalculatePhysics(std::vector<chunk*> chunkList) {
 
     float currentGravity = gravity;
 
-    if(sf::Keyboard::isKeyPressed(globalsettings.jump) && velocity.y < 0)
+    if((sf::Keyboard::isKeyPressed(globalsettings.jump) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && velocity.y < 0)
         currentGravity = globalsettings.jumpGravity;
 
     if (inRope)

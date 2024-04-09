@@ -57,7 +57,7 @@ sf::Texture addTexture(std::string file) {
     if (!text.loadFromFile(file)) {
         std::cout << "Failed to load texture at: " << file;
         //Load default texture
-        if (!text.loadFromFile("assets/sprites/nobitches.png")) {
+        if (!text.loadFromFile("assets/sprites/missingTexture.png")) {
             std::cout << "Failed to load default texture aborting\n";
             abort();
         }
@@ -119,7 +119,7 @@ int main()
     mainMenu menu = mainMenu(window);
 
     sf::Font font;
-    if (!font.loadFromFile("assets/Fonts/RubikScribble-Regular.ttf")) {
+    if (!font.loadFromFile("assets/fonts/RubikScribble-Regular.ttf")) {
         std::cout << "Failed to load font";
     }
 
@@ -140,11 +140,11 @@ int main()
         {"Gold",{new sf::Texture(addTexture("assets/sprites/tiles/gold/gold.png")),new sf::Texture(addTexture("assets/sprites/tiles/gold/gold2.png"))}},
         {"Noomba",{new sf::Texture(addTexture("assets/sprites/noomba.png"))}},
         {"Bedrock",{new sf::Texture(addTexture("assets/sprites/tiles/bedrock.png"))}},
-        {"Goldnugget",{new sf::Texture(addTexture("assets/sprites/goldnugget.png")),new sf::Texture(addTexture("assets/sprites/goldnugget2.png"))}},
+        {"Goldnugget",{new sf::Texture(addTexture("assets/sprites/goldNugget.png")),new sf::Texture(addTexture("assets/sprites/goldNugget2.png"))}},
         {"exitDoor",{new sf::Texture(addTexture("assets/sprites/exitDoor.png"))}},
         {"damageOverlay",{new sf::Texture(addTexture("assets/sprites/damageOverlay.png"))}},
-        {"itemslot",{new sf::Texture(addTexture("assets/sprites/ui/itemslot.png"))}},
-        {"itemslotselected",{new sf::Texture(addTexture("assets/sprites/ui/itemslotoverlay.png"))}},
+        {"itemslot",{new sf::Texture(addTexture("assets/sprites/ui/itemSlot.png"))}},
+        {"itemslotselected",{new sf::Texture(addTexture("assets/sprites/ui/itemSlotOverlay.png"))}},
         {"pickaxe",{new sf::Texture(addTexture("assets/sprites/ui/pickaxe.png"))}},
         {"whip",{new sf::Texture(addTexture("assets/sprites/ui/whip.png"))}},
         {"explosiveBarrel", {new sf::Texture(addTexture("assets/sprites/explosiveBarrel.png"))}},
