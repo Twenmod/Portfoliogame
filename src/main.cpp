@@ -248,7 +248,7 @@ int main()
 
     exitState = 0; //State the last game exited with, 0 = nothing, 1 = won, 2 = died
 
-
+    //Full loop
     while (window.isOpen()) {
         //Main menu loop
         menu.OnEvents();
@@ -321,8 +321,8 @@ int main()
                 {2, std::pair<float, int>(0.75f, 3)},
             };
 
-            level world = level((int)globalsettings.tileSize,globalsettings.worldSize, tileTypes, 4, worldgenMap,replacementLayerMap);
-            
+            level world = level((int)globalsettings.tileSize, globalsettings.worldSize, tileTypes, 4, worldgenMap, replacementLayerMap);
+
             //Generate chunks
             std::vector<std::vector<chunk*>> chunks;
             for (int x = 0; x < globalsettings.worldSize.x; x++) {
@@ -345,8 +345,8 @@ int main()
                         if (_tile.topOverrideTexture != nullptr) {
                             //If above tile is air change texture
                             //Make sure not out of bounds
-                            if (_tile.position.y/globalsettings.tileSize - 1 > 0) {
-                                if(world.tiles[(int)(_tile.position.x/globalsettings.tileSize)][(int)(_tile.position.y/globalsettings.tileSize - 1)].tileName == "Air") {
+                            if (_tile.position.y / globalsettings.tileSize - 1 > 0) {
+                                if (world.tiles[(int)(_tile.position.x / globalsettings.tileSize)][(int)(_tile.position.y / globalsettings.tileSize - 1)].tileName == "Air") {
                                     _tile.sprite.setTexture(*_tile.topOverrideTexture, false);
                                 }
                             }
@@ -355,23 +355,23 @@ int main()
                         if (_tile.bottomOverrideTexture != nullptr) {
                             //If below tile is air change texture
                             //Make sure not out of bounds
-                            if (_tile.position.y/globalsettings.tileSize + 1 < globalsettings.worldSize.y*globalsettings.chunkSize) {
-                                if(world.tiles[(int)(_tile.position.x/globalsettings.tileSize)][(int)(_tile.position.y/globalsettings.tileSize + 1)].tileName == "Air") {
+                            if (_tile.position.y / globalsettings.tileSize + 2 < world.tiles[_tile.position.x / globalsettings.tileSize].size() * globalsettings.chunkSize) {
+                                if (world.tiles[(int)(_tile.position.x / globalsettings.tileSize)][(int)(_tile.position.y / globalsettings.tileSize + 1)].tileName == "Air") {
                                     _tile.sprite.setTexture(*_tile.bottomOverrideTexture, false);
                                 }
                             }
                         }
                     }
 
-                    
+
 
 
                     //Get corresponding chunk
                     sf::Vector2<int> chunkPos((int)(_tile.position.x / (globalsettings.chunkSize * globalsettings.tileSize)), (int)(_tile.position.y / (globalsettings.chunkSize * globalsettings.tileSize)));
-                    
+
                     //Add to chunk
                     chunks[chunkPos.x][chunkPos.y]->objects.push_back(&_tile);
-                    if(_tile.hasCollision) {
+                    if (_tile.hasCollision) {
                         chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(&_tile);
                     }
                 }
@@ -381,41 +381,45 @@ int main()
 
             //Spawn exit Door
             bool spawnedDoor = false;
-            
+
             int startX;
             int x = startX = rand() % tileWorldSize.x;
 
-            //I had a bug occur TWICE wherein tileworldSize was 48 instead of the 50 that it was supposed to be causing a assertion failure in this part, however after changing nothing i could not reproduce this So either tileworldsize has a REALLY small chance to not be set correctly or i am going insane
-            int y = tileWorldSize.y-2;
+            int y = tileWorldSize.y - 2;
 
             while (!spawnedDoor) {
-                //Try to spawn door as low as possible
-                //Check for space
-                bool space = world.tiles[x][y].tileName == "Air" && world.tiles[x][y-1].tileName == "Air" && world.tiles[x+1][y].tileName == "Air" && world.tiles[x+1][y-1].tileName == "Air";
-                bool grounded = (world.tiles[x][y+1].tileName != "Air" && world.tiles[x][y+1].tileName != "Bedrock") && (world.tiles[x+1][y+1].tileName != "Air" && world.tiles[x+1][y+1].tileName != "Bedrock");
-                if (space && grounded) {
-                    spawnedDoor = true;
-                    //Spawn door
-                    Gameobject* door = new Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,(y-1)*globalsettings.tileSize),0,sf::Vector2<float>(globalsettings.tileSize*2,globalsettings.tileSize*2),true,texturemap.at("exitDoor"),true,true,0,0,0,0,sf::Vector2<float>(0,0),"exit");
-                    
-                    //Get corresponding chunk
-                    sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
-                    door->currentChunk = chunks[chunkPos.x][chunkPos.y];
-                    chunks[chunkPos.x][chunkPos.y]->objects.push_back(door);
-                    chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(door);
-                }else {
-                    x++;
-                    if (x == startX || (startX == 0 && x == 1)) {
-                        x = startX = rand() % tileWorldSize.x;
-                        y--;
-                        if (y <= 0) {
-                            std::cout << "Failed to spawn exitdoor can not continue" << std::endl;
-                            abort();
+                //Check if not out of bounds
+                if (x+1 < world.tiles.size())
+                    if (y + 1 < world.tiles[x].size()) {
+
+                        //Try to spawn door as low as possible
+                        //Check for space
+                        bool space = world.tiles[x][y].tileName == "Air" && world.tiles[x][y - 1].tileName == "Air" && world.tiles[x + 1][y].tileName == "Air" && world.tiles[x + 1][y - 1].tileName == "Air";
+                        bool grounded = (world.tiles[x][y + 1].tileName != "Air" && world.tiles[x][y + 1].tileName != "Bedrock") && (world.tiles[x + 1][y + 1].tileName != "Air" && world.tiles[x + 1][y + 1].tileName != "Bedrock");
+                        if (space && grounded) {
+                            spawnedDoor = true;
+                            //Spawn door
+                            Gameobject* door = new Gameobject(sf::Vector2<float>(x * globalsettings.tileSize, (y - 1) * globalsettings.tileSize), 0, sf::Vector2<float>(globalsettings.tileSize * 2, globalsettings.tileSize * 2), true, texturemap.at("exitDoor"), true, true, 0, 0, 0, 0, sf::Vector2<float>(0, 0), "exit");
+
+                            //Get corresponding chunk
+                            sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
+                            door->currentChunk = chunks[chunkPos.x][chunkPos.y];
+                            chunks[chunkPos.x][chunkPos.y]->objects.push_back(door);
+                            chunks[chunkPos.x][chunkPos.y]->collisionObjects.push_back(door);
+                            continue;
                         }
-                    }
-                    if (x >= tileWorldSize.x-1)
-                        x = 0;
                 }
+                x++;
+                if (x == startX || (startX == 0 && x == 1)) {
+                    x = startX = rand() % tileWorldSize.x;
+                    y--;
+                    if (y <= 0) {
+                        std::cout << "Failed to spawn exitdoor can not continue" << std::endl;
+                        abort();
+                    }
+                }
+                if (x >= tileWorldSize.x - 1)
+                    x = 0;
             }
 
 
@@ -423,14 +427,14 @@ int main()
             //Spawn enemies
             int amountToSpawn = rand() % globalsettings.amountOfEnemies.y + globalsettings.amountOfEnemies.x;
             for (int i = 0; i < amountToSpawn; i++) {
-                bool spawned = false; 
+                bool spawned = false;
                 for (int j = 0; j < globalsettings.optionalObjectSpawnMaxIterations && !spawned; i++) {
                     int x = rand() % tileWorldSize.x;
                     int y = rand() % tileWorldSize.y;
                     //Check if tile position is empty
-                    if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y+1].tileName != "Air") {
+                    if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y + 1].tileName != "Air") {
                         //Spawn enemy
-                        Enemy* enemy = new Enemy(Gameobject(sf::Vector2<float>(x*globalsettings.tileSize,y*globalsettings.tileSize),0,sf::Vector2<float>(32,32),true,texturemap.at("Noomba"),false,true,globalsettings.gravity,0.f,0,0.2f, sf::Vector2<float>(0,0),"enemy"), 10,50,1,1);
+                        Enemy* enemy = new Enemy(Gameobject(sf::Vector2<float>(x * globalsettings.tileSize, y * globalsettings.tileSize), 0, sf::Vector2<float>(32, 32), true, texturemap.at("Noomba"), false, true, globalsettings.gravity, 0.f, 0, 0.2f, sf::Vector2<float>(0, 0), "enemy"), 10, 50, 1, 1);
                         //Get corresponding chunk
                         sf::Vector2<int> chunkPos(x / (globalsettings.chunkSize), y / (globalsettings.chunkSize));
                         enemy->currentChunk = chunks[chunkPos.x][chunkPos.y];
@@ -457,26 +461,27 @@ int main()
                 int x = rand() % tileWorldSize.x;
                 int y = rand() % tileWorldSize.y;
 
-                bool spawned = false; 
+                bool spawned = false;
                 for (int j = 0; j < globalsettings.optionalObjectSpawnMaxIterations && !spawned; j++) {
 
-                    //Check if tile position is empty
-                    if (rng == 0) {
-                        if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y + 1].tileName != "Air") {
-                            //Spawn object
-                            object = new explosiveObject(3, 200, 20, 0.1f, 13, texturemap.at("explosionSheet")[0], Gameobject(sf::Vector2<float>(x * globalsettings.tileSize, y * globalsettings.tileSize), 0, sf::Vector2<float>(32, 32), true, texturemap.at("explosiveBarrel"), false, true, globalsettings.gravity, 0.f, 0.3f, 1, sf::Vector2<float>(0, 0), "explosiveBarrel"));
+                    if (y < world.tiles[x].size()) {
+                        //Check if tile position is empty
+                        if (rng == 0) {
+                            if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y + 1].tileName != "Air") {
+                                //Spawn object
+                                object = new explosiveObject(3, 200, 20, 0.1f, 13, texturemap.at("explosionSheet")[0], Gameobject(sf::Vector2<float>(x * globalsettings.tileSize, y * globalsettings.tileSize), 0, sf::Vector2<float>(32, 32), true, texturemap.at("explosiveBarrel"), false, true, globalsettings.gravity, 0.f, 0.3f, 1, sf::Vector2<float>(0, 0), "explosiveBarrel"));
 
-                            spawned = true;
+                                spawned = true;
+                            }
+                        }
+                        else if (rng == 1) {
+                            if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y - 1].tileName != "Air") {
+                                object = new Rope(rand() % 10, 0.1f, texturemap.at("middleRope"), Gameobject(sf::Vector2<float>(x * globalsettings.tileSize, y * globalsettings.tileSize), 0, sf::Vector2<float>(32, 32), true, texturemap.at("endRope"), true, true, 0, 0, 0, 0, sf::Vector2f(0, 0), "Rope"), true, texturemap.at("startRope"));
+
+                                spawned = true;
+                            }
                         }
                     }
-                    else if (rng == 1) {
-                        if (world.tiles[x][y].tileName == "Air" && world.tiles[x][y - 1].tileName != "Air") {
-                            object = new Rope(rand() % 10, 0.1f, texturemap.at("middleRope"), Gameobject(sf::Vector2<float>(x * globalsettings.tileSize, y * globalsettings.tileSize), 0, sf::Vector2<float>(32, 32), true, texturemap.at("endRope"), true, true, 0, 0, 0, 0, sf::Vector2f(0, 0), "Rope"), true, texturemap.at("startRope"));
-
-                            spawned = true;
-                        }
-                    }
-
                     x++;
                     if (x >= tileWorldSize.x) {
                         y++;
@@ -497,38 +502,38 @@ int main()
             }
 
 
-        #pragma endregion
+#pragma endregion
 
             //Spawn player
 
             Player player = Player(
                 globalsettings.playerMoveSpeed,
                 globalsettings.jumpVelocity,
-                sf::FloatRect(0,0,15,30), 
-                sf::Vector2<float>(40,40),
-                sf::Vector2<float>(-12.5,-10),
+                sf::FloatRect(0, 0, 15, 30),
+                sf::Vector2<float>(40, 40),
+                sf::Vector2<float>(-12.5, -10),
                 RopeProjectile(
-                    Rope(globalsettings.playerRopeSize, 0.5f, texturemap.at("middleRope"), Gameobject(sf::Vector2<float>(0,0), 0, sf::Vector2<float>(32, 32), true, texturemap.at("endRope"), true, true, 0, 0, 0, 0, sf::Vector2f(0, 0), "Rope"), true, texturemap.at("startRope")),
-                    Gameobject(sf::Vector2f(0,0),0,sf::Vector2f(16,16),true,texturemap.at("ropeProjectile"),false,true,0,0,0,0,sf::Vector2f(0,0),"ropeProjectile")
+                    Rope(globalsettings.playerRopeSize, 0.5f, texturemap.at("middleRope"), Gameobject(sf::Vector2<float>(0, 0), 0, sf::Vector2<float>(32, 32), true, texturemap.at("endRope"), true, true, 0, 0, 0, 0, sf::Vector2f(0, 0), "Rope"), true, texturemap.at("startRope")),
+                    Gameobject(sf::Vector2f(0, 0), 0, sf::Vector2f(16, 16), true, texturemap.at("ropeProjectile"), false, true, 0, 0, 0, 0, sf::Vector2f(0, 0), "ropeProjectile")
                 ),
                 Gameobject
                 (
-                    sf::Vector2<float>(0,0),
+                    sf::Vector2<float>(0, 0),
                     0,
-                    sf::Vector2<float>(30,30),
-                    true,texturemap.at("Player"),
+                    sf::Vector2<float>(30, 30),
+                    true, texturemap.at("Player"),
                     false,
                     true,
                     globalsettings.gravity,
                     globalsettings.playerFriction,
                     0,
-                    globalsettings.fallDamage, 
-                    sf::Vector2<float>(50,0),
+                    globalsettings.fallDamage,
+                    sf::Vector2<float>(50, 0),
                     "Player"
                 )
             );
 
-            sf::Vector2<int> margin(30,5);
+            sf::Vector2<int> margin(30, 5);
 
             player.position.x = margin.x * globalsettings.tileSize;
             player.position.y = margin.y * globalsettings.tileSize;
@@ -539,16 +544,17 @@ int main()
                 int x = (int)(player.position.x / globalsettings.tileSize);
                 int y = (int)(player.position.y / globalsettings.tileSize);
                 std::string currentTile = world.tiles[x][y].tileName;
-                std::string groundTile = world.tiles[x][y+1].tileName;
+                std::string groundTile = world.tiles[x][y + 1].tileName;
                 if (currentTile == "Air" && groundTile != "Air") {
                     spawned = true;
-                }else {
+                }
+                else {
                     player.position.x += globalsettings.tileSize;
-                    if (x >= globalsettings.worldSize.x*globalsettings.chunkSize-1) {
+                    if (x >= globalsettings.worldSize.x * globalsettings.chunkSize - 1) {
                         player.position.x = (float)margin.x;
                         player.position.y += globalsettings.tileSize;
                     }
-                    if (y >= globalsettings.worldSize.y*globalsettings.chunkSize-1) {
+                    if (y >= globalsettings.worldSize.y * globalsettings.chunkSize - 1) {
                         std::cout << "ERROR: Failed to spawn playerref";
                         window.close();
                         return 0;
@@ -560,14 +566,16 @@ int main()
             sf::Texture tileBreakTexture = addTexture("assets/sprites/tileBreakSheet.png");
             game.mainCamera.tileBreakTexture = &tileBreakTexture;
 
-        #pragma region UI
+
+
+#pragma region UI
 
             uiElement fpsTextElement = generateUIElement(
                 font, //Font
                 int(24 * fontScale), //Size
                 sf::Color::White, //Color 
                 sf::Text::Bold,  //Style
-                sf::Vector2<float>((float)(globalsettings.windowSize.x-150), 0), //Position 
+                sf::Vector2<float>((float)(globalsettings.windowSize.x - 150), 0), //Position 
                 "FPS" //Text
             );
             game.uiElements.push_back(&fpsTextElement);
@@ -577,7 +585,7 @@ int main()
                 int(34 * fontScale), //Size
                 sf::Color::Red, //Color 
                 sf::Text::Bold,  //Style
-                sf::Vector2<float>(0,0), //Position 
+                sf::Vector2<float>(0, 0), //Position 
                 "HP" //Text
             );
             game.uiElements.push_back(&healthTextElement);
@@ -587,7 +595,7 @@ int main()
                 int(30 * fontScale), //Size
                 sf::Color::Yellow, //Color 
                 sf::Text::Bold,  //Style
-                sf::Vector2<float>(0,30*fontScale), //Position 
+                sf::Vector2<float>(0, 30 * fontScale), //Position 
                 "GOLD" //Text
             );
             game.uiElements.push_back(&goldTextElement);
@@ -597,14 +605,14 @@ int main()
 
         //INVENTORY
 
-            uiSprite inventoryslot1 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y-(100*fontScale)-10)), sf::Vector2<float>(100,100)*fontScale, true);
+            uiSprite inventoryslot1 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, true);
             game.uiSprites.push_back(&inventoryslot1);
-            uiSprite pickaxe = generateUISprite(texturemap.at("pickaxe")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y- (100 * fontScale) -10)), sf::Vector2<float>(100,100) * fontScale, true);
+            uiSprite pickaxe = generateUISprite(texturemap.at("pickaxe")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, true);
             game.uiSprites.push_back(&pickaxe);
 
-            uiSprite inventoryslot2 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10+ (100 * fontScale) +10, (float)(globalsettings.windowSize.y- (100 * fontScale) -10)), sf::Vector2<float>(100,100) * fontScale, true);
+            uiSprite inventoryslot2 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10 + (100 * fontScale) + 10, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, true);
             game.uiSprites.push_back(&inventoryslot2);
-            uiSprite whip = generateUISprite(texturemap.at("whip")[0], sf::Vector2<float>(10+ (100 * fontScale) +10, (float)(globalsettings.windowSize.y- (100 * fontScale) -10)), sf::Vector2<float>(100,100) * fontScale, true);
+            uiSprite whip = generateUISprite(texturemap.at("whip")[0], sf::Vector2<float>(10 + (100 * fontScale) + 10, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, true);
             game.uiSprites.push_back(&whip);
 
             uiSprite inventoryslot3 = generateUISprite(texturemap.at("itemslot")[0], sf::Vector2<float>(10 + 2 * (100 * fontScale) + 20, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, true);
@@ -612,12 +620,13 @@ int main()
             uiSprite rope = generateUISprite(texturemap.at("ropeProjectile")[0], sf::Vector2<float>(10 + 2 * (100 * fontScale) + 20, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, true);
             game.uiSprites.push_back(&rope);
 
-            uiSprite inventoryoverlay1 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y- (100 * fontScale) -10)), sf::Vector2<float>(100,100) * fontScale, true);
+            uiSprite inventoryoverlay1 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, true);
             game.uiSprites.push_back(&inventoryoverlay1); // 6
-            uiSprite inventoryoverlay2 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10+ (100 * fontScale) +10, (float)(globalsettings.windowSize.y- (100 * fontScale) -10)), sf::Vector2<float>(100,100) * fontScale, false);
+            uiSprite inventoryoverlay2 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10 + (100 * fontScale) + 10, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, false);
             game.uiSprites.push_back(&inventoryoverlay2); // 7
             uiSprite inventoryoverlay3 = generateUISprite(texturemap.at("itemslotselected")[0], sf::Vector2<float>(10 + 2 * (100 * fontScale) + 20, (float)(globalsettings.windowSize.y - (100 * fontScale) - 10)), sf::Vector2<float>(100, 100) * fontScale, false);
             game.uiSprites.push_back(&inventoryoverlay3); // 8
+
 
         #pragma endregion
 
@@ -668,7 +677,7 @@ int main()
             }else
                 menu.uiElements[3]->enabled = true;
 
-            menu.uiElements[3]->text.setString("Score: "+std::to_string(player.gold));
+            menu.uiElements[3]->text.setString("Score: "+std::to_string(dynamic_cast<Player*>(game.player)->gold));
 
             if (exitState == 1) { // Win
                 menu.uiElements[0]->text.setString("YOU WON!");

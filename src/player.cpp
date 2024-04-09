@@ -23,6 +23,10 @@
 #include "enemy.hpp"
 #include "rope.hpp"
 
+
+Player::Player() {
+
+}
 //Constructor
 Player::Player(float _walkSpeed, float _jumpVelocity, sf::FloatRect _playerRect, sf::Vector2<float> _size, sf::Vector2<float> _spriteOffset, RopeProjectile ropeLauncherProjectile, Gameobject playerObject) : Gameobject(playerObject) {
     walkSpeed = _walkSpeed;

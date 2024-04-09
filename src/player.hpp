@@ -32,6 +32,7 @@ class Player : public Gameobject {
         float animationWalkSpeed = 10;
 
         //Constructor
+        Player();
         Player(float walkSpeed, float jumpVelocity, sf::FloatRect playerRect, sf::Vector2<float> _size, sf::Vector2<float> spriteOffset, RopeProjectile ropeLauncherProjectile, Gameobject playerObject);
         void OnLoop(std::vector<chunk*> chunkList);
         void CalculatePhysics(std::vector<chunk*> chunkList);
