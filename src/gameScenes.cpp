@@ -107,7 +107,7 @@ void mainLevel::OnLoop(sf::RenderWindow &window) {
 
     //Set UI
     fpsVec.insert(fpsVec.begin(), 1 / deltaTime.asSeconds());
-    int fpsMaxVectorSize = 60; // Higher values cause fps to be avaraged for a longer time frame
+    int fpsMaxVectorSize = 5 / deltaTime.asSeconds(); // Takes average fps of last 5 seconds
     if (fpsVec.size() > fpsMaxVectorSize)
         fpsVec.pop_back();
     float avarageFps = 0;
