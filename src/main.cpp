@@ -184,7 +184,7 @@ int main()
     };
     menu.uiElements.push_back(exitTextElement);
 
-    uiElement* scoreElement = new uiElement(generateUIElement(font, int(70 * fontScale), sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50,100), "Score: UNDEFINED", false));
+    uiElement* scoreElement = new uiElement(generateUIElement(font, int(80 * fontScale), sf::Color(126, 10, 10), sf::Text::Bold, sf::Vector2<float>(50, globalsettings.windowSize.y - (100.f * fontScale)), "Score: UNDEFINED", false));
     menu.uiElements.push_back(scoreElement);
 
     //Settings
