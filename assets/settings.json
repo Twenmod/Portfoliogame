@@ -2,7 +2,7 @@
   //--[User settings feel free to change these]--//
 
   //Video
-  "frameRateLimit": 0, // Limit fps to improve frame stability, set to 0 to leave uncapped
+  "frameRateLimit": 0, // Limit fps to improve frame stability, set to 0 to leave uncapped (Note this only effects the game window and not the game logic/rendering)
   "vSync": true,
   "windowSize": { // resolution for windowed mode 
     "width": 1280,

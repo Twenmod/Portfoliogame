@@ -106,16 +106,15 @@ void mainLevel::OnLoop(sf::RenderWindow &window) {
 
 
     //Set UI
-    fpsArray[fpsI] = 1/deltaTime.asSeconds();
-    fpsI++;
-    int fpsArraySize = int(std::size(fpsArray));
-    if (fpsI >= fpsArraySize)
-        fpsI = 0;
+    fpsVec.insert(fpsVec.begin(), 1 / deltaTime.asSeconds());
+    int fpsMaxVectorSize = 60; // Higher values cause fps to be avaraged for a longer time frame
+    if (fpsVec.size() > fpsMaxVectorSize)
+        fpsVec.pop_back();
     float avarageFps = 0;
-    for (int i = 0; i < fpsArraySize; i++) {
-        avarageFps += fpsArray[i];
+    for (int i = 0; i < fpsVec.size(); i++) {
+        avarageFps += fpsVec[i];
     }
-    avarageFps /= fpsArraySize;
+    avarageFps /= fpsVec.size();
     uiElements[0]->text.setString("FPS: " + std::to_string((int)avarageFps));
 
     if (Player *_player = dynamic_cast<Player*>(player)) {

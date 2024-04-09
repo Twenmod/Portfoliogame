@@ -51,7 +51,7 @@ class mainLevel {
 
         //Fps calculator
         int fpsI = 0;
-        float fpsArray[60];
+        std::vector<float> fpsVec;
 
         //Constructer/Init
         mainLevel(sf::RenderWindow &window, sf::Texture* damageOverlay) {
