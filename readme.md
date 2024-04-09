@@ -1,5 +1,5 @@
 # Spelunker
-A mining game where you need to collect treasure similar to spelunky
+A mining game where you need to explore caves and mine to collect gold treasure.
 
 Made for the intake assignement of the Breda University of Aplied Science
 with the theme "collect"
@@ -16,21 +16,23 @@ with the theme "collect"
 
 1. Clone the repository
 
+2. Make sure you have C++ and cmake installed
+
 ### Linux
 
-2. Make sure you have the dependencies installed by running
+3. Make sure you have the dependencies installed by running
 `sudo apt install sfml-dev libjsoncpp-dev gcc`
 
 or downloading it from the aur on arch
 
-3. Build the game by running the "C/C++: g++ build the game" task from vscode or running 
+4. Build the game by running the "C/C++: g++ build the game" task from vscode or running 
 `g++ -g src/*.cpp -I ./src -o ./out/build/gcc/Spelunker -L /usr/lib -I /usr/include -l sfml-graphics -l sfml-window -l sfml-system -l sfml-audio -l sfml-network -l jsoncpp -std=c++17`
 from within the source folder
 
 ### Windows
 
-2. Built the cmake cache using `cmake .` or the popup from within visual studio
-Note the project files only include the libraries for 64 bit install
+3. Built the cmake cache using `cmake .` or the popup from within visual studio
+Note the project files only include the libraries for 64 bit systems
 
 4. Built the project using `cmake --build . --config Release` or the build button (ctrl+b) from within visual studio
 Note in Visual studio make sure you select the "Spelunker.vcxproj" file and not the ""ALL_BUILD.vcxproj"" file
@@ -39,19 +41,33 @@ Note in Visual studio make sure you select the "Spelunker.vcxproj" file and not 
 
 ## controls
 - Use [A] and [D] to walk around
-- Use [Space] to jump
-- Use [1][2] To select your weapon
-- Use [UP][LEFT][DOWN][RIGHT] to attack around you
+- Use [Space] or [W] to jump
+- Use [1][2][3] To select your weapon/tool
+- Use [UP][LEFT][DOWN][RIGHT] to attack around you (note not all weapons can attack in all directions)
 - Press [E] to interact (with doors)
 - Press [ESC] to return to the main menu (lose progress)
 
 ## Gameplay
-- Your objective is to collect as much treasure/gold as possible
-- Collect gold by mining ore or ~~finding treasure~~
-- Get to the exit point alive
+- Your objective is to collect as much gold as possible
+- Collect gold by mining ore
+- Get to the exit door alive
 
 ## Tips
 - Do not die
 
+# Outside sources used
+- SFML
+- JsonCPP
+- SFMLMath by Denis Wagner
+- Perlinnoise generator by Ryo Suzuki
+- Footsteps sound from GboxMikeFozzy on opengameart.opengameart
+- Explosion sound from opengameart
+- Font from google fonts
+
+All other scripts and assets are made by me
+
+
 # Known Issues
-- The physics are not accurate enough when <30 fps
+- The physics of objects (not player) are not accurate enough when <30 fps
+- The rope tool doesn't work at the spawn chunks
+- Sometimes the player falls down when the level just loaded in.
