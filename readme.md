@@ -12,6 +12,8 @@ with the theme "collect"
 
 - Run the binary/executable file and start playing the game
 
+Note: Some windows 10 systems falsely flag the game as a virus if this is the case I would suggest building the project yourself using the instructions below 
+
 ## Building
 
 ### Windows
