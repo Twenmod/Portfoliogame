@@ -30,12 +30,19 @@ or downloading it from the aur on arch
 from within the source folder
 
 ### Windows
+## From terminal
 
-3. Built the cmake cache using `cmake .` or the popup from within visual studio
+3. Built the cmake cache using `cmake .`
 Note the project files only include the libraries for 64 bit systems
 
-4. Built the project using `cmake --build . --config Release` or the build button (ctrl+b) from within visual studio
-Note in Visual studio make sure you select the "Spelunker.vcxproj" file and not the ""ALL_BUILD.vcxproj"" file
+4. Built the project using `cmake --build . --config Release`
+
+## In visual studio
+
+3. Open the project
+
+4. Built using build solution or ctrl+shift+b
+Important note: **make sure you select the "Spelunker.vcxproj" build file and not the ""ALL_BUILD.vcxproj"" file**
 
 # How to play
 
