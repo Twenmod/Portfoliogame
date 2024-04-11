@@ -14,36 +14,45 @@ with the theme "collect"
 
 ## Building
 
-1. Clone the repository
-
-2. Make sure you have C++ and cmake installed
 
 ### Linux
 
-3. Make sure you have the dependencies installed by running
-`sudo apt install sfml-dev libjsoncpp-dev gcc`
+1. Clone the repo
+`git clone https://github.com/twenmod/portfoliogame`
+
+2. Make sure you have the dependencies installed by running
+`sudo apt install cmake sfml-dev libjsoncpp-dev gcc`
 
 or downloading it from the aur on arch
 
-4. Build the game by running the "C/C++: g++ build the game" task from vscode or running 
+3. Build the game by running the "C/C++: g++ build the game" task from vscode or running 
 `g++ -g src/*.cpp -I ./src -o ./out/build/gcc/Spelunker -L /usr/lib -I /usr/include -l sfml-graphics -l sfml-window -l sfml-system -l sfml-audio -l sfml-network -l jsoncpp -std=c++17`
 from within the source folder
 
 ### Windows
-## From terminal
 
+## In visual studio (community 2022)
+
+1. Download the project folder or use git clone from the terminal (do not use the visual studio git clone it acts opens the project in a weard way)
+`git clone https://github.com/twenmod/portfoliogame`
+
+2. Open the project folder with visual studio
+  
+3. Generate the cmake cache by clicking on `project>configure cache` from the topbar
+
+4. Built the game (ctrl+b)
+
+
+## From terminal
+1. Clone the repo
+`git clone https://github.com/twenmod/portfoliogame`
+  
+2. Go into the project folder
+  
 3. Built the cmake cache using `cmake .`
 Note the project files only include the libraries for 64 bit systems
 
 4. Built the project using `cmake --build . --config Release`
-
-## In visual studio
-
-3. Open the project
-
-4. Built using build solution or ctrl+shift+b
-
-Important note: **make sure you select the "Spelunker.vcxproj" build file and not the ""ALL_BUILD.vcxproj"" file**
 
 # How to play
 
