@@ -13,3 +13,8 @@ Win32
 Spelunker.dir
 Debug
 .vscode/tasks.json
+/ALL_BUILD.vcxproj
+/Spelunker.vcxproj
+/Spelunker.vcxproj.filters
+/Spelunker.vcxproj.user
+/ZERO_CHECK.vcxproj

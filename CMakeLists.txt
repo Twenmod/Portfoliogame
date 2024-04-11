@@ -7,11 +7,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Define output directory for Windows and Linux
-if(WIN32)
-    set(OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/windows")
-elseif(UNIX)
-    set(OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/linux")
-endif()
+#if(WIN32)
+#    set(OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/windows")
+#elseif(UNIX)
+#    set(OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/out/build/linux")
+#endif()
 
 # Ensure that the output directory exists
 file(MAKE_DIRECTORY "${OUTPUT_DIRECTORY}")
