@@ -42,6 +42,7 @@ Note the project files only include the libraries for 64 bit systems
 3. Open the project
 
 4. Built using build solution or ctrl+shift+b
+
 Important note: **make sure you select the "Spelunker.vcxproj" build file and not the ""ALL_BUILD.vcxproj"" file**
 
 # How to play
