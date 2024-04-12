@@ -47,13 +47,15 @@ Note the project files only include the libraries for 64 bit systems
 `git clone https://github.com/twenmod/portfoliogame`
 
 2. Make sure you have the dependencies installed by running
-`sudo apt install cmake sfml-dev libjsoncpp-dev gcc`
+`sudo apt install cmake libsfml-dev libjsoncpp-dev gcc`
 
 or downloading it from the aur on arch
 
 3. Build the game by running the "C/C++: g++ build the game" task from vscode or running 
 `g++ -g src/*.cpp -I ./src -o ./out/build/gcc/Spelunker -L /usr/lib -I /usr/include -l sfml-graphics -l sfml-window -l sfml-system -l sfml-audio -l sfml-network -l jsoncpp -std=c++17`
 from within the source folder
+
+4. Copy the assets folder from the source directory to the game directory
 
 
 
@@ -92,3 +94,4 @@ All other scripts and assets are made by me
 - The physics of objects (not player) are not accurate enough when <30 fps
 - The rope tool doesn't work at the spawn chunks
 - Sometimes the player falls down when the level just loaded in.
+- There is a small chance the rendering fails, you can fix this by restarting the program.
