@@ -19,8 +19,9 @@ Note: Some windows 10 systems falsely flag the game as a virus if this is the ca
 ### Windows
 
 #### In visual studio (community 2022)
+0. Install the latest visual studio community and the desktop development with C++ module
 
-1. Download the project folder or use git clone from the terminal (do not use the visual studio git clone it acts opens the project in a weard way)
+1. Download the project folder or use git clone from the terminal (do not use the visual studio git clone it opens the project in a weard way)
 `git clone https://github.com/twenmod/portfoliogame`
 
 2. Open the project folder with visual studio
