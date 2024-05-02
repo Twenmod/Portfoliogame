@@ -62,7 +62,7 @@ from within the source folder
 If you want to change some more advanced settings there is a settings.json file in the assets folder
 In here you can change things like worldseed, worldsize and even more.
 
-If you want a reference to what the values do use the (json file from the project folder)[https://github.com/Twenmod/Portfoliogame/blob/main/assets/settings.json] instead of the release.
+If you want a reference to what the values do use the [json file from the project folder](https://github.com/Twenmod/Portfoliogame/blob/main/assets/settings.json) instead of the release.
 
 
 # How to play
