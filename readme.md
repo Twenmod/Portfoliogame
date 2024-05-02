@@ -58,6 +58,11 @@ from within the source folder
 
 4. Copy the assets folder from the source directory to the game directory
 
+# Changing gameplay and settings
+If you want to change some more advanced settings there is a settings.json file in the assets folder
+In here you can change things like worldseed, worldsize and even more.
+
+If you want a reference to what the values do use the (json file from the project folder)[https://github.com/Twenmod/Portfoliogame/blob/main/assets/settings.json] instead of the release.
 
 
 # How to play
